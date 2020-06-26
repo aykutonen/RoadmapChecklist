@@ -16,5 +16,11 @@ namespace Entity
 
         public DbSet<User> Users { get; set; }
         public DbSet<Roadmap> Roadmaps { get; set; }
+        public DbSet<RoadmapItem> RoadmapItems { get; set; }
+        public DbSet<CopiedRoadmaps> CopiedRoadmaps { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<RoadmapCategory> RoadmapCategories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<RoadmapTag> RoadmapTags { get; set; }
     }
 }
