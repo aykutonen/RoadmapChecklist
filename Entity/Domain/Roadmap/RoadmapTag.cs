@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Entity.Domain.Roadmap
 {
-    public class RoadmapTag
+    public class RoadmapTag : BaseEntity
     {
-        public int RoadmapTagId { get; set; }
         public int TagId { get; set; }
         public int RoadmapId { get; set; }
 
