@@ -38,7 +38,7 @@ namespace Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server =(localdb)\mssqllocaldb;Database=RoadmapChecklistDB;Trusted_Connection=true"); //ToDo: encapsulate it like appsetting.json ?
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RoadmapChecklistDB;Trusted_Connection=true"); //ToDo: encapsulate it like appsetting.json ?
         }
     }
 }
