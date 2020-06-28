@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Builders\Migrations\" />
     <Folder Include="Infrastructure\" />
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

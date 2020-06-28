@@ -10,7 +10,7 @@ namespace Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        //public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         //entities
         public DbSet<User> User { get; set; }
@@ -22,23 +22,23 @@ namespace Data
         public DbSet<Tag> Tag { get; set; }
         public DbSet<RoadmapTagRelation> RoadmapTagRelation { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
 
-            new UserBuilder(builder.Entity<User>());
-            new RoadmapBuilder(builder.Entity<Roadmap>());
-            new CopiedRoadmapsBuilder(builder.Entity<CopiedRoadmaps>());
-            new RoadmapItemBuilder(builder.Entity<RoadmapItem>());
-            new CategoryBuilder(builder.Entity<Category>());
-            new RoadmapCategoryBuilder(builder.Entity<RoadmapCategoryRelation>());
-            new TagBuilder(builder.Entity<Tag>());
-            new RoadmapTagBuilder(builder.Entity<RoadmapTagRelation>());
-        }
+        //    new UserBuilder(builder.Entity<User>());
+        //    new RoadmapBuilder(builder.Entity<Roadmap>());
+        //    new CopiedRoadmapsBuilder(builder.Entity<CopiedRoadmaps>());
+        //    new RoadmapItemBuilder(builder.Entity<RoadmapItem>());
+        //    new CategoryBuilder(builder.Entity<Category>());
+        //    new RoadmapCategoryBuilder(builder.Entity<RoadmapCategoryRelation>());
+        //    new TagBuilder(builder.Entity<Tag>());
+        //    new RoadmapTagBuilder(builder.Entity<RoadmapTagRelation>());
+        //}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RoadmapChecklistDB;Trusted_Connection=true"); //ToDo: encapsulate it like appsetting.json ?
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=RoadmapChecklistDatabase;Trusted_Connection=true"); //ToDo: encapsulate it like appsetting.json ?
         }
     }
 }
