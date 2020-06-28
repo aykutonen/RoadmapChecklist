@@ -6,6 +6,7 @@ namespace Entity.Domain.Roadmap
 {
     public class RoadmapItem : AuditableEntity
     {
+        //fields
         public string Title { get; set; }
         public string Description { get; set; }
         public int Status { get; set; }
@@ -17,5 +18,6 @@ namespace Entity.Domain.Roadmap
         //relations
         public Roadmap Roadmap { get; set; }
         public RoadmapItem ParentRoadmapItem { get; set; }
+        public ICollection<RoadmapItem> ChildRoadmapItem { get; set; }
     }
 }

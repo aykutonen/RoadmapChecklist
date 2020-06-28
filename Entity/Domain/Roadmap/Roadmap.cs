@@ -6,6 +6,7 @@ namespace Entity.Domain.Roadmap
 {
     public class Roadmap : AuditableEntity
     {
+        //fields
         public string Name { get; set; }
         public int Visibility { get; set; }
         public int Status { get; set; }

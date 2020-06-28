@@ -6,6 +6,7 @@ namespace Entity.Domain.Roadmap
 {
     public class Category : BaseEntity
     {
+        //fields
         public string Value { get; set; }
         public string FriendlyUrl { get; set; }
 

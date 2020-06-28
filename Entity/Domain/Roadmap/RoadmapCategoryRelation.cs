@@ -6,11 +6,12 @@ namespace Entity.Domain.Roadmap
 {
     public class RoadmapCategoryRelation : BaseEntity
     {
+        //fields
         public int CategoryId { get; set; }
         public int RoadmapId { get; set; }
 
         //relations
-        public Roadmap Roadmap { get; set; }
         public Category Category { get; set; }
+        public Roadmap Roadmap { get; set; }
     }
 }
