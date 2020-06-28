@@ -4,12 +4,13 @@ using System.Text;
 
 namespace Entity.Domain.Roadmap
 {
-    public class RoadmapCategory : BaseEntity
+    public class RoadmapTagRelation : BaseEntity
     {
-        public int CategoryId { get; set; }
+        public int TagId { get; set; }
         public int RoadmapId { get; set; }
 
+        //relations
         public Roadmap Roadmap { get; set; }
-        public Category Category { get; set; }
+        public Tag Tag { get; set; }
     }
 }

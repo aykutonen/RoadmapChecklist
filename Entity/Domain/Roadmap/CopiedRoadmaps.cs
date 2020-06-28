@@ -9,6 +9,7 @@ namespace Entity.Domain.Roadmap
         public int SourceRoadmapId { get; set; }
         public int TargetRoadmapId { get; set; }
 
+        //relations
         public Roadmap Roadmap { get; set; }
     }
 }

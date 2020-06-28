@@ -13,7 +13,11 @@ namespace Entity.Domain.Roadmap
         public DateTime EndDate { get; set; }
         public int UserId { get; set; }
 
+        //relations
         public User.User User { get; set; }
-        public ICollection<Roadmap> Roadmaps { get; set; }
+        public ICollection<CopiedRoadmaps> CopiedRoadmaps { get; set; }
+        public ICollection<RoadmapItem> RoadmapItems { get; set; }
+        public ICollection<RoadmapCategoryRelation> RoadmapCategories { get; set; }
+        public ICollection<RoadmapTagRelation> RoadmapTags { get; set; }
     }
 }

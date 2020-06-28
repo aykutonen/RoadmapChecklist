@@ -8,5 +8,8 @@ namespace Entity.Domain.Roadmap
     {
         public string Value { get; set; }
         public string FriendlyUrl { get; set; }
+
+        //relations
+        public ICollection<RoadmapCategoryRelation> RoadmapCategories { get; set; }
     }
 }
