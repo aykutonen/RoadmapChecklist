@@ -23,15 +23,15 @@ namespace Data.Builders
             builder.Property(roadmap => roadmap.UserId).IsRequired();
 
             // relations
-            builder.HasOne(roadmap => roadmap.User)
-                .WithMany(user => user.Roadmaps)
-                .HasForeignKey(roadmap => roadmap.UserId)
+            builder.HasMany(roadmap => roadmap.CopiedRoadmaps)
+                .WithOne(copiedRoadmap => copiedRoadmap.Roadmap)
+                .HasForeignKey(copiedRoadmap => copiedRoadmap.SourceRoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
             builder.HasMany(roadmap => roadmap.CopiedRoadmaps)
                 .WithOne(copiedRoadmap => copiedRoadmap.Roadmap)
-                .HasForeignKey(copiedRoadmap => copiedRoadmap.SourceRoadmapId)
+                .HasForeignKey(copiedRoadmap => copiedRoadmap.TargetRoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 

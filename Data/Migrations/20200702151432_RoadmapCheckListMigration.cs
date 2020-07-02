@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class RoadmapChecklistMigration : Migration
+    public partial class RoadmapCheckListMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

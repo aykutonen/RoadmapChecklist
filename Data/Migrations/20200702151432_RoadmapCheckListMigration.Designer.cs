@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200628155815_RoadmapChecklistMigration")]
-    partial class RoadmapChecklistMigration
+    [Migration("20200702151432_RoadmapCheckListMigration")]
+    partial class RoadmapCheckListMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

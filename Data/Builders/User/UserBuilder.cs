@@ -23,7 +23,7 @@ namespace Data.Builders
             // relations
             builder.HasMany(user => user.Roadmaps)
                 .WithOne(roadmap => roadmap.User)
-                .HasForeignKey(roadmap => roadmap.User)
+                .HasForeignKey(roadmap => roadmap.UserId)
                 .OnDelete(DeleteBehavior.Cascade) //ToDo: Ask should the roadmap delete the user when deleted ?
                 .IsRequired();
         }
