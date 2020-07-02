@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200702151432_RoadmapCheckListMigration")]
-    partial class RoadmapCheckListMigration
+    [Migration("20200702200134_RoadmapCheckListMigrationv2")]
+    partial class RoadmapCheckListMigrationv2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,10 +29,14 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FriendlyUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -49,9 +53,6 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("RoadmapId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SourceRoadmapId")
                         .HasColumnType("int");
 
@@ -63,7 +64,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoadmapId");
+                    b.HasIndex("SourceRoadmapId");
 
                     b.ToTable("CopiedRoadmaps");
                 });
@@ -82,7 +83,9 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -139,15 +142,14 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(525)")
+                        .HasMaxLength(525);
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ParentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ParentRoadmapItemId")
                         .HasColumnType("int");
 
                     b.Property<int>("RoadmapId")
@@ -160,14 +162,16 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<DateTime>("UpDateTime")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ParentRoadmapItemId");
+                    b.HasIndex("ParentId");
 
                     b.HasIndex("RoadmapId");
 
@@ -204,10 +208,14 @@ namespace Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("FriendlyUrl")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Value")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.HasKey("Id");
 
@@ -225,16 +233,23 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<string>("Picture")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(255)")
+                        .HasMaxLength(255);
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -245,13 +260,27 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateTime = new DateTime(2020, 7, 2, 20, 1, 34, 547, DateTimeKind.Utc).AddTicks(5803),
+                            Email = "hande.ebrar@gmail.com",
+                            Name = "Hande",
+                            Password = "123",
+                            Status = 1,
+                            UpDateTime = new DateTime(2020, 7, 2, 20, 1, 34, 547, DateTimeKind.Utc).AddTicks(7201)
+                        });
                 });
 
             modelBuilder.Entity("Entity.Domain.Roadmap.CopiedRoadmaps", b =>
                 {
                     b.HasOne("Entity.Domain.Roadmap.Roadmap", "Roadmap")
                         .WithMany("CopiedRoadmaps")
-                        .HasForeignKey("RoadmapId");
+                        .HasForeignKey("SourceRoadmapId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Entity.Domain.Roadmap.Roadmap", b =>
@@ -282,7 +311,9 @@ namespace Data.Migrations
                 {
                     b.HasOne("Entity.Domain.Roadmap.RoadmapItem", "ParentRoadmapItem")
                         .WithMany("ChildRoadmapItem")
-                        .HasForeignKey("ParentRoadmapItemId");
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Entity.Domain.Roadmap.Roadmap", "Roadmap")
                         .WithMany("RoadmapItems")

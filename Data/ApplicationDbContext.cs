@@ -22,19 +22,30 @@ namespace Data
         public DbSet<Tag> Tag { get; set; }
         public DbSet<RoadmapTagRelation> RoadmapTagRelation { get; set; }
 
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
 
-        //    new UserBuilder(builder.Entity<User>());
-        //    new RoadmapBuilder(builder.Entity<Roadmap>());
-        //    new CopiedRoadmapsBuilder(builder.Entity<CopiedRoadmaps>());
-        //    new RoadmapItemBuilder(builder.Entity<RoadmapItem>());
-        //    new CategoryBuilder(builder.Entity<Category>());
-        //    new RoadmapCategoryBuilder(builder.Entity<RoadmapCategoryRelation>());
-        //    new TagBuilder(builder.Entity<Tag>());
-        //    new RoadmapTagBuilder(builder.Entity<RoadmapTagRelation>());
-        //}
+            new UserBuilder(modelBuilder.Entity<User>());
+            new RoadmapBuilder(modelBuilder.Entity<Roadmap>());
+            new CopiedRoadmapsBuilder(modelBuilder.Entity<CopiedRoadmaps>());
+            new RoadmapItemBuilder(modelBuilder.Entity<RoadmapItem>());
+            new CategoryBuilder(modelBuilder.Entity<Category>());
+            new RoadmapCategoryBuilder(modelBuilder.Entity<RoadmapCategoryRelation>());
+            new TagBuilder(modelBuilder.Entity<Tag>());
+            new RoadmapTagBuilder(modelBuilder.Entity<RoadmapTagRelation>());
+
+            modelBuilder.Entity<User>().HasData(new User()
+            {
+                Id = 1,
+                CreateTime = DateTime.UtcNow,
+                Email = "hande.ebrar@gmail.com",
+                Name = "Hande",
+                Password = "123",
+                Status = 1,
+                UpDateTime = DateTime.UtcNow
+            });
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
