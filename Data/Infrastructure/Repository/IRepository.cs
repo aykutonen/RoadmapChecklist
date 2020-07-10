@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Data.Infrastructure.Repository
 {
-    public interface IRepository<T> where T:class , new()
+    public interface IRepository<T> where T : class
     {
         T Get(Expression<Func<T,bool>> filter = null); //select by filter
         List<T> GetList(Expression<Func<T, bool>> filter = null); //return list if filter is applied
