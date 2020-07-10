@@ -10,7 +10,7 @@ namespace Entity
         public int TargetRoadmapId { get; set; }
         public DateTime CreateTime { get; set; }
 
-        public virtual Roadmap SourceRoadmap { get; set; }
-        public virtual Roadmap TargetRoadmap { get; set; }
+        public Roadmap SourceRoadmap { get; set; }
+        public Roadmap TargetRoadmap { get; set; }
     }
 }

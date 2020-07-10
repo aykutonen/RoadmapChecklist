@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Entity
 {
-    public class Tag : ModelBase
+    public class Category : ModelBase
     {
         public string Value { get; set; }
         public string FriendlyUrl { get; set; }
 
-        public virtual ICollection<RoadmapTag> RoadmapTag { get; set; }
+        public ICollection<RoadmapCategory> RoadmapCategory { get; set; }
     }
 }

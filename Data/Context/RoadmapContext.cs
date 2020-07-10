@@ -1,4 +1,6 @@
-﻿using Entity;
+﻿using System;
+using Data.Builder;
+using Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
@@ -14,6 +16,20 @@ namespace Data.Context
         public DbSet<RoadmapTag> RoadmapTag { get; set; }
         public DbSet<CopiedRoadmap> CopiedRoadmap { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            new UserBuilder(modelBuilder.Entity<User>());
+            new RoadmapBuilder(modelBuilder.Entity<Roadmap>());
+            new CopiedRoadmapBuilder(modelBuilder.Entity<CopiedRoadmap>());
+            new RoadmapItemBuilder(modelBuilder.Entity<RoadmapItem>());
+            new CategoryBuilder(modelBuilder.Entity<Category>());
+            new RoadmapCategoryBuilder(modelBuilder.Entity<RoadmapCategory>());
+            new TagBuilder(modelBuilder.Entity<Tag>());
+            new RoadmapTagBuilder(modelBuilder.Entity<RoadmapTag>());
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

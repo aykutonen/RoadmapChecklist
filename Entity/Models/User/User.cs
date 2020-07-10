@@ -12,6 +12,6 @@ namespace Entity
         public string Picture { get; set; }
         public int Status { get; set; }
 
-        public virtual ICollection<Roadmap> Roadmap { get; set; }
+        public ICollection<Roadmap> Roadmap { get; set; }
     }
 }

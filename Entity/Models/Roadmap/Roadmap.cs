@@ -14,7 +14,10 @@ namespace Entity
         public DateTime EndDate { get; set; }
         public int UserId { get; set; }
 
-        public virtual User User { get; set; }
-        public virtual ICollection<RoadmapItem> RoadmapItem { get; set; }
+        public User User { get; set; }
+        public ICollection<RoadmapItem> RoadmapItem { get; set; }
+        public ICollection<CopiedRoadmap> CopiedRoadmap { get; set; }
+        public ICollection<RoadmapCategory> RoadmapCategory { get; set; }
+        public ICollection<RoadmapTag> RoadmapTag { get; set; }
     }
 }

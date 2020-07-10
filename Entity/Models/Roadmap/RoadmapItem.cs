@@ -14,7 +14,10 @@ namespace Entity
         public int RoadmapId { get; set; }
         public int ParentId { get; set; }
 
-        public virtual Roadmap Roadmap { get; set; }
-
+        public Roadmap Roadmap { get; set; }
+        public RoadmapItem ParentRoadmapItem { get; set; }
+        public ICollection<RoadmapItem> RoadmapItems { get; set; }
+        
+        
     }
 }
