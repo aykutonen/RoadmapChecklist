@@ -58,28 +58,35 @@ namespace Data.Repository
 
         public void Delete(int id)
         {
-            var entity = GetById(id);
-            if (entity == null) return;
-            else
-            {
-                if (entity.GetType().GetProperty("IsDelete") != null)
-                {
-                    T _entity = entity;
-                    _entity.GetType().GetProperty("IsDelete").SetValue(_entity, true);
+           Delete(id);
+            //_dbSet.Remove(entity);
+            //return _dbSet.Remove(entity);
+            //return _dbSet.Remove(id);
+            //_dbSet.Remove(id);
+        }
 
-                    this.Update(_entity);
-                }
-                else
+        
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
                 {
-                    Delete(id);
+                    _dbContext.Dispose();
                 }
+                disposedValue = true;
             }
         }
 
+        // This code added to correctly implement the disposable pattern.
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
-    }
-
+        
 }
+
+

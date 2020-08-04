@@ -20,25 +20,19 @@ namespace Data.UnitOfWork
             //    throw new ArgumentNullException();
         }
 
-        private bool disposed = false;
-
-
-        public void Dispose()
-        {
-
-            GC.SuppressFinalize(this);
-        }
 
         public IRepository<T> GetRepository<T>() where T : class
         {
             return new EfRepository<T>(_dbContext);
         }
 
-        public int SaveChanges()
+     
+
+        public void Commmit()
         {
             try
             {
-                return _dbContext.SaveChanges();
+                _dbContext.SaveChanges();
             }
             catch (Exception e)
             {
@@ -46,7 +40,28 @@ namespace Data.UnitOfWork
                 throw;
             }
 
-            ;
+        }
+
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _dbContext.Dispose();
+                }
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
