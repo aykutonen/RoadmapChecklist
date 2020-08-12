@@ -1,18 +1,17 @@
-﻿using Data.Infrastructure.Repository;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Data.Infrastructure.Repository;
 using Data.Infrastructure.UnitOfWork;
-using Entity.Domain.User;
 
-namespace Service.User
+namespace Service.Roadmap.RoadmapItem
 {
-    public class UserService : IUserService
+    public class RoadmapItemService : IRoadmapItemService
     {
-        private readonly IRepository<Entity.Domain.User.User> repository;
+        private readonly IRepository<Entity.Domain.Roadmap.RoadmapItem> repository;
         private readonly IUnitOfWork unitOfWork;
 
-        public UserService(IRepository<Entity.Domain.User.User> repository, IUnitOfWork unitOfWork)
+        public RoadmapItemService(IRepository<Entity.Domain.Roadmap.RoadmapItem> repository, IUnitOfWork unitOfWork)
         {
             this.repository = repository;
             this.unitOfWork = unitOfWork;
@@ -23,14 +22,14 @@ namespace Service.User
             unitOfWork.Commit();
         }
 
-        public ReturnModel<Entity.Domain.User.User> Create(Entity.Domain.User.User userEntity)
+        public ReturnModel<Entity.Domain.Roadmap.RoadmapItem> Create(Entity.Domain.Roadmap.RoadmapItem roadmapItemEntity)
         {
-            var result = new ReturnModel<Entity.Domain.User.User>();
+            var result = new ReturnModel<Entity.Domain.Roadmap.RoadmapItem>();
 
             try
             {
-                repository.Add(userEntity);
-                result.Data = userEntity;
+                repository.Add(roadmapItemEntity);
+                result.Data = roadmapItemEntity;
             }
             catch (Exception exception)
             {
@@ -42,14 +41,14 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<Entity.Domain.User.User> Update(Entity.Domain.User.User userEntity)
+        public ReturnModel<Entity.Domain.Roadmap.RoadmapItem> Update(Entity.Domain.Roadmap.RoadmapItem roadmapItemEntity)
         {
-            var result = new ReturnModel<Entity.Domain.User.User>();
+            var result = new ReturnModel<Entity.Domain.Roadmap.RoadmapItem>();
 
             try
             {
-                repository.Update(userEntity);
-                result.Data = userEntity;
+                repository.Update(roadmapItemEntity);
+                result.Data = roadmapItemEntity;
             }
             catch (Exception exception)
             {
@@ -61,13 +60,13 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<IEnumerable<Entity.Domain.User.User>> GetAll()
+        public ReturnModel<IEnumerable<Entity.Domain.Roadmap.RoadmapItem>> GetAll(int roadmapId)
         {
-            var result = new ReturnModel<IEnumerable<Entity.Domain.User.User>>();
+            var result = new ReturnModel<IEnumerable<Entity.Domain.Roadmap.RoadmapItem>>();
 
             try
             {
-                result.Data = repository.GetList();
+                result.Data = repository.GetList(roadmapItem => roadmapItem.RoadmapId == roadmapId);
             }
             catch (Exception exception)
             {
@@ -79,13 +78,13 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<Entity.Domain.User.User> Get(int userId)
+        public ReturnModel<Entity.Domain.Roadmap.RoadmapItem> Get(int roadmapItemId)
         {
-            var result = new ReturnModel<Entity.Domain.User.User>();
+            var result = new ReturnModel<Entity.Domain.Roadmap.RoadmapItem>();
 
             try
             {
-                result.Data = repository.Get(user => user.Id == userId);
+                result.Data = repository.Get(roadmapItem => roadmapItem.Id == roadmapItemId);
             }
             catch (Exception exception)
             {
@@ -97,14 +96,14 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<int> Delete(Entity.Domain.User.User userEntity)
+        public ReturnModel<int> Delete(Entity.Domain.Roadmap.RoadmapItem roadmapItemEntity)
         {
             var result = new ReturnModel<int>();
 
             try
             {
-                repository.Delete(userEntity);
-                result.Data = userEntity.Id;
+                 repository.Delete(roadmapItemEntity);
+                 result.Data = roadmapItemEntity.Id;
             }
             catch (Exception exception)
             {
