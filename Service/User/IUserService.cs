@@ -6,9 +6,10 @@ namespace Service.User
 {
     public interface IUserService : ISave
     {
-        void Create(Entity.Domain.User.User userEntity);
-        void Update(Entity.Domain.User.User userEntity);
-        IEnumerable<Entity.Domain.User.User> Get();
-        void Delete(int userId);
+        ReturnModel<Entity.Domain.User.User> Create(Entity.Domain.User.User userEntity);
+        ReturnModel<Entity.Domain.User.User> Update(Entity.Domain.User.User userEntity);
+        ReturnModel<IEnumerable<Entity.Domain.User.User>> GetAll(); //IEnumarable & IQueryable ?
+        ReturnModel<Entity.Domain.User.User> Get(int userId);
+        ReturnModel<int> Delete(Entity.Domain.User.User userEntity);
     }
 }

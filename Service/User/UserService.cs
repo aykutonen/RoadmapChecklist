@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Data.Infrastructure.UnitOfWork;
+using Entity.Domain.User;
 
 namespace Service.User
 {
@@ -19,27 +20,100 @@ namespace Service.User
 
         public void Save()
         {
-            throw new NotImplementedException();
+           unitOfWork.Commit();
         }
 
-        public void Create(Entity.Domain.User.User userEntity)
+        ReturnModel<Entity.Domain.User.User> IUserService.Create(Entity.Domain.User.User userEntity)
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<Entity.Domain.User.User>();
+
+            try
+            {
+                repository.Add(userEntity);
+                result.Data = userEntity;
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
         }
 
-        public void Update(Entity.Domain.User.User userEntity)
+        ReturnModel<Entity.Domain.User.User> IUserService.Update(Entity.Domain.User.User userEntity)
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<Entity.Domain.User.User>();
+
+            try
+            {
+                repository.Update(userEntity);
+                result.Data = userEntity;
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
         }
 
-        public IEnumerable<Entity.Domain.User.User> Get()
+        ReturnModel<IEnumerable<Entity.Domain.User.User>> IUserService.GetAll()
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<IEnumerable<Entity.Domain.User.User>>();
+
+            try
+            {
+                result.Data = repository.GetList();
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
         }
 
-        public void Delete(int userId)
+        ReturnModel<Entity.Domain.User.User> IUserService.Get(int userId)
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<Entity.Domain.User.User>();
+
+            try
+            {
+                result.Data = repository.Get(user => user.Id == userId);
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
+        }
+
+        ReturnModel<int> IUserService.Delete(Entity.Domain.User.User userEntity)
+        {
+            var result = new ReturnModel<int>();
+
+            try
+            {
+                repository.Delete(userEntity);
+                result.Data = userEntity.Id;
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
         }
     }
 }
