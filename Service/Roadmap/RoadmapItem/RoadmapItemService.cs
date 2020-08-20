@@ -4,16 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service
+namespace Service.Roadmap.IRoadmapItem
 {
-    public interface IRoadmapItemService
-    {
-        void Add(RoadmapItem roadmapItem);
-        void Update(RoadmapItem roadmapItem);
-        void Delete(int roadmapItem);
-       
-    }
-
     public class RoadmapItemService : IRoadmapItemService
     {
 
@@ -29,15 +21,14 @@ namespace Service
             this._unitOfWork.GetRepository<RoadmapItem>().Add(roadmapItem);
         }
 
-        public void Update(RoadmapItem roadmapItem)
-        {
-            this._unitOfWork.GetRepository<RoadmapItem>().Update(roadmapItem);
-        }
         public void Delete(int roadmapItem)
         {
             this._unitOfWork.GetRepository<RoadmapItem>().Delete(roadmapItem);
         }
 
-       
+        public void Update(RoadmapItem roadmapItem)
+        {
+            this._unitOfWork.GetRepository<RoadmapItem>().Update(roadmapItem);
+        }
     }
 }
