@@ -12,5 +12,8 @@ namespace Service.User
         ReturnModel<IEnumerable<Entity.Domain.User.User>> GetAll(); //IEnumarable & IQueryable ?
         ReturnModel<Entity.Domain.User.User> Get(int userId);
         ReturnModel<int> Delete(Entity.Domain.User.User userEntity);
+        ReturnModel<Entity.Domain.User.User> Register(Entity.Domain.User.User userEntity , string password);
+        ReturnModel<Entity.Domain.User.User> Login(string userName, string password);
+        ReturnModel<bool> IsUserExist(string userName);
     }
 }

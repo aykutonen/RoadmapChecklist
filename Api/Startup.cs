@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Infrastructure.Repository;
+using Data.Infrastructure.Repository.EntityFramework;
+using Data.Infrastructure.UnitOfWork;
+using Data.Infrastructure.UnitOfWork.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Service.User;
 
 namespace Api
 {
@@ -26,6 +31,10 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            //services.AddScoped(typeof(IUnitOfWork), typeof(EfUnitOfWorkBase));
+            services.AddScoped(typeof(IRepository<>), typeof(EfEntityRepositoryBase<>));
+            services.AddScoped(typeof(IUserService), typeof(UserService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

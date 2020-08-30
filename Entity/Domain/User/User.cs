@@ -15,5 +15,7 @@ namespace Entity.Domain.User
 
         //relations
         public ICollection<Roadmap.Roadmap> Roadmaps { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
     }
 }

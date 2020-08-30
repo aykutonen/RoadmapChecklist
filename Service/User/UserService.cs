@@ -115,5 +115,114 @@ namespace Service.User
 
             return result;
         }
+
+        public ReturnModel<Entity.Domain.User.User> Register(Entity.Domain.User.User userEntity, string password)
+        {
+            var result = new ReturnModel<Entity.Domain.User.User>();
+            byte[] passwordHash, passwordSalt;
+            try
+            {
+                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+
+                userEntity.PasswordHash = passwordHash;
+                userEntity.PasswordSalt = passwordSalt;
+
+                repository.Add(userEntity);
+                Save();
+
+                result.Data = userEntity;
+            }  
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
+        }
+
+        public ReturnModel<Entity.Domain.User.User> Login(string userName, string password)
+        {
+            var result = new ReturnModel<Entity.Domain.User.User>();
+
+            try
+            {
+                var userEntity = repository.Get(user => user.Name == userName);
+
+                if (userEntity == null)
+                {
+                    result.Data = null;
+                }
+                else if (!VerifyPasswordHash(password, userEntity.PasswordHash, userEntity.PasswordSalt))
+                {
+                    result.Data = null;
+                }
+                else
+                {
+                    result.Data = userEntity;
+                }
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
+        }
+
+        public ReturnModel<bool> IsUserExist(string userName)
+        {
+            var result = new ReturnModel<bool>();
+            try
+            {
+                var userEntity = repository.Get(user => user.Name == userName);
+                if (userName != null)
+                {
+                    result.Data = true;
+                }
+                else
+                {
+                    result.Data = false;
+                }
+            }
+            catch (Exception exception)
+            {
+                result.IsSuccess = false;
+                result.Exception = exception;
+                result.Message = exception.Message;
+            }
+
+            return result;
+        }
+
+        private bool VerifyPasswordHash(string password, byte[] userPasswordHash, byte[] userPasswordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(userPasswordSalt))
+            {
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+
+                for (var i = 0; i < computedHash.Length; i++)
+                {
+                    if (computedHash[i] != userPasswordHash[i])
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private void CreatePasswordHash(string userEntityPassword, out byte[] passwordHash, out byte[] passwordSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            {
+                passwordSalt = hmac.Key;
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(userEntityPassword));
+            }
+        }
     }
 }
