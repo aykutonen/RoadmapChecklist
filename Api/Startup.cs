@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data;
 using Data.Infrastructure.Repository;
 using Data.Infrastructure.Repository.EntityFramework;
 using Data.Infrastructure.UnitOfWork;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,8 +34,12 @@ namespace Api
         {
             services.AddControllers();
 
-            //services.AddScoped(typeof(IUnitOfWork), typeof(EfUnitOfWorkBase));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("ConnectionString")));
+
             services.AddScoped(typeof(IRepository<>), typeof(EfEntityRepositoryBase<>));
+            services.AddScoped(typeof(IUnitOfWork), typeof(EfUnitOfWorkBase));
+
             services.AddScoped(typeof(IUserService), typeof(UserService));
         }
 
