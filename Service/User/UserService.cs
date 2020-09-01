@@ -179,7 +179,7 @@ namespace Service.User
             try
             {
                 var userEntity = repository.Get(user => user.Name == userName);
-                if (userName != null)
+                if (userEntity != null)
                 {
                     result.Data = true;
                 }
