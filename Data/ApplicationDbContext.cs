@@ -34,17 +34,6 @@ namespace Data
             new RoadmapCategoryBuilder(modelBuilder.Entity<RoadmapCategoryRelation>());
             new TagBuilder(modelBuilder.Entity<Tag>());
             new RoadmapTagBuilder(modelBuilder.Entity<RoadmapTagRelation>());
-
-            modelBuilder.Entity<User>().HasData(new User()
-            {
-                Id = 1,
-                CreateTime = DateTime.UtcNow,
-                Email = "hande.ebrar@gmail.com",
-                Name = "Hande",
-                Password = "123",
-                Status = 1,
-                UpDateTime = DateTime.UtcNow
-            });
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

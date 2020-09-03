@@ -9,13 +9,12 @@ namespace Entity.Domain.User
         //fields
         public string Name { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         public string Picture { get; set; }
         public int Status { get; set; }
 
         //relations
         public ICollection<Roadmap.Roadmap> Roadmaps { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
     }
 }

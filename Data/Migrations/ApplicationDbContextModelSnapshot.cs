@@ -240,17 +240,24 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
-                    b.Property<string>("Password")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("varbinary(255)")
+                        .HasMaxLength(255);
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("varbinary(255)")
+                        .HasMaxLength(255);
 
                     b.Property<string>("Picture")
                         .HasColumnType("nvarchar(255)")
                         .HasMaxLength(255);
 
                     b.Property<int>("Status")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.Property<DateTime>("UpDateTime")
                         .HasColumnType("datetime2");
@@ -258,18 +265,6 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("User");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateTime = new DateTime(2020, 7, 2, 20, 1, 34, 547, DateTimeKind.Utc).AddTicks(5803),
-                            Email = "hande.ebrar@gmail.com",
-                            Name = "Hande",
-                            Password = "123",
-                            Status = 1,
-                            UpDateTime = new DateTime(2020, 7, 2, 20, 1, 34, 547, DateTimeKind.Utc).AddTicks(7201)
-                        });
                 });
 
             modelBuilder.Entity("Entity.Domain.Roadmap.CopiedRoadmaps", b =>

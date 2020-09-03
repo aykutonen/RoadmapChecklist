@@ -16,9 +16,10 @@ namespace Data.Builders
             builder.Property(user => user.Id).ValueGeneratedOnAdd();
             builder.Property(user => user.Name).IsRequired().HasMaxLength(255);
             builder.Property(user => user.Email).IsRequired().HasMaxLength(255);
-            builder.Property(user => user.Password).IsRequired().HasMaxLength(100);
+            builder.Property(user => user.PasswordSalt).IsRequired().HasMaxLength(255);
+            builder.Property(user => user.PasswordHash).IsRequired().HasMaxLength(255);
             builder.Property(user => user.Picture).HasMaxLength(255);
-            builder.Property(user => user.Status).IsRequired();
+            builder.Property(user => user.Status).IsRequired().HasDefaultValue(1);
 
             // relations
             builder.HasMany(user => user.Roadmaps)

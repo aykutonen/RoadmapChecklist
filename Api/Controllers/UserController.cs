@@ -44,7 +44,8 @@ namespace Api.Controllers
 
             var userToCreate = new User
             {
-                Name = userRegisterModel.UserName
+                Name = userRegisterModel.UserName,
+                Email = userRegisterModel.Email
             };
 
             var createdUser = _userService.Register(userToCreate , userRegisterModel.Password);
