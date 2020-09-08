@@ -2,12 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Context;
+using Data.Repository;
+using Data.UnitOfWork;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Service.Category;
+using Service.Category.RoadmapCategory;
+using Service.Roadmap.CopiedRoadmap;
+using Service.Roadmap.IRoadmapItem;
+using Service.Roadmap.Roadmap;
+using Service.Tag.RoadmapTag;
+using Service.Tag.Tag;
+using Service.User;
 
 namespace RoadmapChecklistWeb
 {
@@ -23,7 +34,29 @@ namespace RoadmapChecklistWeb
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication("CookieAuthentication").AddCookie("CookieAuthentication", config =>
+             {
+                 config.Cookie.Name = "UserLoginCookie";
+                 config.LoginPath = "/User/Login";
+
+             });
             services.AddControllersWithViews();
+            services.AddDbContext<RoadmapContext>();
+            services.AddScoped<IUserService,UserService>();
+            services.AddScoped<IRoadmapService,RoadmapService>();
+            services.AddScoped<ICopiedRoadmapService, CopiedRoadmapService>();
+            services.AddScoped<IRoadmapItemService, RoadmapItemService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IRoadmapCategoryService, RoadmapCategoryService>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IRoadmapTagService, RoadmapTagService>();
+           
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+           
+            services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+
+
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

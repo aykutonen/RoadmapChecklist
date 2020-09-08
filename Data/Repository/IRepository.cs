@@ -19,5 +19,7 @@ namespace Data.Repository
 
         void Delete(int id);
         void Delete(Func<object, bool> p);
+
+    
     }
 }

@@ -10,38 +10,25 @@ namespace Service.User
     public class UserService : IUserService
     {
 
-        private readonly IRepository<Entity.User> repository;
-        private readonly IUnitOfWork unitOfWork;
+        private readonly IRepository<Entity.User> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+
 
         public UserService(IRepository<Entity.User> repository, IUnitOfWork unitOfWork)
         {
-            this.unitOfWork = unitOfWork;
-            this.repository = repository;
+            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
-        public void Create(Entity.User user)
+        public Entity.User CheckUser(string email, string password)
         {
-            repository.Add(user);
-        }
-
-        public void Delete(long id)
-        {
-            repository.Delete(long id);
-        }
-
-        public IEnumerable<Entity.User> Get()
-        {
-            return repository.GetAll();
+            var user = _repository.Get(m => m.Email == email && m.Password == password);
+            return user;
         }
 
         public void Save()
         {
-            unitOfWork.Commmit();
-        }
-
-        public void Update(Entity.User user)
-        {
-            repository.Update(user);
+            _unitOfWork.Commmit();
         }
     }
 }

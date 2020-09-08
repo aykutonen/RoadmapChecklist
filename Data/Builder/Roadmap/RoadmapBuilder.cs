@@ -31,11 +31,11 @@ namespace Data.Builder
                 .IsRequired();
 
 
-            builder.HasMany(roadmap => roadmap.CopiedRoadmap)
-                .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
-                .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade) 
-                .IsRequired();
+            //builder.HasMany(roadmap => roadmap.CopiedRoadmap)
+            //    .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
+            //    .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
+            //    .OnDelete(DeleteBehavior.Cascade) 
+            //    .IsRequired();
 
             builder.HasMany(roadmap => roadmap.RoadmapItem)
                 .WithOne(roadmapItems => roadmapItems.Roadmap)

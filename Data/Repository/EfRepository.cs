@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using Data.Context;
+using Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repository
@@ -58,14 +59,14 @@ namespace Data.Repository
 
         public void Delete(int id)
         {
-           Delete(id);
+            Delete(id);
             //_dbSet.Remove(entity);
             //return _dbSet.Remove(entity);
             //return _dbSet.Remove(id);
             //_dbSet.Remove(id);
         }
 
-        
+       
         private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -86,7 +87,12 @@ namespace Data.Repository
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-        
+
+        public void Delete(Func<object, bool> p)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
 
 
