@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200903114315_createDatabaseMigration")]
-    partial class createDatabaseMigration
+    [Migration("20200914174707_ChecklistDB")]
+    partial class ChecklistDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,6 +56,9 @@ namespace Data.Migrations
                     b.Property<int>("SourceRoadmapId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SourceRoadmapId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("TargetRoadmapId")
                         .HasColumnType("int");
 
@@ -65,6 +68,8 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SourceRoadmapId");
+
+                    b.HasIndex("SourceRoadmapId1");
 
                     b.ToTable("CopiedRoadmaps");
                 });
@@ -271,11 +276,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entity.Domain.Roadmap.CopiedRoadmaps", b =>
                 {
-                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "Roadmap")
-                        .WithMany("CopiedRoadmaps")
+                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "TargetRoadmap")
+                        .WithMany("CopiedTargetRoadmaps")
                         .HasForeignKey("SourceRoadmapId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "SourceRoadmap")
+                        .WithMany("CopiedSourceRoadmaps")
+                        .HasForeignKey("SourceRoadmapId1");
                 });
 
             modelBuilder.Entity("Entity.Domain.Roadmap.Roadmap", b =>

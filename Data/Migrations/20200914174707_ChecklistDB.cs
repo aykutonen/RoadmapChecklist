@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class createDatabaseMigration : Migration
+    public partial class ChecklistDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -90,7 +90,8 @@ namespace Data.Migrations
                     CreateTime = table.Column<DateTime>(nullable: false),
                     UpDateTime = table.Column<DateTime>(nullable: false),
                     SourceRoadmapId = table.Column<int>(nullable: false),
-                    TargetRoadmapId = table.Column<int>(nullable: false)
+                    TargetRoadmapId = table.Column<int>(nullable: false),
+                    SourceRoadmapId1 = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,6 +102,12 @@ namespace Data.Migrations
                         principalTable: "Roadmap",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CopiedRoadmaps_Roadmap_SourceRoadmapId1",
+                        column: x => x.SourceRoadmapId1,
+                        principalTable: "Roadmap",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,6 +199,11 @@ namespace Data.Migrations
                 name: "IX_CopiedRoadmaps_SourceRoadmapId",
                 table: "CopiedRoadmaps",
                 column: "SourceRoadmapId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CopiedRoadmaps_SourceRoadmapId1",
+                table: "CopiedRoadmaps",
+                column: "SourceRoadmapId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Roadmap_UserId",

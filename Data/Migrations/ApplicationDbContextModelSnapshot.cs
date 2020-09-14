@@ -54,6 +54,9 @@ namespace Data.Migrations
                     b.Property<int>("SourceRoadmapId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("SourceRoadmapId1")
+                        .HasColumnType("int");
+
                     b.Property<int>("TargetRoadmapId")
                         .HasColumnType("int");
 
@@ -63,6 +66,8 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SourceRoadmapId");
+
+                    b.HasIndex("SourceRoadmapId1");
 
                     b.ToTable("CopiedRoadmaps");
                 });
@@ -269,11 +274,15 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Entity.Domain.Roadmap.CopiedRoadmaps", b =>
                 {
-                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "Roadmap")
-                        .WithMany("CopiedRoadmaps")
+                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "TargetRoadmap")
+                        .WithMany("CopiedTargetRoadmaps")
                         .HasForeignKey("SourceRoadmapId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Entity.Domain.Roadmap.Roadmap", "SourceRoadmap")
+                        .WithMany("CopiedSourceRoadmaps")
+                        .HasForeignKey("SourceRoadmapId1");
                 });
 
             modelBuilder.Entity("Entity.Domain.Roadmap.Roadmap", b =>
