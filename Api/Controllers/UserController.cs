@@ -32,9 +32,9 @@ namespace Api.Controllers
         [HttpPost("register")]
         public IActionResult Register ([FromBody]UserRegisterModel userRegisterModel)
         {
-            if (_userService.IsUserExist(userRegisterModel.UserName).Data)
+            if (_userService.IsUserExist(userRegisterModel.Email).Data)
             {
-                ModelState.AddModelError("UserName" , "Username already exists!");
+                ModelState.AddModelError("Email" , "Email already exists!");
             }
 
             if (!ModelState.IsValid)
@@ -56,7 +56,7 @@ namespace Api.Controllers
         [HttpPost("login")]
         public IActionResult Login ([FromBody]UserLoginModel userLoginModel)
         {
-            var user = _userService.Login(userLoginModel.UserName, userLoginModel.Password);
+            var user = _userService.Login(userLoginModel.Email, userLoginModel.Password);
 
             if (user.Data == null)
             {
@@ -70,7 +70,7 @@ namespace Api.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier , user.Data.Id.ToString()), 
-                    new Claim(ClaimTypes.Name , user.Data.Name) 
+                    new Claim(ClaimTypes.Email , user.Data.Email) 
                 }),
                 Expires =  DateTime.Now.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key) , SecurityAlgorithms.HmacSha512Signature)
