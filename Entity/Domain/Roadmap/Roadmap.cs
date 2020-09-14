@@ -16,7 +16,8 @@ namespace Entity.Domain.Roadmap
 
         //relations
         public User.User User { get; set; }
-        public ICollection<CopiedRoadmaps> CopiedRoadmaps { get; set; }
+        public ICollection<CopiedRoadmaps> CopiedSourceRoadmaps { get; set; }
+        public ICollection<CopiedRoadmaps> CopiedTargetRoadmaps { get; set; }
         public ICollection<RoadmapItem> RoadmapItems { get; set; }
         public ICollection<RoadmapCategoryRelation> RoadmapCategories { get; set; }
         public ICollection<RoadmapTagRelation> RoadmapTags { get; set; }

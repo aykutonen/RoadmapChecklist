@@ -18,8 +18,14 @@ namespace Data.Builders
             builder.Property(copiedRoadmaps => copiedRoadmaps.TargetRoadmapId).IsRequired();
 
             // relations
-            builder.HasOne(copiedRoadmaps => copiedRoadmaps.Roadmap)
-                .WithMany(roadmap => roadmap.CopiedRoadmaps)
+            builder.HasOne(copiedRoadmaps => copiedRoadmaps.SourceRoadmap)
+                .WithMany(roadmap => roadmap.CopiedSourceRoadmaps)
+                .HasForeignKey(copiedRoadmaps => copiedRoadmaps.SourceRoadmapId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
+
+            builder.HasOne(copiedRoadmaps => copiedRoadmaps.TargetRoadmap)
+                .WithMany(roadmap => roadmap.CopiedTargetRoadmaps)
                 .HasForeignKey(copiedRoadmaps => copiedRoadmaps.SourceRoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
