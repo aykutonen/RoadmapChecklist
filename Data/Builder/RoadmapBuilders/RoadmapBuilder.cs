@@ -27,15 +27,15 @@ namespace Data.Builder
             builder.HasMany(roadmap => roadmap.CopiedRoadmap)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.SourceRoadmap)
                 .HasForeignKey(CopiedRoadmap => CopiedRoadmap.SourceRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade) 
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
 
-            //builder.HasMany(roadmap => roadmap.CopiedRoadmap)
-            //    .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
-            //    .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
-            //    .OnDelete(DeleteBehavior.Cascade) 
-            //    .IsRequired();
+            builder.HasMany(roadmap => roadmap.CopiedRoadmap)
+                .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
+                .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
             builder.HasMany(roadmap => roadmap.RoadmapItem)
                 .WithOne(roadmapItems => roadmapItems.Roadmap)
