@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Entity.Models.Categories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Category
+namespace Service.Categories.CategoriesService
 {
     public interface ICategoryService
     {
-        void Add(Entity.Category category);
-        void Update(Entity.Category category);
+        void Add(Category category);
+        void Update(Category category);
         void Delete(int category);
     }
 }

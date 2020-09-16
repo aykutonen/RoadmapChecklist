@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Entity;
+using Entity.Models.Categories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,7 +25,7 @@ namespace Data.Builder
                 .IsRequired();
 
             builder.HasOne(roadmapCategory => roadmapCategory.Roadmap)
-                .WithMany(roadmap => roadmap.RoadmapCategory)
+                .WithMany(roadmap => roadmap.RoadmapCategories)
                 .HasForeignKey(roadmapTag => roadmapTag.RoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();

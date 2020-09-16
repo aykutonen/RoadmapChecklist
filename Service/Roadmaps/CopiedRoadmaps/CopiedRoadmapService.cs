@@ -1,39 +1,89 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Roadmaps;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 
-namespace Service.Roadmap.CopiedRoadmap
+namespace Service.Roadmaps.CopiedRoadmaps
 {
     public class CopiedRoadmapService : ICopiedRoadmapService
     {
        
         public readonly IUnitOfWork _unitOfWork;
-        public CopiedRoadmapService(IUnitOfWork _unitOfWork)
+        public readonly IRepository<CopiedRoadmap> _repository;
+        public CopiedRoadmapService(IUnitOfWork unitOfWork,IRepository<CopiedRoadmap> repository)
         {
-            this._unitOfWork = _unitOfWork;
-        }
-
-        public void Add(Entity.CopiedRoadmap copiedRoadmap)
-        {
-            this._unitOfWork.GetRepository<Entity.CopiedRoadmap>().Add(copiedRoadmap); ;
-        }
-
-        public void Delete(int copiedRoadmap)
-        {
-            this._unitOfWork.GetRepository<Entity.CopiedRoadmap>().Delete(copiedRoadmap);
+            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
         public void Save()
         {
-            this._unitOfWork.Commmit();
+            _unitOfWork.Commmit();
         }
 
-        public void Update(Entity.CopiedRoadmap copiedRoadmap)
+        public ReturnModel<CopiedRoadmap> Add(CopiedRoadmap copiedRoadmap)
         {
-            this._unitOfWork.GetRepository<Entity.CopiedRoadmap>().Update(copiedRoadmap);
+            var result = new ReturnModel<CopiedRoadmap>();
+            try
+            {
+                    _repository.Add(copiedRoadmap);
+                    result.Data = copiedRoadmap;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<bool> Delete(int copiedRoadmapId)
+        {
+            var result = new ReturnModel<bool>();
+            try
+            {
+                _repository.Delete(copiedRoadmapId);
+                result.Data = true;
+            }
+            catch (Exception ex)
+            {
+                result.Data = false;
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<CopiedRoadmap> Get(int userId)
+        {
+            var result = new ReturnModel<IEnumerable<CopiedRoadmap>>();
+            try
+            {
+                result.Data = _repository.GetAll(roadmap => roadmap.Id == userId);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ReturnModel<CopiedRoadmap> Update(CopiedRoadmap copiedRoadmap)
+        {
+            throw new NotImplementedException();
         }
     }
 }

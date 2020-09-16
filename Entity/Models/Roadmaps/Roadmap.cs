@@ -1,9 +1,12 @@
-﻿using System;
+﻿using Entity.Models.Categories;
+using Entity.Models.Tags;
+using Entity.Models.Users;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
-namespace Entity
+namespace Entity.Models.Roadmaps
 {
     public class Roadmap : ModelBase
     {

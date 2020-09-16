@@ -1,35 +1,36 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Categories;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Category
+namespace Service.Categories.CategoriesService
 {
     public class CategoryService : ICategoryService
     {
 
-        private readonly IRepository<Entity.Category> _repository;
+        private readonly IRepository<Category> _repository;
         public readonly IUnitOfWork _unitOfWork;
-        public CategoryService(IUnitOfWork unitOfWork,IRepository<Entity.Category> repository)
+        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
         }
  
-        public void Add(Entity.Category category)
+        public void Add(Category category)
         {
-            this._unitOfWork.GetRepository<Entity.Category>().Add(category);
+            this._unitOfWork.GetRepository<Category>().Add(category);
         }
 
         public void Delete(int category)
         {
-            this._unitOfWork.GetRepository<Entity.Category>().Delete(category);
+            this._unitOfWork.GetRepository<Category>().Delete(category);
         }
 
-        public void Update(Entity.Category category)
+        public void Update(Category category)
         {
-            this._unitOfWork.GetRepository<Entity.Category>().Update(category);
+            this._unitOfWork.GetRepository<Category>().Update(category);
         }
     }
 }

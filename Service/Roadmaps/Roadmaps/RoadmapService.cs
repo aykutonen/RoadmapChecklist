@@ -1,16 +1,17 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Roadmaps;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Roadmap.Roadmap
+namespace Service.Roadmaps.Roadmaps
 {
     public class RoadmapService : IRoadmapService
     {
         public readonly IUnitOfWork unitOfWork;
-        public readonly IRepository<Entity.Roadmap> repository;
-        public RoadmapService(IUnitOfWork unitOfWork, IRepository<Entity.Roadmap> repository)
+        public readonly IRepository<Roadmap> repository;
+        public RoadmapService(IUnitOfWork unitOfWork, IRepository<Roadmap> repository)
         {
             this.unitOfWork = unitOfWork;
             this.repository = repository;
@@ -22,9 +23,9 @@ namespace Service.Roadmap.Roadmap
             unitOfWork.Commmit();
         }
 
-        ReturnModel<Entity.Roadmap> IRoadmapService.Add(Entity.Roadmap roadmapEntity)
+        ReturnModel<Roadmap> IRoadmapService.Add(Roadmap roadmapEntity)
         {
-            var result = new ReturnModel<Entity.Roadmap>();
+            var result = new ReturnModel<Roadmap>();
             try
             {
                 if (roadmapEntity.Name != null)
@@ -45,9 +46,9 @@ namespace Service.Roadmap.Roadmap
             return result;
         }
 
-        ReturnModel<Entity.Roadmap> IRoadmapService.Update(Entity.Roadmap roadmapEntity)
+        ReturnModel<Roadmap> IRoadmapService.Update(Roadmap roadmapEntity)
         {
-            var result = new ReturnModel<Entity.Roadmap>();
+            var result = new ReturnModel<Roadmap>();
             try
             {
                 repository.Update(roadmapEntity);
@@ -64,9 +65,9 @@ namespace Service.Roadmap.Roadmap
             return result;
         }
 
-        public ReturnModel<IEnumerable<Entity.Roadmap>> GetAllByUser(int userId)
+        public ReturnModel<IEnumerable<Roadmap>> GetAllByUser(int userId)
         {
-            var result = new ReturnModel<IEnumerable<Entity.Roadmap>>();
+            var result = new ReturnModel<IEnumerable<Roadmap>>();
             try
             {
                 result.Data = repository.GetAll(roadmap => roadmap.Id == userId);
@@ -83,9 +84,9 @@ namespace Service.Roadmap.Roadmap
             return result;
         }
 
-        public ReturnModel<Entity.Roadmap> Get(int roadmapId)
+        public ReturnModel<Roadmap> Get(int roadmapId)
         {
-            var result = new ReturnModel<Entity.Roadmap>();
+            var result = new ReturnModel<Roadmap>();
             try
             {
                 result.Data = repository.Get(roadmap => roadmap.Id == roadmapId);
@@ -100,19 +101,18 @@ namespace Service.Roadmap.Roadmap
             return result;
         }
 
-        public ReturnModel<int> Delete(int roadmapEntity)
+        public ReturnModel<bool> Delete(int roadmapId)
         {
-            var result = new ReturnModel<int>();
+            var result = new ReturnModel<bool>();
 
             try
             {
-                repository.Delete(roadmapEntity);
-
-                result.Data = roadmapEntity.Id;
+                repository.Delete(roadmapId);
+                result.Data = true;
             }
             catch (Exception ex)
             {
-
+                result.Data = false;
                 result.IsSuccess = false;
                 result.Exception = ex;
                 result.Message = ex.Message;

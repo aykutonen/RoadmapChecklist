@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Entity.Models.Roadmaps;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Entity
+namespace Entity.Models.Users
 {
     public class User : ModelBase
     {

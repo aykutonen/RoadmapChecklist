@@ -1,28 +1,29 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 
-namespace Service.User
+namespace Service.Users
 {
     public class UserService : IUserService
     {
 
-        private readonly IRepository<Entity.User> _repository;
+        private readonly IRepository<User> _repository;
         private readonly IUnitOfWork _unitOfWork;
 
 
-        public UserService(IRepository<Entity.User> repository, IUnitOfWork unitOfWork)
+        public UserService(IRepository<User> repository, IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
         }
 
-        public ReturnModel<Entity.User> Add(Entity.User userEntity)
+        public ReturnModel<User> Add(User userEntity)
         {
-            var result = new ReturnModel<Entity.User>();
+            var result = new ReturnModel<User>();
 
             try
             {
@@ -39,20 +40,20 @@ namespace Service.User
             return result;
         }
 
-        public Entity.User CheckUser(string email, string password)
+        public User CheckUser(string email, string password)
         {
             var user = _repository.Get(m => m.Email == email && m.Password == password);
             return user;
         }
 
-        public ReturnModel<int> Delete(Entity.User userEntity)
+        public ReturnModel<int> Delete(int userId)
         {
             var result = new ReturnModel<int>();
 
             try
             {
-                _repository.Delete(userEntity);
-                result.Data = userEntity.Id;
+                _repository.Delete(userId);
+                result.Data = userId;
             }
             catch (Exception exception)
             {
@@ -64,9 +65,9 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<Entity.User> Get(int userId)
+        public ReturnModel<User> Get(int userId)
         {
-            var result = new ReturnModel<Entity.User>();
+            var result = new ReturnModel<User>();
 
             try
             {
@@ -82,9 +83,9 @@ namespace Service.User
             return result;
         }
 
-        public ReturnModel<IEnumerable<Entity.User>> GetAll()
+        public ReturnModel<IEnumerable<User>> GetAll()
         {
-            var result = new ReturnModel<IEnumerable<Entity.User>>();
+            var result = new ReturnModel<IEnumerable<User>>();
 
             try
             {
@@ -105,9 +106,9 @@ namespace Service.User
             _unitOfWork.Commmit();
         }
 
-        public ReturnModel<Entity.User> Update(Entity.User userEntity)
+        public ReturnModel<User> Update(User userEntity)
         {
-            var result = new ReturnModel<Entity.User>();
+            var result = new ReturnModel<User>();
 
             try
             {

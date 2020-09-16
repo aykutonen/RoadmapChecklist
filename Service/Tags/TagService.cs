@@ -1,9 +1,10 @@
 ﻿using Data.UnitOfWork;
+using Entity.Models.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Tag.Tag
+namespace Service.Tags
 {
     public class TagService : ITagService
     {
@@ -14,19 +15,19 @@ namespace Service.Tag.Tag
             this._unitOfWork = _unitOfWork;
         }
 
-        public void Add(Entity.Tag tag)
+        public void Add(Tag tag)
         {
-            this._unitOfWork.GetRepository<Entity.Tag>().Add(tag);
+            this._unitOfWork.GetRepository<Tag>().Add(tag);
         }
 
         public void Delete(int tag)
         {
-            this._unitOfWork.GetRepository<Entity.Tag>().Delete(tag);
+            this._unitOfWork.GetRepository<Tag>().Delete(tag);
         }
 
-        public void Update(Entity.Tag tag)
+        public void Update(Tag tag)
         {
-            this._unitOfWork.GetRepository<Entity.Tag>().Update(tag);
+            this._unitOfWork.GetRepository<Tag>().Update(tag);
         }
     }
 }

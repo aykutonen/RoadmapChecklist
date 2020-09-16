@@ -11,14 +11,14 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Service.Category;
-using Service.Category.RoadmapCategory;
-using Service.Roadmap.CopiedRoadmap;
-using Service.Roadmap.IRoadmapItem;
-using Service.Roadmap.Roadmap;
-using Service.Tag.RoadmapTag;
-using Service.Tag.Tag;
-using Service.User;
+using Service.Categories.CategoriesService;
+using Service.Categories.RoadmapsCategory;
+using Service.Roadmaps.CopiedRoadmaps;
+using Service.Roadmaps.IRoadmapItems;
+using Service.Roadmaps.Roadmaps;
+using Service.RoadmapTags;
+using Service.Tags;
+using Service.Users;
 
 namespace RoadmapChecklistWeb
 {

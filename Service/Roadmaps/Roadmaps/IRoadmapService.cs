@@ -1,18 +1,21 @@
-﻿using System;
+﻿using Entity.Models.Roadmaps;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Roadmap.Roadmap
+namespace Service.Roadmaps.Roadmaps
 {
     public interface IRoadmapService
     {
-        ReturnModel<Entity.Roadmap> Add(Entity.Roadmap roadmapEntity);
-        ReturnModel<Entity.Roadmap> Update(Entity.Roadmap roadmapEntity);
-        ReturnModel<IEnumerable<Entity.Roadmap>> GetAllByUser(int userId);
-        ReturnModel<Entity.Roadmap> Get(int roadmapId);
-        ReturnModel<int> Delete(int roadmapEntity);
-        //void Add(Entity.Roadmap roadmap);
-        //void Update(Entity.Roadmap roadmap);
+        ReturnModel<Roadmap> Add(Roadmap roadmapEntity);
+        ReturnModel<Roadmap> Update(Roadmap roadmapEntity);
+        ReturnModel<IEnumerable<Roadmap>> GetAllByUser(int userId);
+        ReturnModel<Roadmap> Get(int roadmapId);
+        ReturnModel<bool> Delete(int roadmapId);
+
+
+        //void Add(Roadmap roadmap);
+        //void Update(Roadmap roadmap);
         //void Delete(int roadmap);
 
     }

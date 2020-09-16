@@ -1,9 +1,10 @@
 ﻿using Data.UnitOfWork;
+using Entity.Models.Categories;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Category.RoadmapCategory
+namespace Service.Categories.RoadmapsCategory
 {
     public class RoadmapCategoryService : IRoadmapCategoryService
     {
@@ -14,19 +15,19 @@ namespace Service.Category.RoadmapCategory
         }
 
 
-        public void Add(Entity.RoadmapCategory roadmapCategory)
+        public void Add(RoadmapCategory roadmapCategory)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapCategory>().Add(roadmapCategory);
+            this._unitOfWork.GetRepository<RoadmapCategory>().Add(roadmapCategory);
         }
 
         public void Delete(int roadmapCategory)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapCategory>().Delete(roadmapCategory);
+            this._unitOfWork.GetRepository<RoadmapCategory>().Delete(roadmapCategory);
         }
 
-        public void Update(Entity.RoadmapCategory roadmapCategory)
+        public void Update(RoadmapCategory roadmapCategory)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapCategory>().Update(roadmapCategory);
+            this._unitOfWork.GetRepository<RoadmapCategory>().Update(roadmapCategory);
         }
     }
 }

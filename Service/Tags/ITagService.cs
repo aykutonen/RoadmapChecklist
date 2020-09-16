@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Entity.Models.Tags;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Tag.Tag
+namespace Service.Tags
 {
     public interface ITagService
     {
-        void Add(Entity.Tag tag);
-        void Update(Entity.Tag tag);
+        void Add(Tag tag);
+        void Update(Tag tag);
         void Delete(int tag);
     }
 }

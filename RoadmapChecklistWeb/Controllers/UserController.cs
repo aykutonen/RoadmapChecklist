@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using RoadmapChecklistWeb.Models.User;
-using Service.User;
+using Service.Users;
 
 namespace RoadmapChecklistWeb.Controllers
 {

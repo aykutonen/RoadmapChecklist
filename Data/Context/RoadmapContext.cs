@@ -1,6 +1,10 @@
 ﻿using System;
 using Data.Builder;
 using Entity;
+using Entity.Models.Categories;
+using Entity.Models.Roadmaps;
+using Entity.Models.Tags;
+using Entity.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
@@ -23,7 +27,7 @@ namespace Data.Context
 
             new UserBuilder(modelBuilder.Entity<User>());
             new RoadmapBuilder(modelBuilder.Entity<Roadmap>());
-            new CopiedRoadmapBuilder.(modelBuilder.Entity<CopiedRoadmap>());
+            new CopiedRoadmapBuilder(modelBuilder.Entity<CopiedRoadmap>());
             new RoadmapItemBuilder(modelBuilder.Entity<RoadmapItem>());
             new CategoryBuilder(modelBuilder.Entity<Category>());
             new RoadmapCategoryBuilder(modelBuilder.Entity<RoadmapCategory>());

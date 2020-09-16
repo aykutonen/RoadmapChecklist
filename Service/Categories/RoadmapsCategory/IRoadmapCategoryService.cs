@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Entity.Models.Categories;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Category.RoadmapCategory
+namespace Service.Categories.RoadmapsCategory
 {
     public interface IRoadmapCategoryService
     {
-        void Add(Entity.RoadmapCategory roadmapCategory);
-        void Update(Entity.RoadmapCategory roadmapCategory);
+        void Add(RoadmapCategory roadmapCategory);
+        void Update(RoadmapCategory roadmapCategory);
         void Delete(int roadmapCategory);
     }
 }

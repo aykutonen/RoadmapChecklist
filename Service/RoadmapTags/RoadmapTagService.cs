@@ -1,9 +1,10 @@
 ﻿using Data.UnitOfWork;
+using Entity.Models.Tags;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Tag.RoadmapTag
+namespace Service.RoadmapTags
 {
     public class RoadmapTagService : IRoadmapTagService
     {
@@ -14,19 +15,19 @@ namespace Service.Tag.RoadmapTag
         }
 
 
-        public void Add(Entity.RoadmapTag roadmaptag)
+        public void Add(RoadmapTag roadmaptag)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapTag>().Add(roadmaptag);
+            this._unitOfWork.GetRepository<RoadmapTag>().Add(roadmaptag);
         }
 
         public void Delete(int roadmaptag)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapTag>().Delete(roadmaptag);
+            this._unitOfWork.GetRepository<RoadmapTag>().Delete(roadmaptag);
         }
 
-        public void Update(Entity.RoadmapTag roadmaptag)
+        public void Update(RoadmapTag roadmaptag)
         {
-            this._unitOfWork.GetRepository<Entity.RoadmapTag>().Add(roadmaptag);
+            this._unitOfWork.GetRepository<RoadmapTag>().Add(roadmaptag);
         }
     }
 }

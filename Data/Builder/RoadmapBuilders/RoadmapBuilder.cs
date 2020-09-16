@@ -9,7 +9,7 @@ namespace Data.Builder
 {
     public class RoadmapBuilder
     {
-        public RoadmapBuilder(EntityTypeBuilder<Roadmap> builder)
+        public RoadmapBuilder(EntityTypeBuilder<Entity.Models.Roadmaps.Roadmap> builder)
         {
 
 
@@ -24,32 +24,32 @@ namespace Data.Builder
 
 
 
-            builder.HasMany(roadmap => roadmap.CopiedRoadmap)
+            builder.HasMany(roadmap => roadmap.CopiedSourceRoadmaps)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.SourceRoadmap)
                 .HasForeignKey(CopiedRoadmap => CopiedRoadmap.SourceRoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
 
-            builder.HasMany(roadmap => roadmap.CopiedRoadmap)
+            builder.HasMany(roadmap => roadmap.CopiedTargetRoadmaps)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
                 .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            builder.HasMany(roadmap => roadmap.RoadmapItem)
+            builder.HasMany(roadmap => roadmap.RoadmapItems)
                 .WithOne(roadmapItems => roadmapItems.Roadmap)
                 .HasForeignKey(roadmapItems => roadmapItems.RoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            builder.HasMany(roadmap => roadmap.RoadmapCategory)
+            builder.HasMany(roadmap => roadmap.RoadmapCategories)
                 .WithOne(roadmapCategories => roadmapCategories.Roadmap)
                 .HasForeignKey(roadmapCategories => roadmapCategories.RoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
 
-            builder.HasMany(roadmap => roadmap.RoadmapTag)
+            builder.HasMany(roadmap => roadmap.RoadmapTags)
                 .WithOne(roadmapTags => roadmapTags.Roadmap)
                 .HasForeignKey(roadmapTags => roadmapTags.RoadmapId)
                 .OnDelete(DeleteBehavior.Cascade)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Entity;
+using Entity.Models.Tags;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
