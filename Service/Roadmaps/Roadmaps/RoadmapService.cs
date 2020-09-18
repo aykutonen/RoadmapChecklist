@@ -1,4 +1,5 @@
-﻿using Data.Repository;
+﻿
+using Data.Repository;
 using Data.UnitOfWork;
 using Entity.Models.Roadmaps;
 using System;
@@ -9,18 +10,18 @@ namespace Service.Roadmaps.Roadmaps
 {
     public class RoadmapService : IRoadmapService
     {
-        public readonly IUnitOfWork unitOfWork;
-        public readonly IRepository<Roadmap> repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Roadmap> _repository;
         public RoadmapService(IUnitOfWork unitOfWork, IRepository<Roadmap> repository)
         {
-            this.unitOfWork = unitOfWork;
-            this.repository = repository;
+            _unitOfWork = unitOfWork;
+            _repository = repository;
 
         }
 
         public void Save()
         {
-            unitOfWork.Commmit();
+            _unitOfWork.Commmit();
         }
 
         ReturnModel<Roadmap> IRoadmapService.Add(Roadmap roadmapEntity)
@@ -30,7 +31,7 @@ namespace Service.Roadmaps.Roadmaps
             {
                 if (roadmapEntity.Name != null)
                 {
-                    repository.Add(roadmapEntity);
+                    _repository.Add(roadmapEntity);
                     result.Data = roadmapEntity;
 
                 }
@@ -51,7 +52,7 @@ namespace Service.Roadmaps.Roadmaps
             var result = new ReturnModel<Roadmap>();
             try
             {
-                repository.Update(roadmapEntity);
+                _repository.Update(roadmapEntity);
                 result.Data = roadmapEntity;
 
             }
@@ -70,7 +71,7 @@ namespace Service.Roadmaps.Roadmaps
             var result = new ReturnModel<IEnumerable<Roadmap>>();
             try
             {
-                result.Data = repository.GetAll(roadmap => roadmap.Id == userId);
+                result.Data = _repository.GetAll(roadmap => roadmap.Id == userId);
 
 
             }
@@ -89,7 +90,7 @@ namespace Service.Roadmaps.Roadmaps
             var result = new ReturnModel<Roadmap>();
             try
             {
-                result.Data = repository.Get(roadmap => roadmap.Id == roadmapId);
+                result.Data = _repository.Get(roadmap => roadmap.Id == roadmapId);
             }
             catch (Exception ex)
             {
@@ -107,7 +108,7 @@ namespace Service.Roadmaps.Roadmaps
 
             try
             {
-                repository.Delete(roadmapId);
+                _repository.Delete(roadmapId);
                 result.Data = true;
             }
             catch (Exception ex)

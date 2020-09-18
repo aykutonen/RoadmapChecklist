@@ -10,7 +10,7 @@ namespace Service.Roadmaps.CopiedRoadmaps
         ReturnModel<CopiedRoadmap> Add(CopiedRoadmap copiedRoadmap);
         ReturnModel<CopiedRoadmap> Update(CopiedRoadmap copiedRoadmap);
         ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId);
-        ReturnModel<CopiedRoadmap> Get(int userId);
+        ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId);
         ReturnModel<bool> Delete(int copiedRoadmapId);
 
         //void Add(CopiedRoadmap copiedRoadmap);

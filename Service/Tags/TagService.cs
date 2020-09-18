@@ -1,4 +1,5 @@
-﻿using Data.UnitOfWork;
+﻿using Data.Repository;
+using Data.UnitOfWork;
 using Entity.Models.Tags;
 using System;
 using System.Collections.Generic;
@@ -9,25 +10,100 @@ namespace Service.Tags
     public class TagService : ITagService
     {
 
-        public readonly IUnitOfWork _unitOfWork;
-        public TagService(IUnitOfWork _unitOfWork)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Tag> _repository;
+        public TagService(IUnitOfWork unitOfWork,IRepository<Tag> repository)
         {
-            this._unitOfWork = _unitOfWork;
+            _unitOfWork = unitOfWork;
+            _repository = repository;
         }
 
-        public void Add(Tag tag)
+        public ReturnModel<Tag> Add(Tag tag)
         {
-            this._unitOfWork.GetRepository<Tag>().Add(tag);
+            var result = new ReturnModel<Tag>();
+            try
+            {
+                _repository.Add(tag);
+                result.Data = tag;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
-        public void Delete(int tag)
+        public ReturnModel<bool> Delete(int tagId)
         {
-            this._unitOfWork.GetRepository<Tag>().Delete(tag);
+            var result = new ReturnModel<bool>();
+            try
+            {
+                _repository.Delete(tagId);
+                result.Data = true;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
-        public void Update(Tag tag)
+        public ReturnModel<Tag> Get(int tagId)
         {
-            this._unitOfWork.GetRepository<Tag>().Update(tag);
+            var result = new ReturnModel<Tag>();
+            try
+            {
+                result.Data = _repository.Get(tag=>tag.Id==tagId);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<IEnumerable<Tag>> GetAllByUser(int tagId)
+        {
+            var result = new ReturnModel<IEnumerable<Tag>>();
+            try
+            {
+                result.Data = _repository.GetAll(tag=>tag.Id==tagId);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public void Save()
+        {
+            _unitOfWork.Commmit();
+        }
+
+        public ReturnModel<Tag> Update(Tag tag)
+        {
+            var result = new ReturnModel<Tag>();
+            try
+            {
+                _repository.Update(tag);
+                result.Data = tag;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
         }
     }
 }

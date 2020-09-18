@@ -7,8 +7,13 @@ namespace Service.Tags
 {
     public interface ITagService
     {
-        void Add(Tag tag);
-        void Update(Tag tag);
-        void Delete(int tag);
+        ReturnModel<Tag> Add(Tag tag);
+        ReturnModel<Tag> Update(Tag tag);
+        ReturnModel<IEnumerable<Tag>> GetAllByUser(int tagId);
+        ReturnModel<Tag> Get(int tagId);
+        ReturnModel<bool> Delete(int tagId);
+        //void Add(Tag tag);
+        //void Update(Tag tag);
+        //void Delete(int tag);
     }
 }

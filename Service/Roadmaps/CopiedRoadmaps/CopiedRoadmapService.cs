@@ -11,8 +11,8 @@ namespace Service.Roadmaps.CopiedRoadmaps
     public class CopiedRoadmapService : ICopiedRoadmapService
     {
        
-        public readonly IUnitOfWork _unitOfWork;
-        public readonly IRepository<CopiedRoadmap> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<CopiedRoadmap> _repository;
         public CopiedRoadmapService(IUnitOfWork unitOfWork,IRepository<CopiedRoadmap> repository)
         {
             _unitOfWork = unitOfWork;
@@ -60,12 +60,13 @@ namespace Service.Roadmaps.CopiedRoadmaps
             return result;
         }
 
-        public ReturnModel<CopiedRoadmap> Get(int userId)
+        public ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId)
         {
-            var result = new ReturnModel<IEnumerable<CopiedRoadmap>>();
+            var result = new ReturnModel<CopiedRoadmap>();
             try
             {
-                result.Data = _repository.GetAll(roadmap => roadmap.Id == userId);
+                result.Data = _repository.Get(copiedRoadmap => copiedRoadmap.Id==copiedRoadmapId);
+
             }
             catch (Exception ex)
             {
@@ -78,12 +79,40 @@ namespace Service.Roadmaps.CopiedRoadmaps
 
         public ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId)
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<IEnumerable<CopiedRoadmap>>();
+            try
+            {
+                result.Data = _repository.GetAll(copiedRoadmap => copiedRoadmap.Id == copiedRoadmapId);
+
+
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
         }
 
         public ReturnModel<CopiedRoadmap> Update(CopiedRoadmap copiedRoadmap)
         {
-            throw new NotImplementedException();
+            var result = new ReturnModel<CopiedRoadmap>();
+            try
+            {
+                _repository.Update(copiedRoadmap);
+                result.Data = copiedRoadmap;
+
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
         }
     }
 }

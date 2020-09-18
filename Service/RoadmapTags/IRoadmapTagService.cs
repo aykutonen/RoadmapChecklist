@@ -7,8 +7,15 @@ namespace Service.RoadmapTags
 {
     public interface IRoadmapTagService
     {
-        void Add(RoadmapTag roadmadtag);
-        void Update(RoadmapTag roadmaptag);
-        void Delete(int roadmaptag);
+        ReturnModel<RoadmapTag> Add(RoadmapTag roadmapTag);
+        ReturnModel<RoadmapTag> Update(RoadmapTag roadmapTag);
+        ReturnModel<IEnumerable<RoadmapTag>> GetAllByUser(int roadmapTagId);
+        ReturnModel<RoadmapTag> Get(int roadmapTagId);
+        ReturnModel<bool> Delete(int roadmapTagId);
+
+
+        //void Add(RoadmapTag roadmadtag);
+        //void Update(RoadmapTag roadmaptag);
+        //void Delete(int roadmaptag);
     }
 }

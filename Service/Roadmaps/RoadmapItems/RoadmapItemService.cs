@@ -11,8 +11,8 @@ namespace Service.Roadmaps.IRoadmapItems
     public class RoadmapItemService : IRoadmapItemService
     {
 
-        public readonly IUnitOfWork _unitOfWork;
-        public readonly IRepository<RoadmapItem> _repository;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<RoadmapItem> _repository;
         public RoadmapItemService(IUnitOfWork unitOfWork, IRepository<RoadmapItem> repository)
         {
             _unitOfWork = unitOfWork;

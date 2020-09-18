@@ -4,7 +4,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Data.Repository;
 using Entity;
+using Entity.Models.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +19,12 @@ namespace RoadmapChecklistWeb.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly IRepository<UserService> _repository;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService,IRepository<UserService> repository)
         {
             _userService = userService;
+            _repository = repository;
         }
 
         public IActionResult Login()
