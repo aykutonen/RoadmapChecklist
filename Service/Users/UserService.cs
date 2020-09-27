@@ -1,6 +1,8 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
 using Entity.Models.Users;
+using Service.Extensions;
+using Service.Users.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -27,6 +29,8 @@ namespace Service.Users
 
             try
             {
+                userEntity.Password = userEntity.Password.MD5Hash();
+
                 _repository.Add(userEntity);
                 result.Data = userEntity;
             }
@@ -42,7 +46,9 @@ namespace Service.Users
 
         public User CheckUser(string email, string password)
         {
+            password = password.MD5Hash();
             var user = _repository.Get(m => m.Email == email && m.Password == password);
+
             return user;
         }
 
@@ -96,6 +102,37 @@ namespace Service.Users
                 result.IsSuccess = false;
                 result.Exception = exception;
                 result.Message = exception.Message;
+            }
+
+            return result;
+        }
+
+        public ReturnModel<User> Register(UserRegisterModel userRegisterModel)
+        {
+            var result = new ReturnModel<User>();
+           
+            try
+            {
+                // Todo : Use AutoMapper
+                var user = new User()
+                {
+                    Email = userRegisterModel.Email,
+                    Password = userRegisterModel.Password,
+                    Name = userRegisterModel.Name,
+                    Status = 1
+                };
+
+                Add(user);
+                Save();
+
+                result.Data = user;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess=false;
+                result.Exception = ex;
+                result.Message = ex.Message;
             }
 
             return result;

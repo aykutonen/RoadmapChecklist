@@ -4,11 +4,12 @@ using System.Text;
 
 namespace Entity.Models
 {
-    public class TimerBase : ModelBase
+    public class TimerBase 
     {
         protected TimerBase()
         {
             UpDateTime = DateTime.Now;
+            CreateTime = DateTime.Now;
         }
 
         public DateTime CreateTime { get; set; }

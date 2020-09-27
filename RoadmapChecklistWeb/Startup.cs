@@ -55,7 +55,7 @@ namespace RoadmapChecklistWeb
            
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
-
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc();
         }
 
@@ -77,6 +77,7 @@ namespace RoadmapChecklistWeb
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

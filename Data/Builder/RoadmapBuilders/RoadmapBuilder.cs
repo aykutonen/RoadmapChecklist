@@ -16,7 +16,7 @@ namespace Data.Builder
             builder.HasKey(roadmap => roadmap.Id);
             builder.Property(roadmap => roadmap.Id).ValueGeneratedOnAdd();
             builder.Property(roadmap => roadmap.Name).IsRequired().HasMaxLength(500);
-            builder.Property(roadmap => roadmap.Visibility).IsRequired();
+            builder.Property(roadmap => roadmap.Visibility).IsRequired().HasDefaultValue(1);
             builder.Property(roadmap => roadmap.Status).IsRequired();
             builder.Property(roadmap => roadmap.StartDate).IsRequired();
             builder.Property(roadmap => roadmap.EndDate).IsRequired();

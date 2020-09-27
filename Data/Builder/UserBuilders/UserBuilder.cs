@@ -19,7 +19,7 @@ namespace Data.Builder
             builder.Property(user => user.Name).IsRequired().HasMaxLength(255);
             builder.Property(user => user.Email).IsRequired().HasMaxLength(255);
             builder.Property(user => user.Password).IsRequired().HasMaxLength(150);
-            builder.Property(user => user.Picture).IsRequired().HasMaxLength(255);
+            builder.Property(user => user.Picture).HasMaxLength(255);
             builder.Property(user => user.Status).IsRequired();
 
             //İlişkiler

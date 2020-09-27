@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Entity.Models
 {
-    public abstract class ModelBase
+    public abstract class ModelBase : TimerBase
     {
         public int Id { get; set; }
-       
+
     }
 }

@@ -21,13 +21,13 @@ namespace Data.Builder
             builder.HasOne(copiedRoadmaps => copiedRoadmaps.SourceRoadmap)
                 .WithMany(roadmap => roadmap.CopiedSourceRoadmaps)
                 .HasForeignKey(copiedRoadmaps => copiedRoadmaps.SourceRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
             builder.HasOne(copiedRoadmaps => copiedRoadmaps.TargetRoadmap)
                 .WithMany(roadmap => roadmap.CopiedTargetRoadmaps)
                 .HasForeignKey(copiedRoadmaps => copiedRoadmaps.TargetRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
         }

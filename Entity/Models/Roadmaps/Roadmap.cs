@@ -11,7 +11,7 @@ namespace Entity.Models.Roadmaps
     public class Roadmap : ModelBase
     {
         public string Name { get; set; }
-        public int Visibility { get; set; }
+        public int Visibility { get; set; } = 1;
         public int Status { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
