@@ -1,4 +1,5 @@
 ﻿using Entity.Models.Roadmaps;
+using Service.Roadmaps.Roadmaps.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Service.Roadmaps.Roadmaps
         ReturnModel<IEnumerable<Roadmap>> GetAllByUser(int userId);
         ReturnModel<Roadmap> Get(int roadmapId);
         ReturnModel<bool> Delete(int roadmapId);
+        ReturnModel<Roadmap> AddRoadmap(RoadmapViewModel roadmapViewModel);
 
 
         //void Add(Roadmap roadmap);

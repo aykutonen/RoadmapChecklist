@@ -2,6 +2,7 @@
 using Data.Repository;
 using Data.UnitOfWork;
 using Entity.Models.Roadmaps;
+using Service.Roadmaps.Roadmaps.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,7 +25,7 @@ namespace Service.Roadmaps.Roadmaps
             _unitOfWork.Commmit();
         }
 
-        ReturnModel<Roadmap> IRoadmapService.Add(Roadmap roadmapEntity)
+        public ReturnModel<Roadmap> Add(Roadmap roadmapEntity)
         {
             var result = new ReturnModel<Roadmap>();
             try
@@ -47,7 +48,7 @@ namespace Service.Roadmaps.Roadmaps
             return result;
         }
 
-        ReturnModel<Roadmap> IRoadmapService.Update(Roadmap roadmapEntity)
+        public ReturnModel<Roadmap> Update(Roadmap roadmapEntity)
         {
             var result = new ReturnModel<Roadmap>();
             try
@@ -120,7 +121,37 @@ namespace Service.Roadmaps.Roadmaps
             }
             return result;
         }
+        public ReturnModel<Roadmap> AddRoadmap(RoadmapViewModel roadmapViewModel)
+        {
+            var result = new ReturnModel<Roadmap>();
 
-     
+            try
+            {
+                // Todo : Use AutoMapper
+                var roadmap = new Roadmap()
+                {
+                    Name = roadmapViewModel.Name,
+                    Visibility = roadmapViewModel.Visibility,
+                    EndDate=roadmapViewModel.EndDate,
+                    StartDate=roadmapViewModel.StartDate,
+                    UserId=roadmapViewModel.UserId,
+                    Status = 1
+                };
+
+                Add(roadmap);
+                Save();
+
+                result.Data = roadmap;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
     }
 }
