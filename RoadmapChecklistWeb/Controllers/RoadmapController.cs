@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Repository;
+using Entity.Models.Roadmaps;
 using Microsoft.AspNetCore.Mvc;
 using Service.Roadmaps.Roadmaps;
 using Service.Roadmaps.Roadmaps.Models;
@@ -39,6 +40,22 @@ namespace RoadmapChecklistWeb.Controllers
 
             return View(roadmapViewModel);
         }
+
+        //Get Kontrolü! 
+        [HttpGet]
+        public IEnumerable<Roadmap> GetAll(int userId)
+        {
+            return _roadmapService.GetAllByUser(userId).Data.ToList();
+        }
+
+        [HttpDelete]
+        public IActionResult Delete(int roadmapId)
+        {
+            _roadmapService.Delete(roadmapId);
+            return Ok();
+        }
+
+
 
     }
 

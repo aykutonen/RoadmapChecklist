@@ -42,17 +42,16 @@ namespace RoadmapChecklistWeb
              });
             services.AddControllersWithViews();
             services.AddDbContext<RoadmapContext>();
-            services.AddScoped<IUserService,UserService>();
-            services.AddScoped<IRoadmapService,RoadmapService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoadmapService, RoadmapService>();
             services.AddScoped<ICopiedRoadmapService, CopiedRoadmapService>();
             services.AddScoped<IRoadmapItemService, RoadmapItemService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IRoadmapCategoryService, RoadmapCategoryService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IRoadmapTagService, RoadmapTagService>();
-           
-            services.AddScoped<IUnitOfWork,UnitOfWork>();
-           
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

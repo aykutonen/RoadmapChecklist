@@ -59,14 +59,18 @@ namespace Data.Repository
 
         public void Delete(int id)
         {
-            Delete(id);
+
             //_dbSet.Remove(entity);
             //return _dbSet.Remove(entity);
             //return _dbSet.Remove(id);
             //_dbSet.Remove(id);
+
+            //return _dbSet.Remove(entity);
+
+            //_dbContext.Entry(entity).State = EntityState.Deleted;
         }
 
-       
+
         private bool disposedValue = false;
 
         protected virtual void Dispose(bool disposing)

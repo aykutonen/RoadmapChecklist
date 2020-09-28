@@ -21,7 +21,7 @@ namespace Service.Roadmaps.Roadmaps.Models
         public DateTime EndDate { get; set; }
         [Required]
         public int UserId { get; set; }
-    }
 
-  
+        //return FluentValidation
+    }
 }
