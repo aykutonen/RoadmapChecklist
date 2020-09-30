@@ -57,19 +57,16 @@ namespace Data.Repository
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
 
-        public void Delete(int id)
+        public void Delete(T entity)
         {
-
-            //_dbSet.Remove(entity);
-            //return _dbSet.Remove(entity);
-            //return _dbSet.Remove(id);
-            //_dbSet.Remove(id);
-
-            //return _dbSet.Remove(entity);
-
-            //_dbContext.Entry(entity).State = EntityState.Deleted;
+            _dbSet.Remove(entity);
         }
 
+        public void Delete(int id)
+        {
+            var entity = GetById(id);
+            _dbSet.Remove(entity);
+        }
 
         private bool disposedValue = false;
 
@@ -96,6 +93,7 @@ namespace Data.Repository
         {
             throw new NotImplementedException();
         }
+
     }
 }
 

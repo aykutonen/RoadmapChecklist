@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Data.Repository;
 using Entity.Models.Roadmaps;
@@ -32,19 +33,34 @@ namespace RoadmapChecklistWeb.Controllers
         [HttpPost]
         public IActionResult Roadmap(RoadmapViewModel roadmapViewModel)
         {
-            var response = _roadmapService.AddRoadmap(roadmapViewModel);
-            if (response.IsSuccess)
+            if (! ModelState.IsValid)
             {
-                return RedirectToAction("Roadmap", "Roadmap");
+                TempData["notice"] = "Roadmap oluşturulurken hata oluştu.";
+                return View("Roadmap",roadmapViewModel);
+                
             }
 
-            return View(roadmapViewModel);
+            _roadmapService.AddRoadmap(roadmapViewModel);
+
+            TempData["notice"] = "Roadmap oluşturuldu.";
+            return RedirectToAction("Roadmap", "Roadmap");
+
+
+            //var response = _roadmapService.AddRoadmap(roadmapViewModel);
+            //if (response.IsSuccess)
+            //{
+            //    return RedirectToAction("Roadmap", "Roadmap");
+            //}
+
+            //return View(roadmapViewModel);
         }
 
         //Get Kontrolü! 
         [HttpGet]
-        public IEnumerable<Roadmap> GetAll(int userId)
+        public IEnumerable<Roadmap> GetAll()
         {
+            // Todo : Move basecontroller ctor -> _currentUser
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return _roadmapService.GetAllByUser(userId).Data.ToList();
         }
 

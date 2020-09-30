@@ -18,7 +18,7 @@ using Service.Users.Models;
 
 namespace RoadmapChecklistWeb.Controllers
 {
-    
+
     public class UserController : Controller
     {
 
@@ -60,6 +60,8 @@ namespace RoadmapChecklistWeb.Controllers
             {
                 var userClaims = new List<Claim>()
                {
+                   // Maybe user info view model serialize json set nameidentifier after deserialize json call
+                   new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
                    new Claim(ClaimTypes.Name,user.Name),
                    new Claim(ClaimTypes.Email,user.Email),
                };

@@ -17,6 +17,7 @@ namespace Data.Repository
         IEnumerable<T> GetAll();
         IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate);
 
+        void Delete(T entity);
         void Delete(int id);
         void Delete(Func<object, bool> p);
 

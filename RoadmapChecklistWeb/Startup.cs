@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Data.Context;
 using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Roadmaps;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -19,6 +22,7 @@ using Service.Roadmaps.Roadmaps;
 using Service.RoadmapTags;
 using Service.Tags;
 using Service.Users;
+using static Service.Roadmaps.Roadmaps.Models.RoadmapViewModel;
 
 namespace RoadmapChecklistWeb
 {
@@ -40,6 +44,7 @@ namespace RoadmapChecklistWeb
                  config.LoginPath = "/User/Login";
 
              });
+
             services.AddControllersWithViews();
             services.AddDbContext<RoadmapContext>();
             services.AddScoped<IUserService, UserService>();
@@ -55,7 +60,10 @@ namespace RoadmapChecklistWeb
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>());
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

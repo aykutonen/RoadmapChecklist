@@ -1,4 +1,5 @@
 ﻿using Entity.Models.Roadmaps;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,20 +9,26 @@ namespace Service.Roadmaps.Roadmaps.Models
 {
     public class RoadmapViewModel
     {
-        [Required]
-        [StringLength(500)]
         public string Name { get; set; }
-        [Required]
         public int Visibility { get; set; } = 1;
-        [Required]
         public int Status { get; set; }
-        [Required]
         public DateTime StartDate { get; set; }
-        [Required]
         public DateTime EndDate { get; set; }
-        [Required]
         public int UserId { get; set; }
 
-        //return FluentValidation
+        public class RoadmapValidator : AbstractValidator<Roadmap>
+        {
+            public RoadmapValidator()
+            {
+                RuleFor(x => x.UserId).NotNull();
+                RuleFor(x => x.Name).Length(0, 500);
+                RuleFor(x => x.Visibility).Null();
+                RuleFor(x => x.Status).NotNull();
+                RuleFor(x => x.StartDate).NotNull();
+                RuleFor(x => x.EndDate).NotNull();
+            }
+
+            //return FluentValidation
+        }
     }
 }

@@ -72,7 +72,7 @@ namespace Service.Roadmaps.Roadmaps
             var result = new ReturnModel<IEnumerable<Roadmap>>();
             try
             {
-                result.Data = _repository.GetAll(roadmapEntity => roadmapEntity.Id == userId);
+                result.Data = _repository.GetAll(roadmapEntity => roadmapEntity.UserId == userId);
             }
             catch (Exception ex)
             {
@@ -152,5 +152,6 @@ namespace Service.Roadmaps.Roadmaps
 
             return result;
         }
+
     }
 }
