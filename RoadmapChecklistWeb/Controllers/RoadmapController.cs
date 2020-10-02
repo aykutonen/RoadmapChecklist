@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Data.Repository;
 using Entity.Models.Roadmaps;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.Roadmaps.Roadmaps;
 using Service.Roadmaps.Roadmaps.Models;
 
@@ -31,30 +32,17 @@ namespace RoadmapChecklistWeb.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Roadmap(RoadmapViewModel roadmapViewModel)
+        public IActionResult CreateRoadmap(RoadmapViewModel roadmapViewModel)
         {
-            if (! ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                TempData["notice"] = "Roadmap oluşturulurken hata oluştu.";
-                return View("Roadmap",roadmapViewModel);
-                
+                ModelState.AddModelError("", "Roadmap oluşturulurken hata oluştu.");
+                return View("Roadmap", roadmapViewModel);
             }
-
             _roadmapService.AddRoadmap(roadmapViewModel);
-
             TempData["notice"] = "Roadmap oluşturuldu.";
             return RedirectToAction("Roadmap", "Roadmap");
-
-
-            //var response = _roadmapService.AddRoadmap(roadmapViewModel);
-            //if (response.IsSuccess)
-            //{
-            //    return RedirectToAction("Roadmap", "Roadmap");
-            //}
-
-            //return View(roadmapViewModel);
         }
-
         //Get Kontrolü! 
         [HttpGet]
         public IEnumerable<Roadmap> GetAll()
@@ -63,7 +51,6 @@ namespace RoadmapChecklistWeb.Controllers
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return _roadmapService.GetAllByUser(userId).Data.ToList();
         }
-
         [HttpDelete]
         public IActionResult Delete(int roadmapId)
         {

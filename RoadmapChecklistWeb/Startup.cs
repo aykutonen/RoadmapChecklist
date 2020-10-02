@@ -17,6 +17,7 @@ using Microsoft.Extensions.Hosting;
 using Service.Categories.CategoriesService;
 using Service.Categories.RoadmapsCategory;
 using Service.Roadmaps.CopiedRoadmaps;
+using Service.Roadmaps.CopiedRoadmaps.Models;
 using Service.Roadmaps.IRoadmapItems;
 using Service.Roadmaps.Roadmaps;
 using Service.RoadmapTags;
@@ -60,7 +61,8 @@ namespace RoadmapChecklistWeb
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>());
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>());
 
 
 
