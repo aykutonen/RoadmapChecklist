@@ -32,9 +32,9 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userId = HttpContext.Session.GetString("userId");
+            var userIdInSession = HttpContext.Session.GetString("userId");
 
-            if (!string.IsNullOrEmpty(userId))
+            if (!string.IsNullOrEmpty(userIdInSession))
             {
                 var roadmapToCreate = new Roadmap()
                 {
@@ -43,7 +43,7 @@ namespace Api.Controllers
                     Status = roadmap.Status,
                     StartDate = roadmap.StartDate,
                     EndDate = roadmap.EndDate,
-                    UserId = Convert.ToInt32(userId)
+                    UserId = Convert.ToInt32(userIdInSession)
                 };
                 var createdRoadmap = _roadmapService.Create(roadmapToCreate);
 
@@ -53,6 +53,27 @@ namespace Api.Controllers
             {
                 return NotFound("Session not found!");
             }
+        }
+
+        [HttpGet("getAllRoadmaps")]
+        public IActionResult GetAll([FromQuery] int userId)
+        {
+            if (!ModelState.IsValid || userId <= 0)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapByUserList = _roadmapService.GetAllByUser(userId).Data.ToList();
+
+            if (roadmapByUserList.Count() != 0)
+            {
+                return Ok(roadmapByUserList);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }
