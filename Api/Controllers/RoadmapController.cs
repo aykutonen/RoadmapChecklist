@@ -32,19 +32,27 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var roadmapToCreate = new Roadmap()
+            var userId = HttpContext.Session.GetString("userId");
+
+            if (!string.IsNullOrEmpty(userId))
             {
-                Name = roadmap.Name,
-                Visibility = roadmap.Visibility,
-                Status = roadmap.Status,
-                StartDate = roadmap.StartDate,
-                EndDate = roadmap.EndDate,
-                //UserId = null login'den sonra elde ettiğimiz token'ı bir yere yazıp oradan okumamız gerekiyor
-            };
+                var roadmapToCreate = new Roadmap()
+                {
+                    Name = roadmap.Name,
+                    Visibility = roadmap.Visibility,
+                    Status = roadmap.Status,
+                    StartDate = roadmap.StartDate,
+                    EndDate = roadmap.EndDate,
+                    UserId = Convert.ToInt32(userId)
+                };
+                var createdRoadmap = _roadmapService.Create(roadmapToCreate);
 
-            var createdRoadmap = _roadmapService.Create(roadmapToCreate);
-
-            return createdRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
+                return createdRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
+            }
+            else
+            {
+                return NotFound("Session not found!");
+            }
         }
     }
 }
