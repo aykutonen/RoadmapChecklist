@@ -78,7 +78,24 @@ namespace Api.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
+            HttpContext.Session.SetString("userId" , user.Data.Id.ToString());
+
             return Ok(tokenString);
+        }
+
+        [HttpGet("logout")]
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.Get("userId") != null)
+            {
+                HttpContext.Session.Remove("userId");
+            }
+            else
+            {
+                return NotFound("No logged in user!");
+            }
+
+            return Ok("Logouted !");
         }
     }
 }
