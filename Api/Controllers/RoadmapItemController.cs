@@ -45,5 +45,26 @@ namespace Api.Controllers
 
             return createdRoadmapItem.IsSuccess ? StatusCode(201) : BadRequest();
         }
+
+        [HttpGet("getAllRoadmapItemsInRoadmap")]
+        public IActionResult GetAll([FromQuery] int roadmapId)
+        {
+            if (!ModelState.IsValid || roadmapId <= 0)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapItemsInRoadmap = _roadmapItemService.GetAll(roadmapId).Data.ToList();
+
+            if (roadmapItemsInRoadmap.Count() != 0)
+            {
+                return Ok(roadmapItemsInRoadmap);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
     }
 }
