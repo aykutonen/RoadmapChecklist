@@ -67,6 +67,29 @@ namespace Api.Controllers
 
         }
 
+        [HttpPut("updateRoadmapItem")]
+        public IActionResult Update([FromBody] RoadmapItemModel roadmapItem)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapItemToUpdate = new RoadmapItem()
+            {
+                Title = roadmapItem.Title,
+                Description = roadmapItem.Description,
+                Status = roadmapItem.Status,
+                TargetDate = roadmapItem.TargetDate,
+                EndDate = roadmapItem.EndDate,
+                RoadmapId = roadmapItem.RoadmapId,
+                ParentId = roadmapItem.ParentId,
+            };
+            var updatedRoadmapItem = _roadmapItemService.Update(roadmapItemToUpdate);
+
+            return updatedRoadmapItem.IsSuccess ? StatusCode(200) : BadRequest();
+        }
+
         [HttpDelete("deleteRoadmapItem")]
         public IActionResult Delete([FromQuery] int roadmapId)
         {
