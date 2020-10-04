@@ -66,5 +66,25 @@ namespace Api.Controllers
             }
 
         }
+
+        [HttpDelete("deleteRoadmapItem")]
+        public IActionResult Delete([FromQuery] int roadmapId)
+        {
+            if (!ModelState.IsValid || roadmapId <= 0)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapItemResult = _roadmapItemService.Get(roadmapId);
+            var roadmapItemEntity = roadmapItemResult.IsSuccess ? roadmapItemResult.Data : null;
+
+            if (roadmapItemEntity != null)
+            {
+                var deletedRoadmapItem = _roadmapItemService.Delete(roadmapItemEntity);
+                return deletedRoadmapItem.IsSuccess ? StatusCode(204) : NotFound();
+            }
+
+            return BadRequest();
+        }
     }
 }
