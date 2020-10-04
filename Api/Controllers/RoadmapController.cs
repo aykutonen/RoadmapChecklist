@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Service;
 using Service.Roadmap;
+using Service.Roadmap.CopiedRoadmap;
 
 namespace Api.Controllers
 {
@@ -17,12 +18,14 @@ namespace Api.Controllers
     public class RoadmapController : ControllerBase
     {
         private IRoadmapService _roadmapService;
+        private ICopiedRoadmapService _copiedRoadmapService;
         private IConfiguration _configuration;
 
-        public RoadmapController(IRoadmapService roadmapService, IConfiguration configuration)
+        public RoadmapController(IRoadmapService roadmapService, IConfiguration configuration, ICopiedRoadmapService copiedRoadmapService)
         {
             _roadmapService = roadmapService;
             _configuration = configuration;
+            _copiedRoadmapService = copiedRoadmapService;
         }
 
         [HttpPost("add")]
@@ -54,6 +57,19 @@ namespace Api.Controllers
             {
                 return NotFound("Session not found!");
             }
+        }
+
+        [HttpPost("copy")]
+        public IActionResult Copy([FromBody] int roadmapId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var copiedRoadmap = _copiedRoadmapService.Create(roadmapId);
+
+            return copiedRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
         }
 
         [HttpGet("getAllRoadmaps")]
