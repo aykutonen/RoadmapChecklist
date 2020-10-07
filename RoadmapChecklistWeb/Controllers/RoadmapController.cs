@@ -53,7 +53,6 @@ namespace RoadmapChecklistWeb.Controllers
         [HttpGet("RoadmapList")]
         public IEnumerable<Roadmap> GetAll()
         {
-            // Todo : Move basecontroller ctor -> _currentUser
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return _roadmapService.GetAllByUser(userId).Data.ToList();
         }

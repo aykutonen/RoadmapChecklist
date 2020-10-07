@@ -17,9 +17,5 @@ namespace Service.Roadmaps.Roadmaps
         ReturnModel<Roadmap> UpdateRoadmap(RoadmapViewModel roadmapViewModel);
 
 
-        //void Add(Roadmap roadmap);
-        //void Update(Roadmap roadmap);
-        //void Delete(int roadmap);
-
     }
 }

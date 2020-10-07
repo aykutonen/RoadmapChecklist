@@ -23,6 +23,7 @@ using Service.Roadmaps.Roadmaps;
 using Service.RoadmapTags;
 using Service.Tags;
 using Service.Users;
+using static Service.Roadmaps.RoadmapItems.Models.RoadmapItemViewModel;
 using static Service.Roadmaps.Roadmaps.Models.RoadmapViewModel;
 
 namespace RoadmapChecklistWeb
@@ -62,10 +63,8 @@ namespace RoadmapChecklistWeb
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>());
-
-
-
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

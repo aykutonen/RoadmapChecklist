@@ -2,6 +2,7 @@
 using Data.UnitOfWork;
 using Entity;
 using Entity.Models.Roadmaps;
+using Service.Roadmaps.RoadmapItems.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,8 +30,8 @@ namespace Service.Roadmaps.IRoadmapItems
             var result = new ReturnModel<RoadmapItem>();
             try
             {
-                    _repository.Add(roadmapItem);
-                    result.Data = roadmapItem;
+                _repository.Add(roadmapItem);
+                result.Data = roadmapItem;
 
             }
             catch (Exception ex)
@@ -117,5 +118,71 @@ namespace Service.Roadmaps.IRoadmapItems
             }
             return result;
         }
+
+        public ReturnModel<RoadmapItem> Create(RoadmapItemViewModel roadmapItemViewModel)
+        {
+            var result = new ReturnModel<RoadmapItem>();
+            try
+            {
+                var roadmapItem = new RoadmapItem()
+                {
+                    Title = roadmapItemViewModel.Title,
+                    Description = roadmapItemViewModel.Description,
+                    TargetEndDate = roadmapItemViewModel.TargetEndDate,
+                    EndDate = roadmapItemViewModel.EndDate,
+                    RoadmapId = roadmapItemViewModel.RoadmapId,
+                    Status = 1,
+                    ParentId=roadmapItemViewModel.ParentId
+                };
+
+                Add(roadmapItem);
+                Save();
+
+                result.Data = roadmapItem;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
+        public ReturnModel<RoadmapItem> UpdateItem(RoadmapItemViewModel roadmapItemViewModel)
+        {
+            var result = new ReturnModel<RoadmapItem>();
+
+            try
+            {
+                var updateRoadmapItem = new RoadmapItem()
+                {
+                    Title = roadmapItemViewModel.Title,
+                    Description = roadmapItemViewModel.Description,
+                    TargetEndDate = roadmapItemViewModel.TargetEndDate,
+                    EndDate = roadmapItemViewModel.EndDate,
+                    RoadmapId = roadmapItemViewModel.RoadmapId,
+                    Status = 1,
+                    ParentId = roadmapItemViewModel.ParentId
+                };
+
+                Add(updateRoadmapItem);
+                Save();
+
+                result.Data = updateRoadmapItem;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+    }
     }
 }
