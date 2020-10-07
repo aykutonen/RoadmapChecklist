@@ -142,6 +142,32 @@ namespace Service.Roadmaps.CopiedRoadmaps
 
             return result;
         }
+        public ReturnModel<CopiedRoadmap> UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel)
+        {
+            var result = new ReturnModel<CopiedRoadmap>();
+            try
+            {
+                // Todo : Use AutoMapper
+                var copiedRoadmap = new CopiedRoadmap()
+                {
+                    SourceRoadmapId = copiedRoadmapViewModel.SourceRoadmapId,
+                    TargetRoadmapId = copiedRoadmapViewModel.TargetRoadmapId,
+                };
+
+                Add(copiedRoadmap);
+                Save();
+                result.Data = copiedRoadmap;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
 
     }
 }

@@ -14,5 +14,6 @@ namespace Service.Roadmaps.CopiedRoadmaps
         ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId);
         ReturnModel<bool> Delete(int copiedRoadmapId);
         ReturnModel<CopiedRoadmap> AddCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
+        ReturnModel<CopiedRoadmap> UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
     }
 }
