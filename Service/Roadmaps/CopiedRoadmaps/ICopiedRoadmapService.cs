@@ -1,4 +1,5 @@
 ﻿using Entity.Models.Roadmaps;
+using Service.Roadmaps.CopiedRoadmaps.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,9 +13,6 @@ namespace Service.Roadmaps.CopiedRoadmaps
         ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId);
         ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId);
         ReturnModel<bool> Delete(int copiedRoadmapId);
-
-        //void Add(CopiedRoadmap copiedRoadmap);
-        //void Update(CopiedRoadmap copiedRoadmap);
-        //void Delete(int copiedRoadmap);
+        ReturnModel<CopiedRoadmap> AddCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
     }
 }

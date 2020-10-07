@@ -152,6 +152,37 @@ namespace Service.Roadmaps.Roadmaps
 
             return result;
         }
+        public ReturnModel<Roadmap> UpdateRoadmap(RoadmapViewModel roadmapViewModel)
+        {
+            var result = new ReturnModel<Roadmap>();
+
+            try
+            {
+                var updateRoadmap = new Roadmap()
+                {
+                    Name = roadmapViewModel.Name,
+                    Visibility = roadmapViewModel.Visibility,
+                    EndDate = roadmapViewModel.EndDate,
+                    StartDate = roadmapViewModel.StartDate,
+                    UserId = roadmapViewModel.UserId,
+                    Status = 1
+                };
+
+                Add(updateRoadmap);
+                Save();
+
+                result.Data = updateRoadmap;
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
 
     }
 }

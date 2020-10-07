@@ -7,6 +7,8 @@ using Data.Repository;
 using Entity.Models.Roadmaps;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Service.Roadmaps.CopiedRoadmaps;
+using Service.Roadmaps.CopiedRoadmaps.Models;
 using Service.Roadmaps.Roadmaps;
 using Service.Roadmaps.Roadmaps.Models;
 
@@ -15,13 +17,16 @@ namespace RoadmapChecklistWeb.Controllers
     public class RoadmapController : Controller
     {
         private readonly IRoadmapService _roadmapService;
+        private readonly ICopiedRoadmapService _copiedRoadmapService;
         private readonly IRepository<RoadmapService> _repository;
 
-        public RoadmapController(IRoadmapService roadmapService, IRepository<RoadmapService> repository)
+        public RoadmapController(IRoadmapService roadmapService, ICopiedRoadmapService copiedRoadmapService, IRepository<RoadmapService> repository)
         {
             _roadmapService = roadmapService;
             _repository = repository;
+            _copiedRoadmapService = copiedRoadmapService;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -31,7 +36,8 @@ namespace RoadmapChecklistWeb.Controllers
         {
             return View();
         }
-        [HttpPost]
+
+        [HttpPost("AddRoadmap")]
         public IActionResult CreateRoadmap(RoadmapViewModel roadmapViewModel)
         {
             if (!ModelState.IsValid)
@@ -43,21 +49,47 @@ namespace RoadmapChecklistWeb.Controllers
             TempData["notice"] = "Roadmap oluşturuldu.";
             return RedirectToAction("Roadmap", "Roadmap");
         }
-        //Get Kontrolü! 
-        [HttpGet]
+        
+        [HttpGet("RoadmapList")]
         public IEnumerable<Roadmap> GetAll()
         {
             // Todo : Move basecontroller ctor -> _currentUser
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             return _roadmapService.GetAllByUser(userId).Data.ToList();
         }
-        [HttpDelete]
+
+        [HttpPut("UpdateRoadmap")]
+        public IActionResult Update(RoadmapViewModel roadmapViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Roadmap güncelleme yapılırken hata oluştu.");
+                return View("Roadmap", roadmapViewModel);
+            }
+            _roadmapService.UpdateRoadmap(roadmapViewModel);
+            TempData["notice"] = "Roadmap güncellendi.";
+            return RedirectToAction("Roadmap", "Roadmap");
+        }
+
+        [HttpDelete("DeleteRoadmap")]
         public IActionResult Delete(int roadmapId)
         {
             _roadmapService.Delete(roadmapId);
             return Ok();
         }
 
+        [HttpPost("CopyRoadmap")]
+        public IActionResult Copy(CopiedRoadmapViewModel copiedRoadmapViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Roadmap kopyalanamadı.");
+                return View("Roadmap", copiedRoadmapViewModel);
+            }
+            _copiedRoadmapService.AddCopy(copiedRoadmapViewModel);
+            TempData["notice"] = "Roadmap kopyalandı.";
+            return RedirectToAction("Roadmap","Roadmap");
+        }
 
 
     }

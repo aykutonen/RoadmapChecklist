@@ -14,6 +14,7 @@ namespace Service.Roadmaps.Roadmaps
         ReturnModel<Roadmap> Get(int roadmapId);
         ReturnModel<bool> Delete(int roadmapId);
         ReturnModel<Roadmap> AddRoadmap(RoadmapViewModel roadmapViewModel);
+        ReturnModel<Roadmap> UpdateRoadmap(RoadmapViewModel roadmapViewModel);
 
 
         //void Add(Roadmap roadmap);
