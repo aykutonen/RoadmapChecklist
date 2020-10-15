@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Service;
 using Service.Roadmap;
 using Service.Roadmap.CopiedRoadmap;
+using Service.Roadmap.RoadmapCategory;
 using Service.Roadmap.RoadmapTag;
 
 namespace Api.Controllers
@@ -21,13 +22,15 @@ namespace Api.Controllers
         private IRoadmapService _roadmapService;
         private ICopiedRoadmapService _copiedRoadmapService;
         private IRoadmapTagService _roadmapTagService;
+        private IRoadmapCategoryService _roadmapCategoryService;
         private IConfiguration _configuration;
 
-        public RoadmapController(IRoadmapService roadmapService, IConfiguration configuration, ICopiedRoadmapService copiedRoadmapService)
+        public RoadmapController(IRoadmapService roadmapService, IConfiguration configuration, ICopiedRoadmapService copiedRoadmapService, IRoadmapCategoryService roadmapCategoryService)
         {
             _roadmapService = roadmapService;
             _configuration = configuration;
             _copiedRoadmapService = copiedRoadmapService;
+            _roadmapCategoryService = roadmapCategoryService;
         }
 
         [HttpPost("add")]
@@ -150,6 +153,25 @@ namespace Api.Controllers
                 TagId = roadmapTag.TagId
             };
             var createdRoadmap = _roadmapTagService.Create(roadmapTagToCreate);
+
+            return createdRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
+
+        }
+        
+        [HttpPost("addTagToCategory")]
+        public IActionResult Add([FromBody] RoadmapCategoryModel roadmapCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapCategoryToCreate = new RoadmapCategoryRelation()
+            {
+                RoadmapId = roadmapCategory.RoadmapId,
+                CategoryId = roadmapCategory.CategoryId
+            };
+            var createdRoadmap = _roadmapCategoryService.Create(roadmapCategoryToCreate);
 
             return createdRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
 
