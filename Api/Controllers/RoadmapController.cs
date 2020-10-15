@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Service;
 using Service.Roadmap;
 using Service.Roadmap.CopiedRoadmap;
+using Service.Roadmap.RoadmapTag;
 
 namespace Api.Controllers
 {
@@ -19,6 +20,7 @@ namespace Api.Controllers
     {
         private IRoadmapService _roadmapService;
         private ICopiedRoadmapService _copiedRoadmapService;
+        private IRoadmapTagService _roadmapTagService;
         private IConfiguration _configuration;
 
         public RoadmapController(IRoadmapService roadmapService, IConfiguration configuration, ICopiedRoadmapService copiedRoadmapService)
@@ -132,6 +134,25 @@ namespace Api.Controllers
             }
             
             return BadRequest();
+        }
+        
+        [HttpPost("addTagToRoadmap")]
+        public IActionResult Add([FromBody] RoadmapTagModel roadmapTag)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var roadmapTagToCreate = new RoadmapTagRelation()
+            {
+                RoadmapId = roadmapTag.RoadmapId,
+                TagId = roadmapTag.TagId
+            };
+            var createdRoadmap = _roadmapTagService.Create(roadmapTagToCreate);
+
+            return createdRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
+
         }
     }
 }

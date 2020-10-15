@@ -13,5 +13,6 @@ namespace Api.Models.Roadmap
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int UserId { get; set; }
+        public int TagId { get; set; }
     }
 }
