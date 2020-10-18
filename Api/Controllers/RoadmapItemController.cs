@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Api.Models.ResponseModels;
-using Api.Models.Roadmap;
+using Api.Models.Request.Roadmap;
+using Api.Models.Response;
 using Entity.Domain.Roadmap;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;

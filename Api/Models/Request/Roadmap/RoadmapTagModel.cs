@@ -1,4 +1,4 @@
-﻿namespace Api.Models.Roadmap
+﻿namespace Api.Models.Request.Roadmap
 {
     public class RoadmapTagModel
     {

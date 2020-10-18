@@ -28,7 +28,7 @@ namespace Service.Roadmap.RoadmapTag
 
                 if (roadmapToUpdate != null)
                 {
-                    _repository.Add(roadmapTagEntity);
+                    //_repository.Add(roadmapTagEntity);
                     roadmapToUpdate.Data.RoadmapTags.Add(roadmapTagEntity);
                     
                     var updatedRoadmap = _roadmapService.Update(roadmapToUpdate.Data);

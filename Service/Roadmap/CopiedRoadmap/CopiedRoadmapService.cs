@@ -34,14 +34,16 @@ namespace Service.Roadmap.CopiedRoadmap
                 if (roadmapId <= 0 /*userAuthentication*/)
                 {
                     var roadmapEntity = _roadmapRepository.Get(roadmap => roadmap.Id == roadmapId);
-                    _roadmapRepository.Add(roadmapEntity);
+                    _roadmapRepository.Add(roadmapEntity); //userid,roadmapid control
 
                     var copiedRoadmapToAdd = new CopiedRoadmaps()
                     {
                         SourceRoadmapId = roadmapId,
                         TargetRoadmapId = roadmapEntity.Id
                     };
-                    _copiedRoadmapRepository.Add(copiedRoadmapToAdd);
+                    
+                    
+                    _copiedRoadmapRepository.Add(copiedRoadmapToAdd); //roadmapentity.copiedroadmaps
 
                     result.Data = copiedRoadmapToAdd;
                 }

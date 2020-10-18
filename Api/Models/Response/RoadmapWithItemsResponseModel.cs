@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Entity.Domain.Roadmap;
 
-namespace Api.Models.ResponseModels
+namespace Api.Models.Response
 {
     public class RoadmapWithItemsResponseModel
     {
