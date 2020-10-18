@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Models.ResponseModels;
 using Api.Models.Roadmap;
 using Entity.Domain.Roadmap;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Service.Roadmap;
 using Service.Roadmap.RoadmapItem;
 
 namespace Api.Controllers
@@ -15,6 +17,7 @@ namespace Api.Controllers
     public class RoadmapItemController : Controller
     {
         private IRoadmapItemService _roadmapItemService;
+        private IRoadmapService _roadmapService;
         private IConfiguration _configuration;
 
         public RoadmapItemController(IRoadmapItemService roadmapItemService, IConfiguration configuration)
@@ -46,25 +49,24 @@ namespace Api.Controllers
             return createdRoadmapItem.IsSuccess ? StatusCode(201) : BadRequest();
         }
 
-        [HttpGet("getAllRoadmapItemsInRoadmap")]
+        [HttpGet("getRoadmapWithItems")]
         public IActionResult GetAll([FromQuery] int roadmapId)
         {
             if (!ModelState.IsValid || roadmapId <= 0)
             {
                 return BadRequest(ModelState);
             }
+            
+            var roadmapResponseModel = new RoadmapWithItemsResponseModel();
+            
+            var roadmapResult = _roadmapService.Get(roadmapId);
+            roadmapResponseModel.Roadmap = roadmapResult.IsSuccess ? roadmapResult.Data : null;
 
-            var roadmapItemsInRoadmap = _roadmapItemService.GetAll(roadmapId).Data.ToList();
+            var roadmapItemsResult = _roadmapItemService.GetAll(roadmapId);
+            roadmapResponseModel.RoadmapItems = roadmapItemsResult.IsSuccess ? roadmapItemsResult.Data : null;
 
-            if (roadmapItemsInRoadmap.Count() != 0)
-            {
-                return Ok(roadmapItemsInRoadmap);
-            }
-            else
-            {
-                return NotFound();
-            }
 
+            return Ok(roadmapResponseModel);
         }
 
         [HttpPut("updateRoadmapItem")]
@@ -91,23 +93,16 @@ namespace Api.Controllers
         }
 
         [HttpDelete("deleteRoadmapItem")]
-        public IActionResult Delete([FromQuery] int roadmapId)
+        public IActionResult Delete([FromQuery] int roadmapItemId)
         {
-            if (!ModelState.IsValid || roadmapId <= 0)
+            if (!ModelState.IsValid || roadmapItemId <= 0)
             {
                 return BadRequest(ModelState);
             }
 
-            var roadmapItemResult = _roadmapItemService.Get(roadmapId);
-            var roadmapItemEntity = roadmapItemResult.IsSuccess ? roadmapItemResult.Data : null;
-
-            if (roadmapItemEntity != null)
-            {
-                var deletedRoadmapItem = _roadmapItemService.Delete(roadmapItemEntity);
-                return deletedRoadmapItem.IsSuccess ? StatusCode(204) : NotFound();
-            }
-
-            return BadRequest();
+            var deletedRoadmapItem = _roadmapItemService.Delete(roadmapItemId);
+            
+            return deletedRoadmapItem.IsSuccess ? StatusCode(204) : NotFound();
         }
     }
 }
