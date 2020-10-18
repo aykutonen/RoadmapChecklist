@@ -6,6 +6,6 @@ namespace Service.Roadmap.CopiedRoadmap
 {
     public interface ICopiedRoadmapService
     {
-        ReturnModel<Entity.Domain.Roadmap.CopiedRoadmaps> Create(int roadmapId);
+        ReturnModel<Entity.Domain.Roadmap.CopiedRoadmaps> Create(int roadmapId, int userId);
     }
 }

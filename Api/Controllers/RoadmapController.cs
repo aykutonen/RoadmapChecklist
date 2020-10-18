@@ -68,8 +68,9 @@ namespace Api.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var copiedRoadmap = _copiedRoadmapService.Create(roadmapId);
+            
+            var userIdInSession = Convert.ToInt32(HttpContext.Session.GetString("userId"));
+            var copiedRoadmap = _copiedRoadmapService.Create(roadmapId, userIdInSession);
 
             return copiedRoadmap.IsSuccess ? StatusCode(201) : BadRequest();
         }
