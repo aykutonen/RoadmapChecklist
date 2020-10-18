@@ -21,11 +21,10 @@ namespace Service.Roadmap.RoadmapCategory
 
                 if (roadmapToUpdate != null)
                 {
-                    _repository.Add(roadmapCategoryEntity);
                     roadmapToUpdate.Data.RoadmapCategories.Add(roadmapCategoryEntity);
-                    
-                    var updatedRoadmap = _roadmapService.Update(roadmapToUpdate.Data);
-                    result.Data = updatedRoadmap.Data;
+
+                    _repository.Add(roadmapCategoryEntity);
+                    result.Data = roadmapCategoryEntity.Roadmap;
                 }
             }
             catch (Exception exception)

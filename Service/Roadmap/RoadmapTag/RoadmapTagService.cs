@@ -28,11 +28,10 @@ namespace Service.Roadmap.RoadmapTag
 
                 if (roadmapToUpdate != null)
                 {
-                    //_repository.Add(roadmapTagEntity);
                     roadmapToUpdate.Data.RoadmapTags.Add(roadmapTagEntity);
-                    
-                    var updatedRoadmap = _roadmapService.Update(roadmapToUpdate.Data);
-                    result.Data = updatedRoadmap.Data;
+
+                    _repository.Add(roadmapTagEntity);
+                    result.Data = roadmapTagEntity.Roadmap;
                 }
             }
             catch (Exception exception)
