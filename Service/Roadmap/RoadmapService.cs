@@ -99,14 +99,20 @@ namespace Service.Roadmap
             return result;
         }
 
-        public ReturnModel<int> Delete(Entity.Domain.Roadmap.Roadmap roadmapEntity)
+        public ReturnModel<int> Delete(int roadmapId)
         {
             var result = new ReturnModel<int>();
 
             try
             {
-                repository.Delete(roadmapEntity);
-                result.Data = roadmapEntity.Id;
+                var roadmapResult = Get(roadmapId);
+                var roadmapToDeleted = roadmapResult.IsSuccess ? roadmapResult.Data : null;
+
+                if (roadmapToDeleted != null)
+                {
+                    repository.Delete(roadmapToDeleted);
+                    result.Data = roadmapToDeleted.Id;
+                }
             }
             catch (Exception exception)
             {

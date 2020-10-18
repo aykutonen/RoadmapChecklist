@@ -127,16 +127,9 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var roadmapResult = _roadmapService.Get(roadmapId);
-            var roadmapEntity = roadmapResult.IsSuccess ? roadmapResult.Data : null;
-
-            if (roadmapEntity != null)
-            {
-                var deletedRoadmap = _roadmapService.Delete(roadmapEntity);
-                return deletedRoadmap.IsSuccess ? StatusCode(204) : NotFound();
-            }
+            var deletedRoadmap = _roadmapService.Delete(roadmapId);
             
-            return BadRequest();
+            return deletedRoadmap.IsSuccess ? StatusCode(204) : NotFound();
         }
         
         [HttpPost("addTagToRoadmap")]
@@ -158,7 +151,7 @@ namespace Api.Controllers
 
         }
         
-        [HttpPost("addTagToCategory")]
+        [HttpPost("addCategoryToRoadmap")]
         public IActionResult Add([FromBody] RoadmapCategoryModel roadmapCategory)
         {
             if (!ModelState.IsValid)
