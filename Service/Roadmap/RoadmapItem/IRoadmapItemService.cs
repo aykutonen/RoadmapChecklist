@@ -10,6 +10,6 @@ namespace Service.Roadmap.RoadmapItem
         ReturnModel<Entity.Domain.Roadmap.RoadmapItem> Update(Entity.Domain.Roadmap.RoadmapItem roadmapItemEntity);
         ReturnModel<IEnumerable<Entity.Domain.Roadmap.RoadmapItem>> GetAll(int roadmapId);
         ReturnModel<Entity.Domain.Roadmap.RoadmapItem> Get(int roadmapItemId);
-        ReturnModel<int> Delete(Entity.Domain.Roadmap.RoadmapItem roadmapItemEntity);
+        ReturnModel<int> Delete(int roadmapItemId);
     }
 }
