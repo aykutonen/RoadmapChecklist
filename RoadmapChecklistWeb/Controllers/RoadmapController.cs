@@ -32,7 +32,8 @@ namespace RoadmapChecklistWeb.Controllers
             return View();
         }
 
-        public IActionResult Roadmap()
+        [HttpGet]
+        public IActionResult CreateRoadmap()
         {
             return View();
         }
@@ -51,7 +52,7 @@ namespace RoadmapChecklistWeb.Controllers
             TempData["notice"] = "Roadmap oluşturuldu.";
             return RedirectToAction("Roadmap", "Roadmap");
         }
-        
+
         [HttpGet("RoadmapList")]
         public IEnumerable<Roadmap> GetAll()
         {
@@ -91,35 +92,35 @@ namespace RoadmapChecklistWeb.Controllers
             }
             _copiedRoadmapService.AddCopy(copiedRoadmapViewModel);
             TempData["notice"] = "Roadmap kopyalandı.";
-            return RedirectToAction("Roadmap","Roadmap");
-        }
-
-        [HttpGet("CopyList")]
-        public IEnumerable<CopiedRoadmap> GetCopy()
-        {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return _copiedRoadmapService.GetAllByUser(userId).Data.ToList();
-        }
-
-        [HttpPut("UpdateRoadmap")]
-        public IActionResult UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError("", "Roadmap kopyalanamadı.");
-                return View("Roadmap", copiedRoadmapViewModel);
-            }
-            _copiedRoadmapService.UpdateCopy(copiedRoadmapViewModel);
-            TempData["notice"] = "Roadmap kopyalandı.";
             return RedirectToAction("Roadmap", "Roadmap");
         }
 
-        [HttpDelete("DeleteRoadmap")]
-        public IActionResult CopyDelete(int roadmapId)
-        {
-            _roadmapService.Delete(roadmapId);
-            return Ok();
-        }
+        //[HttpGet("CopyList")]
+        //public IEnumerable<CopiedRoadmap> GetCopy()
+        //{
+        //    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+        //    return _copiedRoadmapService.GetAllByUser(userId).Data.ToList();
+        //}
+
+        //[HttpPut("UpdateRoadmap")]
+        //public IActionResult UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        ModelState.AddModelError("", "Roadmap kopyalanamadı.");
+        //        return View("Roadmap", copiedRoadmapViewModel);
+        //    }
+        //    _copiedRoadmapService.UpdateCopy(copiedRoadmapViewModel);
+        //    TempData["notice"] = "Roadmap kopyalandı.";
+        //    return RedirectToAction("Roadmap", "Roadmap");
+        //}
+
+        //[HttpDelete("DeleteRoadmap")]
+        //public IActionResult CopyDelete(int roadmapId)
+        //{
+        //    _roadmapService.Delete(roadmapId);
+        //    return Ok();
+        //}
 
 
     }

@@ -1,7 +1,63 @@
-﻿
+﻿@model Service.Roadmaps.RoadmapItems.Models.RoadmapItemViewModel
 @{
     ViewData["Title"] = "RoadmapItem";
 }
 
 <h1>RoadmapItem</h1>
+<form class="login100-form validate-form p-b-33 p-t-5" asp-controller="RoadmapItem" asp-action="RoadmapItem" method="post" role="form">
+    <ul>
+        <li>
+            <div>
+                <input asp-for="Title" placeholder="Title" />
+                <span asp-validation-for="Title"></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="Description" placeholder="Description" />
+                <span asp-validation-for="Description"></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="Status" placeholder="Status" />
+                <span asp-validation-for="Status" p></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="TargetEndDate" placeholder="TargetEndDate" />
+                <span asp-validation-for="TargetEndDate"></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="EndDate" placeholder="EndDate" />
+                <span asp-validation-for="EndDate"></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="RoadmapId" placeholder="RoadmapId" />
+                <span asp-validation-for="RoadmapId"></span>
+            </div>
+        </li>
+        <li>
+            <div>
+                <input asp-for="ParentId" placeholder="ParentId" />
+                <span asp-validation-for="ParentId"></span>
+            </div>
+        </li>
+    </ul>
+    <div class="container-login100-form-btn m-t-32">
+        <button type="submit" class="login100-form-btn">
+            Kaydet
+        </button>
+    </div>
+    @*<div class="container-login100-form-btn m-t-32">
+        <a href="@Url.Action("RoadmapList","Roadmap")">
+            Roadmap Liste
+        </a>
+    </div>*@
+</form>
 

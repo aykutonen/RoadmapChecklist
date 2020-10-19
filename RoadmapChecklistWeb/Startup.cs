@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Service.Categories.CategoriesService;
-using Service.Categories.RoadmapsCategory;
+using Service.Categories.RoadmapCategory;
 using Service.Roadmaps.CopiedRoadmaps;
 using Service.Roadmaps.CopiedRoadmaps.Models;
 using Service.Roadmaps.IRoadmapItems;
@@ -23,6 +23,7 @@ using Service.Roadmaps.Roadmaps;
 using Service.RoadmapTags;
 using Service.Tags;
 using Service.Users;
+using static Service.Categories.RoadmapCategory.Models.RoadmapCategoryViewModel;
 using static Service.Roadmaps.RoadmapItems.Models.RoadmapItemViewModel;
 using static Service.Roadmaps.Roadmaps.Models.RoadmapViewModel;
 
@@ -64,7 +65,8 @@ namespace RoadmapChecklistWeb
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>());
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapCategoryValidator>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

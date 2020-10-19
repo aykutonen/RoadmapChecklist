@@ -132,7 +132,7 @@ namespace Service.Roadmaps.IRoadmapItems
                     EndDate = roadmapItemViewModel.EndDate,
                     RoadmapId = roadmapItemViewModel.RoadmapId,
                     Status = 1,
-                    ParentId=roadmapItemViewModel.ParentId
+                    ParentId = roadmapItemViewModel.ParentId
                 };
 
                 Add(roadmapItem);
@@ -184,5 +184,5 @@ namespace Service.Roadmaps.IRoadmapItems
             return result;
         }
     }
-    }
 }
+

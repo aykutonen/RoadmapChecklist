@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Categories.RoadmapsCategory
+namespace Service.Categories.RoadmapCategory
 {
     public interface IRoadmapCategoryService
     {

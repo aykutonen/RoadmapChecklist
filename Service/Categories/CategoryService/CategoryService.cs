@@ -1,6 +1,7 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
 using Entity.Models.Categories;
+using Service.Roadmaps.CopiedRoadmaps.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,13 +10,14 @@ namespace Service.Categories.CategoriesService
 {
     public class CategoryService : ICategoryService
     {
-
+        private readonly ICategoryService _categoryService;
         private readonly IRepository<Category> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository)
+        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository,ICategoryService categoryService)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
+            _categoryService = categoryService;
         }
         public void Save()
         {
@@ -106,5 +108,18 @@ namespace Service.Categories.CategoriesService
             }
             return result;
         }
+
+        //public ReturnModel<Category> Create(CopiedRoadmapViewModel copiedRoadmapViewModel)
+        //{
+        //    var result = new ReturnModel<Category>();
+        //    try
+        //    {
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
     }
 }
