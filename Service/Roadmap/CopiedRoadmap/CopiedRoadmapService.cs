@@ -11,6 +11,7 @@ namespace Service.Roadmap.CopiedRoadmap
     public class CopiedRoadmapService : ICopiedRoadmapService
     {
         private readonly IRepository<Entity.Domain.Roadmap.Roadmap> _roadmapRepository;
+        private readonly IRepository<Entity.Domain.Roadmap.RoadmapItem> _roadmapItemRepository;
         private readonly IRepository<CopiedRoadmaps> _copiedRoadmapRepository;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -44,8 +45,24 @@ namespace Service.Roadmap.CopiedRoadmap
                         EndDate = sourceRoadmap.EndDate,
                         UserId = userId
                     };
-                    
                     _roadmapRepository.Add(targetRoadmap);
+                    
+                    var sourceRoadmapItems = _roadmapItemRepository.GetList(roadmapItem => roadmapItem.RoadmapId == sourceRoadmap.Id);
+                    foreach (var sourceRoadmapItem in sourceRoadmapItems)
+                    {
+                        var tempItem = new Entity.Domain.Roadmap.RoadmapItem
+                        {
+                            Title = sourceRoadmapItem.Title,
+                            Description = sourceRoadmapItem.Description,
+                            Status = sourceRoadmapItem.Status,
+                            TargetDate = sourceRoadmapItem.TargetDate,
+                            EndDate = sourceRoadmapItem.EndDate,
+                            ParentId = sourceRoadmapItem.ParentId,
+                            RoadmapId = targetRoadmap.Id
+                        };
+                        
+                        _roadmapItemRepository.Add(tempItem);
+                    }
 
                     var sourceCopiedRoadmapEntity = new CopiedRoadmaps
                     {
