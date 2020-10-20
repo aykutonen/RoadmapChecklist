@@ -1,6 +1,8 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
+using Entity.Models.Roadmaps;
 using Entity.Models.Tags;
+using Service.Roadmaps.Roadmaps;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,77 +13,30 @@ namespace Service.RoadmapTags
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<RoadmapTag> _repository;
-        public RoadmapTagService(IUnitOfWork unitOfWork,IRepository<RoadmapTag> repository)
+        private readonly IRoadmapService _roadmapService;
+        public RoadmapTagService(IUnitOfWork unitOfWork,IRepository<RoadmapTag> repository,IRoadmapService roadmapService)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
+            _roadmapService = roadmapService;
         }
 
-        public ReturnModel<RoadmapTag> Add(RoadmapTag roadmapTag)
+        public ReturnModel<Roadmap> Create(RoadmapTag roadmapTag)
         {
-            var result = new ReturnModel<RoadmapTag>();
+            var result = new ReturnModel<Roadmap>();
             try
             {
-                _repository.Add(roadmapTag);
-                result.Data=roadmapTag;
+                var roadmapToUpdate = _roadmapService.Get(roadmapTag.Id);
+                if (roadmapToUpdate!=null)
+                {
+                    roadmapToUpdate.Data.RoadmapTags.Add(roadmapTag);
 
+                    _repository.Add(roadmapTag);
+                    result.Data = roadmapTag.Roadmap;
+                }
             }
             catch (Exception ex)
             {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-
-            }
-            return result;
-        }
-
-        public ReturnModel<bool> Delete(int roadmapTagId)
-        {
-            var result = new ReturnModel<bool>();
-            try
-            {
-                _repository.Delete(roadmapTagId);
-                result.Data = true;
-
-            }
-            catch (Exception ex)
-            {
-
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-            }
-            return result;
-        }
-
-        public ReturnModel<RoadmapTag> Get(int roadmapTagId)
-        {
-            var result = new ReturnModel<RoadmapTag>();
-            try
-            {
-              result.Data= _repository.Get(roadmapTag =>roadmapTag.Id == roadmapTagId);
-
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message; 
-            }
-            return result;
-        }
-
-        public ReturnModel<IEnumerable<RoadmapTag>> GetAllByUser(int roadmapTagId)
-        {
-            var result = new ReturnModel<IEnumerable<RoadmapTag>>();
-            try
-            {
-                result.Data = _repository.GetAll(roadmapTag => roadmapTag.Id == roadmapTagId);
-            }
-            catch (Exception ex)
-            {
-
                 result.IsSuccess = false;
                 result.Exception = ex;
                 result.Message = ex.Message;
@@ -94,22 +49,7 @@ namespace Service.RoadmapTags
             _unitOfWork.Commmit();
         }
 
-        public ReturnModel<RoadmapTag> Update(RoadmapTag roadmapTag)
-        {
-            var result = new ReturnModel<RoadmapTag>();
-            try
-            {
-                _repository.Update(roadmapTag);
-                result.Data = roadmapTag;
+        
 
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-            }
-            return result;
-        }
     }
 }

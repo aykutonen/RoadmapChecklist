@@ -4,13 +4,18 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Data.Repository;
+using Entity.Models.Categories;
 using Entity.Models.Roadmaps;
+using Entity.Models.Tags;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Service.RoadmapCategories;
 using Service.Roadmaps.CopiedRoadmaps;
 using Service.Roadmaps.CopiedRoadmaps.Models;
 using Service.Roadmaps.Roadmaps;
 using Service.Roadmaps.Roadmaps.Models;
+using Service.RoadmapTags;
+using Service.RoadmapTags.Models;
 
 namespace RoadmapChecklistWeb.Controllers
 {
@@ -19,12 +24,15 @@ namespace RoadmapChecklistWeb.Controllers
         private readonly IRoadmapService _roadmapService;
         private readonly ICopiedRoadmapService _copiedRoadmapService;
         private readonly IRepository<RoadmapService> _repository;
-
-        public RoadmapController(IRoadmapService roadmapService, ICopiedRoadmapService copiedRoadmapService, IRepository<RoadmapService> repository)
+        private readonly IRoadmapCategoryService _roadmapCategoryService;
+        private readonly IRoadmapTagService _roadmapTagService;
+        public RoadmapController(IRoadmapService roadmapService, ICopiedRoadmapService copiedRoadmapService, IRepository<RoadmapService> repository, IRoadmapCategoryService roadmapCategoryService, IRoadmapTagService roadmapTagService)
         {
             _roadmapService = roadmapService;
             _repository = repository;
             _copiedRoadmapService = copiedRoadmapService;
+            _roadmapTagService = roadmapTagService;
+            _roadmapCategoryService = roadmapCategoryService;
         }
 
         public IActionResult Index()
@@ -95,32 +103,45 @@ namespace RoadmapChecklistWeb.Controllers
             return RedirectToAction("Roadmap", "Roadmap");
         }
 
-        //[HttpGet("CopyList")]
-        //public IEnumerable<CopiedRoadmap> GetCopy()
-        //{
-        //    var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-        //    return _copiedRoadmapService.GetAllByUser(userId).Data.ToList();
-        //}
+        [HttpPost("AddTagToRoadmap")]
+        public IActionResult Add(RoadmapTag roadmapTag) 
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Hata oluştu.");
+                return View("Roadmap", roadmapTag);
+            }
 
-        //[HttpPut("UpdateRoadmap")]
-        //public IActionResult UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        ModelState.AddModelError("", "Roadmap kopyalanamadı.");
-        //        return View("Roadmap", copiedRoadmapViewModel);
-        //    }
-        //    _copiedRoadmapService.UpdateCopy(copiedRoadmapViewModel);
-        //    TempData["notice"] = "Roadmap kopyalandı.";
-        //    return RedirectToAction("Roadmap", "Roadmap");
-        //}
+            var roadmapTagToCreate = new RoadmapTag() //service katmanında oluştur!!!
+            {
+                RoadmapId = roadmapTag.Id,
+                TagId = roadmapTag.TagId
+            };
 
-        //[HttpDelete("DeleteRoadmap")]
-        //public IActionResult CopyDelete(int roadmapId)
-        //{
-        //    _roadmapService.Delete(roadmapId);
-        //    return Ok();
-        //}
+            var createdRoadmap = _roadmapTagService.Create(roadmapTagToCreate);
+
+            return RedirectToAction("Roadmap", "createdRoadmap");
+        }
+
+        [HttpPost("AddCategoryToRoadmap")]
+        public IActionResult Add(RoadmapCategory roadmapCategory)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Hata oluştu.");
+                return View("Roadmap", roadmapCategory);
+            }
+
+            var roadmapCategoryToCreate = new RoadmapCategory() //service katmanında oluştur!!!
+            {
+                RoadmapId = roadmapCategory.Id,
+                CategoryId = roadmapCategory.CategoryId
+            };
+
+            var createdRoadmap = _roadmapCategoryService.Create(roadmapCategory);
+
+            return RedirectToAction("Roadmap", "createdRoadmap");
+        }
 
 
     }

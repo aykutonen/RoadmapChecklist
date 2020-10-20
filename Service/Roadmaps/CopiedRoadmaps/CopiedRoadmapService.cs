@@ -11,13 +11,16 @@ namespace Service.Roadmaps.CopiedRoadmaps
 {
     public class CopiedRoadmapService : ICopiedRoadmapService
     {
-       
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CopiedRoadmap> _repository;
-        public CopiedRoadmapService(IUnitOfWork unitOfWork,IRepository<CopiedRoadmap> repository)
+        private readonly IRepository<Roadmap> _roadmapRepository;
+
+        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService,IRepository<Roadmap> roadmapRepository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
+            _roadmapRepository = roadmapRepository;
         }
 
         public void Save()
@@ -30,8 +33,8 @@ namespace Service.Roadmaps.CopiedRoadmaps
             var result = new ReturnModel<CopiedRoadmap>();
             try
             {
-                    _repository.Add(copiedRoadmap);
-                    result.Data = copiedRoadmap;
+                _repository.Add(copiedRoadmap);
+                result.Data = copiedRoadmap;
             }
             catch (Exception ex)
             {
@@ -66,7 +69,7 @@ namespace Service.Roadmaps.CopiedRoadmaps
             var result = new ReturnModel<CopiedRoadmap>();
             try
             {
-                result.Data = _repository.Get(copiedRoadmap => copiedRoadmap.Id==copiedRoadmapId);
+                result.Data = _repository.Get(copiedRoadmap => copiedRoadmap.Id == copiedRoadmapId);
 
             }
             catch (Exception ex)
@@ -121,11 +124,12 @@ namespace Service.Roadmaps.CopiedRoadmaps
             var result = new ReturnModel<CopiedRoadmap>();
             try
             {
+
                 // Todo : Use AutoMapper
                 var copiedRoadmap = new CopiedRoadmap()
                 {
                     SourceRoadmapId = copiedRoadmapViewModel.SourceRoadmapId,
-                    TargetRoadmapId=copiedRoadmapViewModel.TargetRoadmapId,
+                    TargetRoadmapId = copiedRoadmapViewModel.TargetRoadmapId,
                 };
 
                 Add(copiedRoadmap);
@@ -169,5 +173,52 @@ namespace Service.Roadmaps.CopiedRoadmaps
             return result;
         }
 
+        public ReturnModel<CopiedRoadmap> Create(int userId, int roadmapId)
+        {
+            var result = new ReturnModel<CopiedRoadmap>();
+            try
+            {
+                if (userId > 0 && roadmapId > 0)
+                {
+                    var sourceRoadmap = _roadmapRepository.Get(roadmap => roadmap.Id == roadmapId);
+                    var targetRoadmap = new Roadmap
+                    {
+                        Name = sourceRoadmap.Name,
+                        Visibility = sourceRoadmap.Visibility,
+                        Status = sourceRoadmap.Status,
+                        StartDate = sourceRoadmap.StartDate,
+                        EndDate = sourceRoadmap.EndDate,
+                        UserId = userId
+                    };
+                    _roadmapRepository.Add(targetRoadmap);
+
+                    var sourceCopiedRoadmapEntity = new CopiedRoadmap
+                    {
+                        SourceRoadmapId = sourceRoadmap.Id,
+                        SourceRoadmap = sourceRoadmap,
+                        TargetRoadmap = targetRoadmap
+                    };
+                    targetRoadmap.CopiedSourceRoadmaps.Add(sourceCopiedRoadmapEntity);
+                    var targetCopiedRoadmapEntity = new CopiedRoadmap
+                    {
+                        SourceRoadmapId = sourceRoadmap.Id,
+                        SourceRoadmap = sourceRoadmap,
+                        TargetRoadmap = targetRoadmap
+                    };
+                    sourceRoadmap.CopiedTargetRoadmaps.Add(targetCopiedRoadmapEntity);
+
+                    result.Data = targetCopiedRoadmapEntity;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
     }
 }

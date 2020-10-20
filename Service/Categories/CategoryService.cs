@@ -1,36 +1,54 @@
 ﻿using Data.Repository;
 using Data.UnitOfWork;
 using Entity.Models.Categories;
+using Service.Roadmaps.CopiedRoadmaps.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.Categories.RoadmapsCategory
+namespace Service.Categories.CategoriesService
 {
-    public class RoadmapCategoryService : IRoadmapCategoryService
+    public class CategoryService : ICategoryService
     {
+        private readonly ICategoryService _categoryService;
+        private readonly IRepository<Category> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IRepository<RoadmapCategory> _repository;
-
-        public RoadmapCategoryService(IUnitOfWork unitOfWork,IRepository<RoadmapCategory> repository)
+        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository,ICategoryService categoryService)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
+            _categoryService = categoryService;
         }
-
         public void Save()
         {
             _unitOfWork.Commmit();
         }
 
-        public ReturnModel<RoadmapCategory> Add(RoadmapCategory roadmapCategory)
+        public ReturnModel<Category> Add(Category category)
         {
-            var result = new ReturnModel<RoadmapCategory>();
+            var result = new ReturnModel<Category>();
             try
             {
-                _repository.Add(roadmapCategory);
-                result.Data = roadmapCategory;
+                _repository.Add(category);
+                result.Data = category;
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
 
+            }
+            return result;
+        }
+
+        public ReturnModel<Category> Update(Category category)
+        {
+            var result = new ReturnModel<Category>();
+            try
+            {
+                _repository.Update(category);
+                result.Data = category;
             }
             catch (Exception ex)
             {
@@ -41,14 +59,45 @@ namespace Service.Categories.RoadmapsCategory
             return result;
         }
 
-        public ReturnModel<bool> Delete(int roadmapCategoryId)
+        public ReturnModel<IEnumerable<Category>> GetAllByUser(int categoryId)
+        {
+            var result = new ReturnModel<IEnumerable<Category>>();
+            try
+            {
+                _repository.GetAll(category => category.Id == categoryId);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<Category> Get(int categoryId)
+        {
+            var result = new ReturnModel<Category>();
+            try
+            {
+                _repository.Get(category=>category.Id==categoryId);
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+            return result;
+        }
+
+        public ReturnModel<bool> Delete(int categoryId)
         {
             var result = new ReturnModel<bool>();
             try
             {
-                _repository.Delete(roadmapCategoryId);
+                _repository.Delete(categoryId);
                 result.Data = true;
-
             }
             catch (Exception ex)
             {
@@ -56,60 +105,15 @@ namespace Service.Categories.RoadmapsCategory
                 result.IsSuccess = false;
                 result.Exception = ex;
                 result.Message = ex.Message;
-
             }
             return result;
         }
 
-        public ReturnModel<RoadmapCategory> Get(int roadmapCategoryId)
+        public ReturnModel<Category> Create(CopiedRoadmapViewModel copiedRoadmapViewModel)
         {
-            var result = new ReturnModel<RoadmapCategory>();
-            try
-            {
-                _repository.Get(roadmapCategory=>roadmapCategory.Id==roadmapCategoryId);
-
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-            }
-            return result;
+            throw new NotImplementedException();
         }
 
-        public ReturnModel<IEnumerable<RoadmapCategory>> GetAllByUser(int roadmapCategoryId)
-        {
-            var result = new ReturnModel<IEnumerable<RoadmapCategory>>();
-            try
-            {
-                _repository.GetAll(roadmapCategory => roadmapCategory.Id == roadmapCategoryId);
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-            }
-            return result;
-        }
-
-        public ReturnModel<RoadmapCategory> Update(RoadmapCategory roadmapCategory)
-        {
-            var result = new ReturnModel<RoadmapCategory>();
-            try
-            {
-                _repository.Update(roadmapCategory);
-                result.Data = roadmapCategory;
-
-            }
-            catch (Exception ex)
-            {
-                result.IsSuccess = false;
-                result.Exception = ex;
-                result.Message = ex.Message;
-            }
-            return result;
-        }
+    
     }
 }
