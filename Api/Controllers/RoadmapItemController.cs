@@ -57,13 +57,15 @@ namespace Api.Controllers
                 return BadRequest(ModelState);
             }
             
-            var roadmapResponseModel = new RoadmapWithItemsResponseModel();
+            var roadmapResponseModel = new RoadmapResponseModel();
             
             var roadmapResult = _roadmapService.Get(roadmapId);
             roadmapResponseModel.Roadmap = roadmapResult.IsSuccess ? roadmapResult.Data : null;
 
             var roadmapItemsResult = _roadmapItemService.GetAll(roadmapId);
-            roadmapResponseModel.RoadmapItems = roadmapItemsResult.IsSuccess ? roadmapItemsResult.Data : null;
+            if (roadmapResponseModel.Roadmap != null)
+                roadmapResponseModel.Roadmap.RoadmapItems =
+                    (ICollection<RoadmapItem>) (roadmapItemsResult.IsSuccess ? roadmapItemsResult.Data : null);
 
 
             return Ok(roadmapResponseModel);

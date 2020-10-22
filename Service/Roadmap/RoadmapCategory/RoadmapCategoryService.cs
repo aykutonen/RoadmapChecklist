@@ -19,9 +19,9 @@ namespace Service.Roadmap.RoadmapCategory
             {
                 var roadmapToUpdate = _roadmapService.Get(roadmapCategoryEntity.RoadmapId);
 
-                if (roadmapToUpdate != null)
+                if (roadmapToUpdate.IsSuccess)
                 {
-                    roadmapToUpdate.Data.RoadmapCategories.Add(roadmapCategoryEntity);
+                    roadmapToUpdate.Data.RoadmapCategories.Add(roadmapCategoryEntity); //roadmap repo update
 
                     _repository.Add(roadmapCategoryEntity);
                     result.Data = roadmapCategoryEntity.Roadmap;

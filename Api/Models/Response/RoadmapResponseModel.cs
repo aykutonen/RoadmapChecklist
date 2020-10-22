@@ -3,9 +3,8 @@ using Entity.Domain.Roadmap;
 
 namespace Api.Models.Response
 {
-    public class RoadmapWithItemsResponseModel
+    public class RoadmapResponseModel
     {
         public Entity.Domain.Roadmap.Roadmap Roadmap { get; set; }
-        public IEnumerable<RoadmapItem> RoadmapItems { get; set; }
     }
 }

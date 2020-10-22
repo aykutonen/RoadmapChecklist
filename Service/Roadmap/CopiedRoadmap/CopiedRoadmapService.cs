@@ -27,9 +27,9 @@ namespace Service.Roadmap.CopiedRoadmap
             _unitOfWork.Commit();
         }
 
-        public ReturnModel<CopiedRoadmaps> Create(int roadmapId, int userId)
+        public ReturnModel<Entity.Domain.Roadmap.Roadmap> Create(int roadmapId, int userId)
         {
-            var result = new ReturnModel<CopiedRoadmaps>();
+            var result = new ReturnModel<Entity.Domain.Roadmap.Roadmap>();
 
             try
             {
@@ -45,7 +45,6 @@ namespace Service.Roadmap.CopiedRoadmap
                         EndDate = sourceRoadmap.EndDate,
                         UserId = userId
                     };
-                    _roadmapRepository.Add(targetRoadmap);
                     
                     var sourceRoadmapItems = _roadmapItemRepository.GetList(roadmapItem => roadmapItem.RoadmapId == sourceRoadmap.Id);
                     foreach (var sourceRoadmapItem in sourceRoadmapItems)
@@ -57,30 +56,21 @@ namespace Service.Roadmap.CopiedRoadmap
                             Status = sourceRoadmapItem.Status,
                             TargetDate = sourceRoadmapItem.TargetDate,
                             EndDate = sourceRoadmapItem.EndDate,
-                            ParentId = sourceRoadmapItem.ParentId,
-                            RoadmapId = targetRoadmap.Id
+                            ParentId = sourceRoadmapItem.ParentId
                         };
                         
-                        _roadmapItemRepository.Add(tempItem);
+                        targetRoadmap.RoadmapItems.Add(tempItem);
                     }
 
                     var sourceCopiedRoadmapEntity = new CopiedRoadmaps
                     {
                         SourceRoadmapId = sourceRoadmap.Id,
-                        SourceRoadmap = sourceRoadmap,
                         TargetRoadmap = targetRoadmap
                     };
                     targetRoadmap.CopiedSourceRoadmaps.Add(sourceCopiedRoadmapEntity);
-                    
-                    var targetCopiedRoadmapEntity = new CopiedRoadmaps
-                    {
-                        SourceRoadmapId = sourceRoadmap.Id,
-                        SourceRoadmap = sourceRoadmap,
-                        TargetRoadmap = targetRoadmap
-                    };
-                    sourceRoadmap.CopiedTargetRoadmaps.Add(targetCopiedRoadmapEntity);
 
-                    result.Data = targetCopiedRoadmapEntity;
+                    _roadmapRepository.Add(targetRoadmap);
+                    result.Data = targetRoadmap;
                 }
             }
             catch (Exception exception)
