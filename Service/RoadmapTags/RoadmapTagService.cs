@@ -3,6 +3,7 @@ using Data.UnitOfWork;
 using Entity.Models.Roadmaps;
 using Entity.Models.Tags;
 using Service.Roadmaps.Roadmaps;
+using Service.RoadmapTags.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,19 +21,28 @@ namespace Service.RoadmapTags
             _repository = repository;
             _roadmapService = roadmapService;
         }
+        public void Save()
+        {
+            _unitOfWork.Commmit();
+        }
 
-        public ReturnModel<Roadmap> Create(RoadmapTag roadmapTag)
+        public ReturnModel<Roadmap> Create(RoadmapTagViewModel roadmapTagViewModel)
         {
             var result = new ReturnModel<Roadmap>();
             try
             {
-                var roadmapToUpdate = _roadmapService.Get(roadmapTag.Id);
+                var roadmapToUpdate = _roadmapService.Get(roadmapTagViewModel.RoadmapId);
                 if (roadmapToUpdate!=null)
                 {
-                    roadmapToUpdate.Data.RoadmapTags.Add(roadmapTag);
-
-                    _repository.Add(roadmapTag);
-                    result.Data = roadmapTag.Roadmap;
+                    var tag = new RoadmapTag()
+                    {
+                        RoadmapId =roadmapTagViewModel.RoadmapId,
+                        TagId=roadmapTagViewModel.TagId
+                    };
+                    _repository.Add(tag);
+                    roadmapToUpdate.Data.RoadmapTags.Add(tag);
+                    result.Data = roadmapToUpdate.Data;
+                    Save();
                 }
             }
             catch (Exception ex)
@@ -44,10 +54,7 @@ namespace Service.RoadmapTags
             return result;
         }
 
-        public void Save()
-        {
-            _unitOfWork.Commmit();
-        }
+   
 
         
 

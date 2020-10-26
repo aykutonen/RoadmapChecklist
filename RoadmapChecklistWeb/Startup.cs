@@ -14,8 +14,6 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Service.Categories.CategoriesService;
-using Service.Categories.RoadmapCategory;
 using Service.RoadmapCategories;
 using Service.Roadmaps.CopiedRoadmaps;
 using Service.Roadmaps.CopiedRoadmaps.Models;
@@ -25,11 +23,13 @@ using Service.RoadmapTags;
 using Service.Tags;
 using Service.Users;
 using static Service.Categories.Models.CategoryViewModel;
-using static Service.Categories.RoadmapCategory.Models.RoadmapCategoryViewModel;
 using static Service.Roadmaps.RoadmapItems.Models.RoadmapItemViewModel;
+using static Service.RoadmapCategories.Models.RoadmapCategoryViewModel;
 using static Service.Roadmaps.Roadmaps.Models.RoadmapViewModel;
 using static Service.RoadmapTags.Models.RoadmapTagViewModel;
 using static Service.Tags.Models.TagViewModel;
+using Service.Categories.CategoriesService;
+using Service.RoadmapCategories.Models;
 
 namespace RoadmapChecklistWeb
 {
@@ -67,13 +67,13 @@ namespace RoadmapChecklistWeb
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>())
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapCategoryValidator>())
-               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapTagValidator>())
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>())
-             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TagValidator>());
+            //services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
+            //    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>())
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapCategoryValidator>())
+            //   .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapTagValidator>())
+            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>())
+            // .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TagValidator>());
 
         }
 

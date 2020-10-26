@@ -8,13 +8,13 @@ namespace Service.Roadmaps.CopiedRoadmaps
 {
     public interface ICopiedRoadmapService
     {
-        ReturnModel<CopiedRoadmap> Add(CopiedRoadmap copiedRoadmap);
-        ReturnModel<CopiedRoadmap> Update(CopiedRoadmap copiedRoadmap);
-        ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId);
-        ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId);
-        ReturnModel<bool> Delete(int copiedRoadmapId);
-        ReturnModel<CopiedRoadmap> AddCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
-        ReturnModel<CopiedRoadmap> UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
-        ReturnModel<CopiedRoadmap> Create(int userId, int roadmapId);
+        //ReturnModel<CopiedRoadmap> Add(CopiedRoadmap copiedRoadmap);
+        //ReturnModel<CopiedRoadmap> Update(CopiedRoadmap copiedRoadmap);
+        //ReturnModel<IEnumerable<CopiedRoadmap>> GetAllByUser(int copiedRoadmapId);
+        //ReturnModel<CopiedRoadmap> Get(int copiedRoadmapId);
+        //ReturnModel<bool> Delete(int copiedRoadmapId);
+        //ReturnModel<CopiedRoadmap> AddCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
+        //ReturnModel<CopiedRoadmap> UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel);
+        ReturnModel<Roadmap> Create(int userId, int roadmapId);
     }
 }

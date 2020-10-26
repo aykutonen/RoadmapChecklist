@@ -15,12 +15,13 @@ namespace Service.Roadmaps.CopiedRoadmaps
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<CopiedRoadmap> _repository;
         private readonly IRepository<Roadmap> _roadmapRepository;
-
-        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService,IRepository<Roadmap> roadmapRepository)
+        private readonly IRepository<RoadmapItem> _roadmapItemRepository;
+        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService,IRepository<Roadmap> roadmapRepository,IRepository<RoadmapItem> roadmapItemRepository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
             _roadmapRepository = roadmapRepository;
+            _roadmapItemRepository = roadmapItemRepository;
         }
 
         public void Save()
@@ -146,6 +147,7 @@ namespace Service.Roadmaps.CopiedRoadmaps
 
             return result;
         }
+
         public ReturnModel<CopiedRoadmap> UpdateCopy(CopiedRoadmapViewModel copiedRoadmapViewModel)
         {
             var result = new ReturnModel<CopiedRoadmap>();
@@ -173,9 +175,9 @@ namespace Service.Roadmaps.CopiedRoadmaps
             return result;
         }
 
-        public ReturnModel<CopiedRoadmap> Create(int userId, int roadmapId)
+        public ReturnModel<Roadmap> Create(int userId, int roadmapId)
         {
-            var result = new ReturnModel<CopiedRoadmap>();
+            var result = new ReturnModel<Roadmap>();
             try
             {
                 if (userId > 0 && roadmapId > 0)
@@ -190,30 +192,32 @@ namespace Service.Roadmaps.CopiedRoadmaps
                         EndDate = sourceRoadmap.EndDate,
                         UserId = userId
                     };
-                    _roadmapRepository.Add(targetRoadmap);
-
+                    var sourceRoadmapItems = _roadmapItemRepository.GetAll(roadmapItem => roadmapItem.RoadmapId == sourceRoadmap.Id); //GetAll kontrol?
+                    foreach (var sourceRoadmapItem in sourceRoadmapItems)
+                    {
+                        var item = new RoadmapItem()
+                        {
+                            Title = sourceRoadmapItem.Title,
+                            Description = sourceRoadmapItem.Description,
+                            Status = sourceRoadmapItem.Status,
+                            TargetEndDate = sourceRoadmapItem.TargetEndDate,
+                            EndDate = sourceRoadmapItem.EndDate,
+                            ParentId = sourceRoadmapItem.ParentId
+                        };
+                        targetRoadmap.RoadmapItems.Add(item);
+                    }
                     var sourceCopiedRoadmapEntity = new CopiedRoadmap
                     {
                         SourceRoadmapId = sourceRoadmap.Id,
-                        SourceRoadmap = sourceRoadmap,
                         TargetRoadmap = targetRoadmap
                     };
                     targetRoadmap.CopiedSourceRoadmaps.Add(sourceCopiedRoadmapEntity);
-                    var targetCopiedRoadmapEntity = new CopiedRoadmap
-                    {
-                        SourceRoadmapId = sourceRoadmap.Id,
-                        SourceRoadmap = sourceRoadmap,
-                        TargetRoadmap = targetRoadmap
-                    };
-                    sourceRoadmap.CopiedTargetRoadmaps.Add(targetCopiedRoadmapEntity);
-
-                    result.Data = targetCopiedRoadmapEntity;
+                    _roadmapRepository.Add(targetRoadmap);
+                    result.Data = targetRoadmap;
                 }
-
             }
             catch (Exception ex)
             {
-
                 result.IsSuccess = false;
                 result.Exception = ex;
                 result.Message = ex.Message;

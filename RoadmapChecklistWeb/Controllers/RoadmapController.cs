@@ -10,6 +10,7 @@ using Entity.Models.Tags;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Service.RoadmapCategories;
+using Service.RoadmapCategories.Models;
 using Service.Roadmaps.CopiedRoadmaps;
 using Service.Roadmaps.CopiedRoadmaps.Models;
 using Service.Roadmaps.Roadmaps;
@@ -104,46 +105,29 @@ namespace RoadmapChecklistWeb.Controllers
         }
 
         [HttpPost("AddTagToRoadmap")]
-        public IActionResult Add(RoadmapTag roadmapTag) 
+        public IActionResult Add(RoadmapTagViewModel roadmapTagViewModel)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Hata oluştu.");
-                return View("Roadmap", roadmapTag);
+                return View("Roadmap", roadmapTagViewModel);
             }
 
-            var roadmapTagToCreate = new RoadmapTag() //service katmanında oluştur!!!
-            {
-                RoadmapId = roadmapTag.Id,
-                TagId = roadmapTag.TagId
-            };
-
-            var createdRoadmap = _roadmapTagService.Create(roadmapTagToCreate);
-
+            var createdRoadmap = _roadmapTagService.Create(roadmapTagViewModel);
             return RedirectToAction("Roadmap", "createdRoadmap");
         }
 
         [HttpPost("AddCategoryToRoadmap")]
-        public IActionResult Add(RoadmapCategory roadmapCategory)
+        public IActionResult Add(RoadmapCategoryViewModel roadmapCategoryViewModel)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Hata oluştu.");
-                return View("Roadmap", roadmapCategory);
+                return View("Roadmap", roadmapCategoryViewModel);
             }
 
-            var roadmapCategoryToCreate = new RoadmapCategory() //service katmanında oluştur!!!
-            {
-                RoadmapId = roadmapCategory.Id,
-                CategoryId = roadmapCategory.CategoryId
-            };
-
-            var createdRoadmap = _roadmapCategoryService.Create(roadmapCategory);
-
+            var createdRoadmap = _roadmapCategoryService.Create(roadmapCategoryViewModel);
             return RedirectToAction("Roadmap", "createdRoadmap");
         }
-
-
     }
-
 }

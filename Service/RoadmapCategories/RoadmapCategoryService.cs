@@ -3,6 +3,7 @@ using Data.UnitOfWork;
 using Entity.Models.Categories;
 using Entity.Models.Roadmaps;
 using Service.RoadmapCategories;
+using Service.RoadmapCategories.Models;
 using Service.Roadmaps;
 using Service.Roadmaps.Roadmaps;
 using System;
@@ -29,17 +30,24 @@ namespace Service.RoadmapCategories
             _unitOfWork.Commmit();
         }
 
-        public ReturnModel<Roadmap> Create(RoadmapCategory roadmapCategory)
+        public ReturnModel<Roadmap> Create(RoadmapCategoryViewModel roadmapCategoryViewModel)
         {
             var result = new ReturnModel<Roadmap>();
             try
             {
-                var roadmapToUpdate = _roadmapService.Get(roadmapCategory.RoadmapId);
+                var roadmapToUpdate = _roadmapService.Get(roadmapCategoryViewModel.RoadmapId);
                 if (roadmapToUpdate != null)
                 {
-                    roadmapToUpdate.Data.RoadmapCategories.Add(roadmapCategory);
-                    _repository.Add(roadmapCategory);
-                    result.Data = roadmapCategory.Roadmap;
+                    var category = new RoadmapCategory()
+                    {
+                        RoadmapId = roadmapCategoryViewModel.RoadmapId,
+                        CategoryId = roadmapCategoryViewModel.CategoryId
+                    };
+                    
+                    _repository.Add(category);
+                    roadmapToUpdate.Data.RoadmapCategories.Add(category);
+                    result.Data = roadmapToUpdate.Data;
+                    Save();
                 }
             }
             catch (Exception ex)
@@ -48,9 +56,10 @@ namespace Service.RoadmapCategories
                 result.Exception = ex;
                 result.Message = ex.Message;
             }
-
             return result;
 
         }
+
+        
     }
 }

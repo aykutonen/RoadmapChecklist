@@ -1,5 +1,6 @@
 ﻿using Entity.Models.Categories;
 using Entity.Models.Roadmaps;
+using Service.RoadmapCategories.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,6 +13,6 @@ namespace Service.RoadmapCategories
         //ReturnModel<IEnumerable<RoadmapCategory>> GetAllByUser(int roadmapCategoryId);
         //ReturnModel<RoadmapCategory> Get(int roadmapCategoryId);
         //ReturnModel<bool> Delete(int roadmapCategoryId);
-        ReturnModel<Roadmap> Create(RoadmapCategory roadmapCategory);
+        ReturnModel<Roadmap> Create(RoadmapCategoryViewModel roadmapCategoryViewModel);
     }
 }

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Service.RoadmapCategories
+namespace Service.RoadmapCategories.Models
 {
     public class RoadmapCategoryViewModel
     {

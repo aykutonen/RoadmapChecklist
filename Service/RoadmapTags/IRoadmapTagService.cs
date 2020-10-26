@@ -1,5 +1,6 @@
 ﻿using Entity.Models.Roadmaps;
 using Entity.Models.Tags;
+using Service.RoadmapTags.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Service.RoadmapTags
         //ReturnModel<IEnumerable<RoadmapTag>> GetAllByUser(int roadmapTagId);
         //ReturnModel<RoadmapTag> Get(int roadmapTagId);
         //ReturnModel<bool> Delete(int roadmapTagId);
-        ReturnModel<Roadmap> Create(RoadmapTag roadmapTag);
+        ReturnModel<Roadmap> Create(RoadmapTagViewModel roadmapTagViewModel);
 
     }
 }
