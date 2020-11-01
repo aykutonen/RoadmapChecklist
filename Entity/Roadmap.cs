@@ -16,8 +16,11 @@ namespace Entity
 
 
         // Relations
-        // TODO: Roadmap ilişkilerini tanımla.
+        public virtual User User { get; set; }
+        public virtual ICollection<RoadmapItem> Items { get; set; }
         public virtual ICollection<CategoryRoadmapRelation> RoadmapCategories { get; set; }
         public virtual ICollection<TagRoadmapRelation> RoadmapTags { get; set; }
+        public virtual RoadmapCopy SourceRoadmap { get; set; }
+        public virtual ICollection<RoadmapCopy> TargetRoadmaps { get; set; }
     }
 }
