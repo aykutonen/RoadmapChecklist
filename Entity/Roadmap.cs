@@ -18,9 +18,9 @@ namespace Entity
         // Relations
         public virtual User User { get; set; }
         public virtual ICollection<RoadmapItem> Items { get; set; }
-        public virtual ICollection<CategoryRoadmapRelation> RoadmapCategories { get; set; }
-        public virtual ICollection<TagRoadmapRelation> RoadmapTags { get; set; }
-        public virtual RoadmapCopy SourceRoadmap { get; set; }
-        public virtual ICollection<RoadmapCopy> TargetRoadmaps { get; set; }
+        public virtual ICollection<CategoryRoadmapRelation> Categories { get; set; }
+        public virtual ICollection<TagRoadmapRelation> Tags { get; set; }
+        public virtual RoadmapCopy Source { get; set; }
+        public virtual ICollection<RoadmapCopy> Targets { get; set; }
     }
 }
