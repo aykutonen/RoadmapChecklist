@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity
 {
-    public class RoadmapTagRelation : BaseEntity
+    public class TagRoadmapRelation : BaseEntity
     {
         public int TagId { get; set; }
         public int RoadmapId { get; set; }

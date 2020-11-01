@@ -10,6 +10,6 @@ namespace Entity
         public string FriendlyUrl { get; set; }
 
         // Relations
-        public virtual ICollection<RoadmapCategoryRelation> RoadmapCategories { get; set; }
+        public virtual ICollection<CategoryRoadmapRelation> RoadmapCategories { get; set; }
     }
 }

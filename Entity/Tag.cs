@@ -10,6 +10,6 @@ namespace Entity
         public string FirendlyUrl { get; set; }
 
         // Relations
-        public virtual ICollection<RoadmapTagRelation> RoadmapTags { get; set; }
+        public virtual ICollection<TagRoadmapRelation> RoadmapTags { get; set; }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity
 {
-    public class RoadmapCategoryRelation : BaseEntity
+    public class CategoryRoadmapRelation : BaseEntity
     {
         public int CategoryId { get; set; }
         public int RoadmapId { get; set; }
