@@ -9,6 +9,6 @@ namespace Entity.Models.Tags
         public string Value { get; set; }
         public string FriendlyUrl { get; set; }
 
-        public ICollection<RoadmapTag> RoadmapTag { get; set; }
+        public virtual ICollection<RoadmapTag> RoadmapTag { get; set; }
     }
 }

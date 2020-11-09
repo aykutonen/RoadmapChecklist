@@ -92,14 +92,14 @@ namespace RoadmapChecklistWeb.Controllers
         //CopiedRoadmap
 
         [HttpPost("CopyRoadmap")]
-        public IActionResult Copy(CopiedRoadmapViewModel copiedRoadmapViewModel)
+        public IActionResult Copy(int userId, int roadmapId)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Roadmap kopyalanamadı.");
-                return View("Roadmap", copiedRoadmapViewModel);
+                return View("Roadmap"," userId, roadmapId");
             }
-            _copiedRoadmapService.AddCopy(copiedRoadmapViewModel);
+            _copiedRoadmapService.Create(userId, roadmapId);
             TempData["notice"] = "Roadmap kopyalandı.";
             return RedirectToAction("Roadmap", "Roadmap");
         }

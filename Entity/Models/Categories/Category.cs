@@ -6,9 +6,9 @@ namespace Entity.Models.Categories
 {
     public class Category : ModelBase
     {
-        public string Value { get; set; }
+        public string Name { get; set; }
         public string FriendlyUrl { get; set; }
 
-        public ICollection<RoadmapCategory> RoadmapCategory { get; set; }
+        public virtual ICollection<RoadmapCategory> RoadmapCategory { get; set; }
     }
 }

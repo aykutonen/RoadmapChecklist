@@ -10,8 +10,8 @@ namespace Entity.Models.Tags
         public int TagId { get; set; }
         public int RoadmapId { get; set; }
 
-        public Tag Tag { get; set; }
-        public Roadmap Roadmap { get; set; }
+        public virtual Tag Tag { get; set; }
+        public virtual Roadmap Roadmap { get; set; }
 
     }
 }

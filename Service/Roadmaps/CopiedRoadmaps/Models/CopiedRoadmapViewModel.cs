@@ -15,8 +15,8 @@ namespace Service.Roadmaps.CopiedRoadmaps.Models
     {
         public CopiedRoadmapValidator()
         {
-            RuleFor(x => x.SourceRoadmapId).NotNull();
-            RuleFor(x => x.TargetRoadmapId).NotNull();
+            RuleFor(x => x.SourceId).NotNull();
+            RuleFor(x => x.TargetId).NotNull();
         }
     }
 }

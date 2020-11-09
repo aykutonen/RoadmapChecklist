@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Data.Builders;
 using Entity;
 using Entity.Models.Roadmaps;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builder
 {
-    public class RoadmapItemBuilder
+    public class RoadmapItemBuilder: BaseEntityBuilder<RoadmapItem>
     {
-        public RoadmapItemBuilder(EntityTypeBuilder<RoadmapItem> builder)
+        public override void Configure(EntityTypeBuilder<RoadmapItem> builder)
         {
             //fields
             builder.HasKey(roadmapItem => roadmapItem.Id);

@@ -21,7 +21,6 @@ namespace RoadmapChecklistWeb
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    
                 });
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Data.Builders;
 using Entity;
 using Entity.Models.Users;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +9,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builder
 {
-    public class UserBuilder
+    public class UserBuilder: BaseEntityBuilder<User>
     {
-        public UserBuilder(EntityTypeBuilder<User> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
 
 
@@ -24,7 +25,7 @@ namespace Data.Builder
 
             //İlişkiler
             //Bir User'ın 1 birden fazla roadmap'i olabilir.
-            builder.HasMany(user => user.Roadmap)
+            builder.HasMany(user => user.Roadmaps)
                 .WithOne(roadmap => roadmap.Users)
                 .HasForeignKey(roadmap => roadmap.UserId)
                 .OnDelete(DeleteBehavior.Cascade) //ToDo: Ask should the roadmap delete the user when deleted ?

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Data.Builders;
 using Entity;
 using Entity.Models.Roadmaps;
 using Microsoft.EntityFrameworkCore;
@@ -8,27 +9,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builder
 {
-    public class CopiedRoadmapBuilder
+    public class CopiedRoadmapBuilder:BaseEntityBuilder<CopiedRoadmap>
     {
-        public CopiedRoadmapBuilder(EntityTypeBuilder<CopiedRoadmap> builder)
+        public override void Configure(EntityTypeBuilder<CopiedRoadmap> builder)
         {
-            // fields
-            builder.HasKey(copiedRoadmaps => copiedRoadmaps.Id);
-            builder.Property(copiedRoadmaps => copiedRoadmaps.Id).ValueGeneratedOnAdd();
-            builder.Property(copiedRoadmaps => copiedRoadmaps.SourceRoadmapId).IsRequired();
-            builder.Property(copiedRoadmaps => copiedRoadmaps.TargetRoadmapId).IsRequired();
+            base.Configure(builder);
 
-            builder.HasOne(copiedRoadmaps => copiedRoadmaps.SourceRoadmap)
-                .WithMany(roadmap => roadmap.CopiedSourceRoadmaps)
-                .HasForeignKey(copiedRoadmaps => copiedRoadmaps.SourceRoadmapId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-
-            builder.HasOne(copiedRoadmaps => copiedRoadmaps.TargetRoadmap)
-                .WithMany(roadmap => roadmap.CopiedTargetRoadmaps)
-                .HasForeignKey(copiedRoadmaps => copiedRoadmaps.TargetRoadmapId)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
+            builder.Property(copiedRoadmaps => copiedRoadmaps.SourceId).IsRequired();
+            builder.Property(copiedRoadmaps => copiedRoadmaps.TargetId).IsRequired();
 
         }
     }

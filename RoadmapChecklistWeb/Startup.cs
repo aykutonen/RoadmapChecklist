@@ -67,13 +67,13 @@ namespace RoadmapChecklistWeb
             services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            //services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
-            //    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
-            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>())
-            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapCategoryValidator>())
-            //   .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapTagValidator>())
-            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>())
-            // .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TagValidator>());
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapValidator>())
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CopiedRoadmapValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapItemValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapCategoryValidator>())
+               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RoadmapTagValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CategoryValidator>())
+             .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<TagValidator>());
 
         }
 

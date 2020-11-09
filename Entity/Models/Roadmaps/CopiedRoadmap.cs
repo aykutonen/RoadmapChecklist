@@ -6,10 +6,10 @@ namespace Entity.Models.Roadmaps
 {
     public class CopiedRoadmap : ModelBase
     {
-        public int SourceRoadmapId { get; set; }
-        public int TargetRoadmapId { get; set; }
+        public int SourceId { get; set; }
+        public int TargetId { get; set; }
 
-        public Roadmap SourceRoadmap { get; set; }
-        public Roadmap TargetRoadmap { get; set; }
+        public virtual Roadmap SourceRoadmap { get; set; }
+        public virtual Roadmap TargetRoadmap { get; set; }
     }
 }

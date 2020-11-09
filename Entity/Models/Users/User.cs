@@ -13,6 +13,6 @@ namespace Entity.Models.Users
         public string Picture { get; set; }
         public int Status { get; set; }
 
-        public ICollection<Roadmap> Roadmap { get; set; }
+        public virtual ICollection<Roadmap> Roadmaps { get; set; }
     }
 }

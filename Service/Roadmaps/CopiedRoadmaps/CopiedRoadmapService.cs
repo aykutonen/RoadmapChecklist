@@ -16,7 +16,7 @@ namespace Service.Roadmaps.CopiedRoadmaps
         private readonly IRepository<CopiedRoadmap> _repository;
         private readonly IRepository<Roadmap> _roadmapRepository;
         private readonly IRepository<RoadmapItem> _roadmapItemRepository;
-        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService,IRepository<Roadmap> roadmapRepository,IRepository<RoadmapItem> roadmapItemRepository)
+        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService, IRepository<Roadmap> roadmapRepository, IRepository<RoadmapItem> roadmapItemRepository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
@@ -129,8 +129,8 @@ namespace Service.Roadmaps.CopiedRoadmaps
                 // Todo : Use AutoMapper
                 var copiedRoadmap = new CopiedRoadmap()
                 {
-                    SourceRoadmapId = copiedRoadmapViewModel.SourceRoadmapId,
-                    TargetRoadmapId = copiedRoadmapViewModel.TargetRoadmapId,
+                    SourceId = copiedRoadmapViewModel.SourceRoadmapId,
+                    TargetId = copiedRoadmapViewModel.TargetRoadmapId,
                 };
 
                 Add(copiedRoadmap);
@@ -156,8 +156,8 @@ namespace Service.Roadmaps.CopiedRoadmaps
                 // Todo : Use AutoMapper
                 var copiedRoadmap = new CopiedRoadmap()
                 {
-                    SourceRoadmapId = copiedRoadmapViewModel.SourceRoadmapId,
-                    TargetRoadmapId = copiedRoadmapViewModel.TargetRoadmapId,
+                    SourceId = copiedRoadmapViewModel.SourceRoadmapId,
+                    TargetId = copiedRoadmapViewModel.TargetRoadmapId,
                 };
 
                 Add(copiedRoadmap);
@@ -208,10 +208,10 @@ namespace Service.Roadmaps.CopiedRoadmaps
                     }
                     var sourceCopiedRoadmapEntity = new CopiedRoadmap
                     {
-                        SourceRoadmapId = sourceRoadmap.Id,
+                        SourceId = sourceRoadmap.Id,
                         TargetRoadmap = targetRoadmap
                     };
-                    targetRoadmap.CopiedSourceRoadmaps.Add(sourceCopiedRoadmapEntity);
+                    targetRoadmap.Targets.Add(sourceCopiedRoadmapEntity);
                     _roadmapRepository.Add(targetRoadmap);
                     result.Data = targetRoadmap;
                 }

@@ -24,15 +24,15 @@ namespace Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new CategoryBuilder());
+            modelBuilder.ApplyConfiguration(new RoadmapCategoryBuilder());
+            modelBuilder.ApplyConfiguration(new RoadmapBuilder());
+            modelBuilder.ApplyConfiguration(new CopiedRoadmapBuilder());
+            modelBuilder.ApplyConfiguration(new RoadmapItemBuilder());
+            modelBuilder.ApplyConfiguration(new RoadmapTagBuilder());
+            modelBuilder.ApplyConfiguration(new TagBuilder());
+            modelBuilder.ApplyConfiguration(new UserBuilder());
 
-            new UserBuilder(modelBuilder.Entity<User>());
-            new RoadmapBuilder(modelBuilder.Entity<Roadmap>());
-            new CopiedRoadmapBuilder(modelBuilder.Entity<CopiedRoadmap>());
-            new RoadmapItemBuilder(modelBuilder.Entity<RoadmapItem>());
-            new CategoryBuilder(modelBuilder.Entity<Category>());
-            new RoadmapCategoryBuilder(modelBuilder.Entity<RoadmapCategory>());
-            new TagBuilder(modelBuilder.Entity<Tag>());
-            new RoadmapTagBuilder(modelBuilder.Entity<RoadmapTag>());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

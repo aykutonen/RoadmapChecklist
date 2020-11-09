@@ -1,61 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Data.Builders;
 using Entity;
+using Entity.Models.Roadmaps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builder
 {
-    public class RoadmapBuilder
+    public class RoadmapBuilder:BaseEntityBuilder<Roadmap>
     {
-        public RoadmapBuilder(EntityTypeBuilder<Entity.Models.Roadmaps.Roadmap> builder)
+        public override void Configure(EntityTypeBuilder<Roadmap> builder)
         {
 
-
-            builder.HasKey(roadmap => roadmap.Id);
+            base.Configure(builder);
+           
             builder.Property(roadmap => roadmap.Id).ValueGeneratedOnAdd();
             builder.Property(roadmap => roadmap.Name).IsRequired().HasMaxLength(500);
             builder.Property(roadmap => roadmap.Visibility).IsRequired().HasDefaultValue(1);
-            builder.Property(roadmap => roadmap.Status).IsRequired();
-            builder.Property(roadmap => roadmap.StartDate).IsRequired();
-            builder.Property(roadmap => roadmap.EndDate).IsRequired();
-            builder.Property(roadmap => roadmap.UserId).IsRequired();
 
-
-
-            builder.HasMany(roadmap => roadmap.CopiedSourceRoadmaps)
+            builder.HasOne(roadmap => roadmap.Source)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.SourceRoadmap)
-                .HasForeignKey(CopiedRoadmap => CopiedRoadmap.SourceRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .HasForeignKey<CopiedRoadmap>(roadmap => roadmap.SourceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-
-            builder.HasMany(roadmap => roadmap.CopiedTargetRoadmaps)
+            builder.HasMany(roadmap => roadmap.Targets)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
-                .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetRoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasMany(roadmap => roadmap.RoadmapItems)
                 .WithOne(roadmapItems => roadmapItems.Roadmap)
                 .HasForeignKey(roadmapItems => roadmapItems.RoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(roadmap => roadmap.RoadmapCategories)
                 .WithOne(roadmapCategories => roadmapCategories.Roadmap)
                 .HasForeignKey(roadmapCategories => roadmapCategories.RoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             builder.HasMany(roadmap => roadmap.RoadmapTags)
-                .WithOne(roadmapTags => roadmapTags.Roadmap)
-                .HasForeignKey(roadmapTags => roadmapTags.RoadmapId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired();
-
-
+                .WithOne(Tag => Tag.Roadmap)
+                .HasForeignKey(Tag => Tag.RoadmapId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

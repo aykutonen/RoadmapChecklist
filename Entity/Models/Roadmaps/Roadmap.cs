@@ -17,11 +17,11 @@ namespace Entity.Models.Roadmaps
         public DateTime EndDate { get; set; }
         public int UserId { get; set; }
 
-        public User Users { get; set; }
-        public ICollection<CopiedRoadmap> CopiedSourceRoadmaps { get; set; }
-        public ICollection<CopiedRoadmap> CopiedTargetRoadmaps { get; set; }
-        public ICollection<RoadmapItem> RoadmapItems { get; set; }
-        public ICollection<RoadmapCategory> RoadmapCategories { get; set; }
-        public ICollection<RoadmapTag> RoadmapTags { get; set; }
+        public virtual User Users { get; set; }
+        public virtual ICollection<RoadmapItem> RoadmapItems { get; set; }
+        public virtual ICollection<RoadmapCategory> RoadmapCategories { get; set; }
+        public virtual ICollection<RoadmapTag> RoadmapTags { get; set; }
+        public virtual CopiedRoadmap Source { get; set; }
+        public virtual ICollection<CopiedRoadmap> Targets{ get; set; }
     }
 }

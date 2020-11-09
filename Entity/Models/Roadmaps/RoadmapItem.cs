@@ -14,9 +14,9 @@ namespace Entity.Models.Roadmaps
         public int RoadmapId { get; set; }
         public int ParentId { get; set; }
 
-        public Roadmap Roadmap { get; set; }
-        public RoadmapItem ParentRoadmapItem { get; set; }
-        public ICollection<RoadmapItem> RoadmapItems { get; set; }
+        public virtual Roadmap Roadmap { get; set; }
+        public virtual RoadmapItem ParentRoadmapItem { get; set; }
+        public virtual ICollection<RoadmapItem> RoadmapItems { get; set; }
         
         
     }
