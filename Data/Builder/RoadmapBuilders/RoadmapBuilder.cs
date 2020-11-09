@@ -23,12 +23,12 @@ namespace Data.Builder
             builder.HasOne(roadmap => roadmap.Source)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.SourceRoadmap)
                 .HasForeignKey<CopiedRoadmap>(roadmap => roadmap.SourceId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(roadmap => roadmap.Targets)
                 .WithOne(CopiedRoadmap => CopiedRoadmap.TargetRoadmap)
                 .HasForeignKey(CopiedRoadmap => CopiedRoadmap.TargetId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
 
             builder.HasMany(roadmap => roadmap.RoadmapItems)

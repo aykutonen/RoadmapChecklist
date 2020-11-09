@@ -15,7 +15,7 @@ namespace Data.Builders
         {
 
             builder.HasKey(Entity=>Entity.Id);
-            builder.Property(Entity =>Entity).ValueGeneratedOnAdd();
+            builder.Property(Entity =>Entity.Id).ValueGeneratedOnAdd();
             builder.Property(Entity=> Entity.CreateAt).IsRequired();
             builder.Property(Entity => Entity.UpdateAt).IsRequired();
             builder.Property(Entity=> Entity.Status).IsRequired().HasDefaultValue(1);

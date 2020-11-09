@@ -10,14 +10,12 @@ namespace Service.Categories.CategoriesService
 {
     public class CategoryService : ICategoryService
     {
-        private readonly ICategoryService _categoryService;
         private readonly IRepository<Category> _repository;
         private readonly IUnitOfWork _unitOfWork;
-        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository,ICategoryService categoryService)
+        public CategoryService(IUnitOfWork unitOfWork,IRepository<Category> repository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
-            _categoryService = categoryService;
         }
         public void Save()
         {

@@ -18,7 +18,7 @@ namespace Service.RoadmapCategories
         private readonly IRepository<RoadmapCategory> _repository;
         private readonly IRoadmapService _roadmapService;
 
-        public RoadmapCategoryService(IUnitOfWork unitOfWork,IRepository<RoadmapCategory> repository,IRoadmapCategoryService roadmapCategoryService,IRoadmapService roadmapService)
+        public RoadmapCategoryService(IUnitOfWork unitOfWork,IRepository<RoadmapCategory> repository,IRoadmapService roadmapService)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;

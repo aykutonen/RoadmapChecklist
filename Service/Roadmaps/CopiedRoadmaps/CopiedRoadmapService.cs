@@ -16,7 +16,7 @@ namespace Service.Roadmaps.CopiedRoadmaps
         private readonly IRepository<CopiedRoadmap> _repository;
         private readonly IRepository<Roadmap> _roadmapRepository;
         private readonly IRepository<RoadmapItem> _roadmapItemRepository;
-        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository, ICopiedRoadmapService copiedRoadmapService, IRepository<Roadmap> roadmapRepository, IRepository<RoadmapItem> roadmapItemRepository)
+        public CopiedRoadmapService(IUnitOfWork unitOfWork, IRepository<CopiedRoadmap> repository,  IRepository<Roadmap> roadmapRepository, IRepository<RoadmapItem> roadmapItemRepository)
         {
             _unitOfWork = unitOfWork;
             _repository = repository;
