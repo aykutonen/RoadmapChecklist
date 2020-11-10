@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Service.Roadmap;
+
+namespace Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RoadmapController : ControllerBase
+    {
+        private readonly IRoadmapService service;
+
+        public RoadmapController(IRoadmapService roadmapService)
+        {
+            service = roadmapService;
+        }
+
+        [HttpPost]
+        public IActionResult Create(Entity.Roadmap roadmap)
+        {
+            var result = service.Create(roadmap);
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public IActionResult Get(int id)
+        {
+            return Ok(service.Get(id));
+        }
+
+        [HttpGet, Route("list")]
+        public IActionResult List(int userid)
+        {
+            return Ok(service.GetByUser(userid));
+        }
+    }
+}

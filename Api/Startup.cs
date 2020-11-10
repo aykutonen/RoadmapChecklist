@@ -1,18 +1,10 @@
 using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Protocols;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Api
 {
@@ -28,7 +20,8 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(n => n.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddScoped(typeof(Data.Infrastructure.UnitOfWork.IUnitOfWork), typeof(Data.Infrastructure.UnitOfWork.UnitOfWork));
@@ -36,6 +29,7 @@ namespace Api
             services.AddScoped(typeof(Data.Infrastructure.Repository.IRepository<>), typeof(Data.Infrastructure.Repository.EfRepository<>));
 
             services.AddTransient(typeof(Service.User.IUserService), typeof(Service.User.UserService));
+            services.AddTransient(typeof(Service.Roadmap.IRoadmapService), typeof(Service.Roadmap.RoadmapService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
