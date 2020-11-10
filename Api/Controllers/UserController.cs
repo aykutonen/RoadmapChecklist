@@ -21,10 +21,18 @@ namespace Api.Controllers
             return Ok(result);
         }
 
-        public IActionResult Get()
+        [HttpGet]
+        public IActionResult Get(int id)
         {
-            var result = service.Get();
-            return Ok(result);
+            return Ok(service.Get(id));
         }
+
+        [HttpGet, Route("list")]
+        public IActionResult List()
+        {
+            return Ok(service.Get());
+        }
+
+
     }
 }
