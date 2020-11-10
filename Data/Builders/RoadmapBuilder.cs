@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builders
 {
-    public class RoadmapBuilder:BaseEntityBuilder<Roadmap>
+    public class RoadmapBuilder : BaseEntityBuilder<Roadmap>
     {
         public override void Configure(EntityTypeBuilder<Roadmap> builder)
         {
@@ -20,14 +20,22 @@ namespace Data.Builders
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(r => r.Source)
-                .WithOne(rc => rc.SourceRoudmap)
-                .HasForeignKey<RoadmapCopy>(rc => rc.SourceId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithMany(sr => sr.Targets)
+                .HasForeignKey(r => r.SourceId)
+                .HasPrincipalKey(sr => sr.Id)
+                .OnDelete(DeleteBehavior.NoAction);
 
-            builder.HasMany(r => r.Targets)
-                .WithOne(rc => rc.TargetRoadmap)
-                .HasForeignKey(rc => rc.TargetId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //builder.HasOne(r => r.Source)
+            //    .WithOne(rc => rc.TargetRoadmap)
+            //    .HasForeignKey<RoadmapCopy>(rc => rc.TargetId)
+            //    .HasPrincipalKey<Roadmap>(r => r.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.HasMany(r => r.Targets)
+            //    .WithOne(rc => rc.SourceRoudmap)
+            //    .HasForeignKey(rc => rc.SourceId)
+            //    .HasPrincipalKey(r => r.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasMany(r => r.Categories)
                 .WithOne(c => c.Roadmap)

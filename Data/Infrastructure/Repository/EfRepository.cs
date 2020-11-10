@@ -57,7 +57,7 @@ namespace Data.Infrastructure.Repository
             foreach (string nav in navigations) { set = set.Include(nav); }
             set = set.Where(where);
             if (orderBy != null) { set = isOrderByAsc ? set.OrderBy(orderBy) : set.OrderByDescending(orderBy); }
-            return set.AsEnumerable();
+            return set.ToList();
         }
 
 

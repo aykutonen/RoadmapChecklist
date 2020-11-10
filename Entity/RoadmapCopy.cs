@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Entity
 {
-    public class RoadmapCopy:BaseEntity
+    public class RoadmapCopy : BaseEntity
     {
         public int SourceId { get; set; }
         public int TargetId { get; set; }
