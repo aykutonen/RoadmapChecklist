@@ -51,7 +51,7 @@ namespace Data.Infrastructure.Repository
             return set.FirstOrDefault();
         }
 
-        public IEnumerable<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, object>> orderBy = null, bool isOrderByAsc = false, params string[] navigations)
+        public List<T> GetMany(Expression<Func<T, bool>> where, Expression<Func<T, object>> orderBy = null, bool isOrderByAsc = false, params string[] navigations)
         {
             var set = dbSet.AsQueryable();
             foreach (string nav in navigations) { set = set.Include(nav); }

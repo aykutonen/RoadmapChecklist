@@ -31,6 +31,11 @@ namespace Api
             services.AddControllers();
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
+            services.AddScoped(typeof(Data.Infrastructure.UnitOfWork.IUnitOfWork), typeof(Data.Infrastructure.UnitOfWork.UnitOfWork));
+
+            services.AddScoped(typeof(Data.Infrastructure.Repository.IRepository<>), typeof(Data.Infrastructure.Repository.EfRepository<>));
+
+            services.AddTransient(typeof(Service.User.IUserService), typeof(Service.User.UserService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

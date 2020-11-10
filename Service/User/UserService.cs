@@ -1,6 +1,7 @@
 ﻿using Data.Infrastructure.Repository;
 using Data.Infrastructure.UnitOfWork;
 using System;
+using System.Collections.Generic;
 
 namespace Service.User
 {
@@ -74,5 +75,26 @@ namespace Service.User
             unitOfWork.Commit();
         }
 
+        public ReturnModel<List<Entity.User>> Get()
+        {
+            var result = new ReturnModel<List<Entity.User>>();
+            try
+            {
+                result.Data = repository.GetMany(x => x.Status == 1);
+                if (result.Data == null || (result.Data != null && result.Data.Count == 0))
+                {
+                    result.IsSuccess = false;
+                    result.Message = "No record found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccess = false;
+                result.Exception = ex;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
     }
 }

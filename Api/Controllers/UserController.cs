@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
+using Service.User;
 
 namespace Api.Controllers
 {
@@ -11,6 +7,24 @@ namespace Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IUserService service;
 
+        public UserController(IUserService userService)
+        {
+            this.service = userService;
+        }
+
+        [HttpPost]
+        public IActionResult Create(Entity.User user)
+        {
+            var result = service.Create(user);
+            return Ok(result);
+        }
+
+        public IActionResult Get()
+        {
+            var result = service.Get();
+            return Ok(result);
+        }
     }
 }

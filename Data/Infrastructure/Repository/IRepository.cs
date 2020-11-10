@@ -15,7 +15,7 @@ namespace Data.Infrastructure.Repository
            Expression<Func<T, object>> orderBy = null,
           bool isOrderByAsc = false,
            params string[] navigations);
-        IEnumerable<T> GetMany(Expression<Func<T, bool>> where,
+        List<T> GetMany(Expression<Func<T, bool>> where,
             Expression<Func<T, object>> orderBy = null,
             bool isOrderByAsc = false,
             params string[] navigations);
