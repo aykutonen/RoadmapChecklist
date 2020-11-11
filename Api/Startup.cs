@@ -30,6 +30,7 @@ namespace Api
 
             services.AddTransient(typeof(Service.User.IUserService), typeof(Service.User.UserService));
             services.AddTransient(typeof(Service.Roadmap.IRoadmapService), typeof(Service.Roadmap.RoadmapService));
+            services.AddTransient(typeof(Service.RoadmapItem.IRoadmapItemService), typeof(Service.RoadmapItem.RoadmapItemService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

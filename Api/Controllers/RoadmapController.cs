@@ -21,13 +21,12 @@ namespace Api.Controllers
             return Ok(result);
         }
 
-        [HttpGet]
         public IActionResult Get(int id)
         {
             return Ok(service.Get(id));
         }
 
-        [HttpGet, Route("list")]
+        [Route("list")]
         public IActionResult List(int userid)
         {
             return Ok(service.GetByUser(userid));
