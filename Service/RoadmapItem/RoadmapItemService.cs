@@ -2,6 +2,8 @@
 using Data.Infrastructure.UnitOfWork;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Service.RoadmapItem
@@ -22,6 +24,31 @@ namespace Service.RoadmapItem
             var result = new ReturnModel<Entity.RoadmapItem>();
             try
             {
+                var order = 1;
+
+                // Sıra belirtilmemişse en sona ekle.
+                if (item.Order == 0)
+                {
+                    try { order = repository.AsIQueryable(x => x.ParentId == item.ParentId, o => o.Order).Max(x => x.Order); }
+                    catch { }
+                    item.Order = order;
+                }
+                // Sıra belirtilmişse belirtilen sıradan sonraki kayıtları tekrar sırala
+                else
+                {
+                    var nextRecords = repository.GetMany(x => x.ParentId == item.ParentId && x.Order >= item.Order, o => o.Order, true);
+                    if(nextRecords!=null && nextRecords.Count > 0)
+                    {
+                        var lastOrder = item.Order + 1;
+                        foreach (var ri in nextRecords)
+                        {
+                            ri.Order = lastOrder;
+                            repository.Update(ri);
+                            lastOrder++;
+                        }
+                    }
+                }
+
                 repository.Add(item);
                 Save();
                 result.Data = item;
@@ -41,6 +68,11 @@ namespace Service.RoadmapItem
             try
             {
                 result.Data = repository.Get(id);
+                if (result.Data == null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Not found a record.";
+                }
             }
             catch (Exception ex)
             {
@@ -56,7 +88,7 @@ namespace Service.RoadmapItem
             var result = new ReturnModel<List<Entity.RoadmapItem>>();
             try
             {
-                result.Data = repository.GetMany(x => x.RoadmapId == roadmapid, o => o.Id, true);
+                result.Data = repository.GetMany(x => x.RoadmapId == roadmapid, o => o.Id, true, new string[] { "Childiren" });
             }
             catch (Exception ex)
             {
@@ -72,6 +104,7 @@ namespace Service.RoadmapItem
             var result = new ReturnModel<Entity.RoadmapItem>();
             try
             {
+                item.UpdateAt = DateTime.UtcNow;
                 repository.Update(item);
                 Save();
                 result.Data = item;

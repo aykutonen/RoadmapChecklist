@@ -13,6 +13,7 @@ namespace Entity
         public DateTime? EndDate { get; set; }
         public int? ParentId { get; set; }
         public int RoadmapId { get; set; }
+        public int Order { get; set; } = 0;
 
 
         // Relations

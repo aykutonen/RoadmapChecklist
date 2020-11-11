@@ -41,6 +41,7 @@ namespace Api
                 app.UseDeveloperExceptionPage();
             }
 
+            //dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();

@@ -1,6 +1,7 @@
 ﻿using Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace Data.Infrastructure.Repository
@@ -12,6 +13,10 @@ namespace Data.Infrastructure.Repository
         void Delete(T entity);
         T Get(int id, params string[] navigations);
         T Get(Expression<Func<T, bool>> where,
+           Expression<Func<T, object>> orderBy = null,
+          bool isOrderByAsc = false,
+           params string[] navigations);
+        IQueryable<T> AsIQueryable(Expression<Func<T, bool>> where,
            Expression<Func<T, object>> orderBy = null,
           bool isOrderByAsc = false,
            params string[] navigations);

@@ -60,6 +60,13 @@ namespace Data.Infrastructure.Repository
             return set.ToList();
         }
 
-
+        public IQueryable<T> AsIQueryable(Expression<Func<T, bool>> where, Expression<Func<T, object>> orderBy = null, bool isOrderByAsc = false, params string[] navigations)
+        {
+            var set = dbSet.AsQueryable();
+            foreach (string nav in navigations) { set = set.Include(nav); }
+            set = set.Where(where);
+            if (orderBy != null) { set = isOrderByAsc ? set.OrderBy(orderBy) : set.OrderByDescending(orderBy); }
+            return set;
+        }
     }
 }

@@ -40,6 +40,11 @@ namespace Service.Roadmap
             try
             {
                 result.Data = repository.Get(id);
+                if (result.Data == null)
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Not found a record.";
+                }
             }
             catch (Exception ex)
             {
