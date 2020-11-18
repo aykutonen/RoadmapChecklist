@@ -3,8 +3,6 @@ using Data.Infrastructure.UnitOfWork;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 
 namespace Service.RoadmapItem
 {
@@ -29,7 +27,7 @@ namespace Service.RoadmapItem
                 // Sıra belirtilmemişse en sona ekle.
                 if (item.Order == 0)
                 {
-                    try { order = repository.AsIQueryable(x => x.ParentId == item.ParentId, o => o.Order).Max(x => x.Order); }
+                    try { order = repository.AsIQueryable(x => x.ParentId == item.ParentId, o => o.Order).Max(x => x.Order) + 1; }
                     catch { }
                     item.Order = order;
                 }
@@ -37,7 +35,7 @@ namespace Service.RoadmapItem
                 else
                 {
                     var nextRecords = repository.GetMany(x => x.ParentId == item.ParentId && x.Order >= item.Order, o => o.Order, true);
-                    if(nextRecords!=null && nextRecords.Count > 0)
+                    if (nextRecords != null && nextRecords.Count > 0)
                     {
                         var lastOrder = item.Order + 1;
                         foreach (var ri in nextRecords)
@@ -67,7 +65,7 @@ namespace Service.RoadmapItem
             var result = new ReturnModel<Entity.RoadmapItem>();
             try
             {
-                result.Data = repository.Get(id);
+                result.Data = repository.Get(x => x.Id == id);
                 if (result.Data == null)
                 {
                     result.IsSuccess = false;
@@ -88,7 +86,7 @@ namespace Service.RoadmapItem
             var result = new ReturnModel<List<Entity.RoadmapItem>>();
             try
             {
-                result.Data = repository.GetMany(x => x.RoadmapId == roadmapid, o => o.Id, true, new string[] { "Childiren" });
+                result.Data = repository.GetMany(x => x.RoadmapId == roadmapid, o => o.Id, true);
             }
             catch (Exception ex)
             {

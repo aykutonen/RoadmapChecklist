@@ -1,15 +1,27 @@
 ﻿using Entity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Builders
 {
-    public class RoadmapCopyBuilder : BaseEntityBuilder<RoadmapCopy>
+    public class RoadmapCopyBuilder : IEntityTypeConfiguration<RoadmapCopy>
     {
-        public override void Configure(EntityTypeBuilder<RoadmapCopy> builder)
+        public void Configure(EntityTypeBuilder<RoadmapCopy> builder)
         {
-            base.Configure(builder);
-            builder.Property(rc => rc.SourceId).IsRequired();
-            builder.Property(rc => rc.TargetId).IsRequired();
+            builder.HasKey(rc => new { rc.SourceId, rc.TargetId });
+
+            builder.HasOne(rc => rc.SourceRoudmap)
+                .WithMany(r => r.Sources)
+                .HasForeignKey(rc => rc.SourceId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasOne(rc => rc.TargetRoadmap)
+                .WithMany(r => r.Targets)
+                .HasForeignKey(rc => rc.TargetId)
+                .OnDelete(DeleteBehavior.NoAction);
+                
+
+          
         }
     }
 }

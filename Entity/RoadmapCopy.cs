@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Entity
+﻿namespace Entity
 {
-    public class RoadmapCopy : BaseEntity
+    public class RoadmapCopy
     {
         public int SourceId { get; set; }
         public int TargetId { get; set; }

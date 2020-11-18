@@ -31,5 +31,12 @@ namespace Api.Controllers
         {
             return Ok(service.GetByUser(userid));
         }
+
+        [HttpPost, Route("copy")]
+        public IActionResult Copy(int roadmapid, int userid)
+        {
+            var result = service.Copy(roadmapid, userid);
+            return Ok(result);
+        }
     }
 }

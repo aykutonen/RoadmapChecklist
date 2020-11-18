@@ -59,7 +59,7 @@ namespace Service.User
             var result = new ReturnModel<Entity.User>();
             try
             {
-                result.Data = repository.Get(id);
+                result.Data = repository.Get(x => x.Id == id);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Service.Roadmap
 {
@@ -10,5 +8,6 @@ namespace Service.Roadmap
         ReturnModel<Entity.Roadmap> Update(Entity.Roadmap roadmap);
         ReturnModel<Entity.Roadmap> Get(int id);
         ReturnModel<List<Entity.Roadmap>> GetByUser(int userid);
+        ReturnModel<Entity.Roadmap> Copy(int id, int userid);
     }
 }

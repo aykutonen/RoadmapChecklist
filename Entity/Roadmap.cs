@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection.Metadata;
-using System.Security.Principal;
-using System.Text;
 
 namespace Entity
 {
@@ -13,7 +10,6 @@ namespace Entity
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int UserId { get; set; }
-        public int? SourceId { get; set; }
 
 
         // Relations
@@ -21,7 +17,7 @@ namespace Entity
         public virtual ICollection<RoadmapItem> Items { get; set; }
         public virtual ICollection<CategoryRoadmapRelation> Categories { get; set; }
         public virtual ICollection<TagRoadmapRelation> Tags { get; set; }
-        public virtual Roadmap Source { get; set; }
-        public virtual ICollection<Roadmap> Targets { get; set; }
+        public virtual ICollection<RoadmapCopy> Sources { get; set; }
+        public virtual ICollection<RoadmapCopy> Targets { get; set; }
     }
 }
