@@ -103,17 +103,17 @@ namespace Service.Roadmap
             try
             {
                 // db'den orijinali çek.
-                var fromDb = repository.Get(x => x.Id == id, navigations: new string[] { "Targets", "Categories", "Tags", "Items" });
-                if (fromDb != null)
+                var sourceRoadmap = repository.Get(x => x.Id == id, navigations: new string[] { "Targets", "Categories", "Tags", "Items" });
+                if (sourceRoadmap != null)
                 {
                     // aynısından bir kopya oluştur
-                    Entity.Roadmap copy = new Entity.Roadmap()
+                    Entity.Roadmap targetRoadmap = new Entity.Roadmap()
                     {
-                        Name = fromDb.Name,
+                        Name = sourceRoadmap.Name,
                         UserId = userid,
-                        Visibility = fromDb.Visibility,
+                        Visibility = sourceRoadmap.Visibility,
                     };
-                    repository.Attach(copy);
+                    repository.Attach(targetRoadmap);
 
                     #region Categories
                     // TODO: Categorileri ekle
@@ -124,8 +124,8 @@ namespace Service.Roadmap
                     #endregion
 
                     #region RoadmapItems
-                    copy.Items = new List<Entity.RoadmapItem>();
-                    var childeren = fromDb.Items.OrderBy(x => x.ParentId).ThenBy(x => x.Order).ToList();
+                    targetRoadmap.Items = new List<Entity.RoadmapItem>();
+                    var childeren = sourceRoadmap.Items.OrderBy(x => x.ParentId).ThenBy(x => x.Order).ToList();
                     foreach (var child in childeren.Where(x => x.ParentId == null))
                     {
                         var newChild = new Entity.RoadmapItem
@@ -136,19 +136,18 @@ namespace Service.Roadmap
                             Childiren = new List<Entity.RoadmapItem>()
                         };
                         itemRepository.Attach(newChild);
-                        getChilderen(ref copy, child, childeren, ref newChild);
-                        copy.Items.Add(newChild);
+                        getChilderen(ref targetRoadmap, child, childeren, ref newChild);
+                        targetRoadmap.Items.Add(newChild);
                     }
-
                     #endregion
 
-                    var rc = new RoadmapCopy { SourceId = fromDb.Id };
+                    var rc = new RoadmapCopy { SourceId = sourceRoadmap.Id };
                     copyRepository.Attach(rc);
-                    rc.TargetRoadmap = copy;
+                    rc.TargetRoadmap = targetRoadmap;
                     Save();
 
                     // Geriye yeni kopyayı gönder.
-                    result.Data = copy;
+                    result.Data = targetRoadmap;
                 }
             }
             catch (Exception ex)
@@ -167,7 +166,7 @@ namespace Service.Roadmap
         /// <param name="item">Aktif RoadmapItem</param>
         /// <param name="items">Tüm RoadmapItem'ların listesi (sıralı tam liste :))</param>
         /// <returns>RoadmapItem Listesi döner.</returns>
-        private void getChilderen(ref Entity.Roadmap copy, Entity.RoadmapItem item, List<Entity.RoadmapItem> items, ref Entity.RoadmapItem parent)
+        private void getChilderen(ref Entity.Roadmap targetRoadmap, Entity.RoadmapItem item, List<Entity.RoadmapItem> items, ref Entity.RoadmapItem parent)
         {
             foreach (var child in items.Where(x => x.ParentId == item.Id).OrderBy(x => x.ParentId).ThenBy(x => x.Order))
             {
@@ -179,9 +178,9 @@ namespace Service.Roadmap
                     Childiren = new List<Entity.RoadmapItem>()
                 };
                 itemRepository.Attach(newChild);
-                getChilderen(ref copy, child, items, ref newChild);
+                getChilderen(ref targetRoadmap, child, items, ref newChild);
                 parent.Childiren.Add(newChild);
-                copy.Items.Add(newChild);
+                targetRoadmap.Items.Add(newChild);
             }
         }
 
