@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace Web.Models.User
 {
     public class Register
@@ -18,6 +19,7 @@ namespace Web.Models.User
         public string password { get; set; }
         [Display(Name ="Beni hatırla")]
         public bool rememberMe { get; set; } = true;
+
     }
 
     public class Login
@@ -26,6 +28,8 @@ namespace Web.Models.User
         public string email { get; set; }
         [Required(ErrorMessage = "Parola zorunlu"), DataType(DataType.Password)]
         public string password { get; set; }
+
     }
 
+    
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Web.Db.Entity;
 
 namespace Web.Db
 {
@@ -13,5 +14,6 @@ namespace Web.Db
         public AppDbContext() { }
 
         public DbSet<Entity.User> User { get; set; }
+        public DbSet<Roadmap> Roadmap { get; set; }
     }
 }
