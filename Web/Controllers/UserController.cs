@@ -28,7 +28,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(Models.User.Login model)
+        public async Task<IActionResult> Index(Models.User.Login model, string returnUrl = "")
         {
             if (ModelState.IsValid)
             {
@@ -53,7 +53,10 @@ namespace Web.Controllers
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(cIdentity));
 
-                    return RedirectToAction("Index", "Home");
+                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    else
+                        return RedirectToAction("Index", "Home");
                 }
             }
             return View(model);
