@@ -19,5 +19,6 @@ namespace Web.Builder
             builder.Property(roadmap => roadmap.Visibility).IsRequired().HasDefaultValue(1);
 
         }
+
     }
 }
