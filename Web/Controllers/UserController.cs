@@ -69,7 +69,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register(Models.User.Register model)
+        public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
             // model doğrulaması
             if (ModelState.IsValid)
@@ -88,7 +88,11 @@ namespace Web.Controllers
                 // db'ye kaydet
                 _dbContext.SaveChanges();
                 // index'e yolla
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
