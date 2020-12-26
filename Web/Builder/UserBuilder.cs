@@ -8,19 +8,19 @@ using Web.Db.Entity;
 
 namespace Web.Builder
 {
-    public class UserBuilder : User
+    public class UserBuilder : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.HasKey(user => user.id);
+            builder.Property(user => user.id).ValueGeneratedOnAdd();
             builder.Property(user => user.email).IsRequired().HasMaxLength(255);
             builder.Property(user => user.password).IsRequired().HasMaxLength(150);
 
-
-
             builder.HasMany(user => user.Roadmaps)
-                .WithOne(roadmap => roadmap.Users)
+                .WithOne(roadmap => roadmap.User)
                 .HasForeignKey(roadmap => roadmap.UserId)
-                .OnDelete(DeleteBehavior.Cascade) 
+                .OnDelete(DeleteBehavior.Cascade)
                 .IsRequired();
         }
     }

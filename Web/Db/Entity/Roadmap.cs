@@ -16,6 +16,6 @@ namespace Web.Db.Entity
         public int UserId { get; set; }
 
 
-        public virtual User Users { get; set; }
+        public virtual User User { get; set; }
     }
 }

@@ -8,12 +8,12 @@ using Web.Db.Entity;
 
 namespace Web.Builder
 {
-    public class RoadmapBuilder : Roadmap
+    public class RoadmapBuilder : IEntityTypeConfiguration<Roadmap>
     {
 
-        public void Configure(EntityTypeBuilder<Roadmap> builder)
+        public virtual void Configure(EntityTypeBuilder<Roadmap> builder)
         {
-
+            builder.HasKey(roadmap => roadmap.Id);
             builder.Property(roadmap => roadmap.Id).ValueGeneratedOnAdd();
             builder.Property(roadmap => roadmap.Name).IsRequired().HasMaxLength(500);
             builder.Property(roadmap => roadmap.Visibility).IsRequired().HasDefaultValue(1);
