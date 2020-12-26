@@ -85,10 +85,11 @@ namespace Web.Controllers
 
                 // context'e modeli ekle
                 _dbContext.User.Add(user);
+                
                 // db'ye kaydet
                 _dbContext.SaveChanges();
+                
                 // index'e yolla
-                //return RedirectToAction("Index");
                 if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
                     return Redirect(returnUrl);
                 else

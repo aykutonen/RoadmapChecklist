@@ -55,7 +55,7 @@ namespace Web
                 app.UseHsts();
             }
 
-            appDbContext.Database.EnsureDeleted();
+            //appDbContext.Database.EnsureDeleted();
             appDbContext.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
