@@ -98,24 +98,36 @@ namespace Web.Controllers
         }
 
         // GET: RoadmapController/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View();
+            if (id == null || id == default)
+            {
+                return NotFound();
+            }
+
+            var roadmap = _dbContext.Roadmap
+                .SingleOrDefault(m => m.Id == id.ToString());
+            
+            if (roadmap == null)
+            {
+                return NotFound();
+            }
+
+            return View(roadmap);
         }
 
         // POST: RoadmapController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var roadmap = _dbContext.Roadmap.SingleOrDefault(m => m.Id == id.ToString());
+
+            _dbContext.Remove(roadmap);
+            _dbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
