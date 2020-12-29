@@ -55,7 +55,7 @@ namespace Web.Controllers
                     var roadmap = new Roadmap()
                     {
                         EndDate = model.EndDate,
-                        Name = model.name,
+                        Name = model.Name,
                         StartDate = model.StartDate,
                         Visibility = model.Visibility,
                         UserId = currentUserId

@@ -32,11 +32,11 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var hashedPassword = MD5Hash(model.password);
+                var hashedPassword = MD5Hash(model.Password);
                 var user = _dbContext.User
                      .FirstOrDefault(x =>
                      x.password == hashedPassword
-                     && x.email == model.email);
+                     && x.email == model.Email);
 
                 if (user == null)
                 {
@@ -77,10 +77,10 @@ namespace Web.Controllers
                 // db modeli oluştur
                 var user = new Db.Entity.User
                 {
-                    email = model.email,
-                    name = model.name,
-                    password = MD5Hash(model.password),
-                    username = model.username
+                    email = model.Email,
+                    name = model.Name,
+                    password = MD5Hash(model.Password),
+                    username = model.Username
                 };
 
                 // context'e modeli ekle

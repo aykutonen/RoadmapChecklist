@@ -9,7 +9,7 @@ namespace Web.Models.Roadmap
     public class Create
     {
         [Required(ErrorMessage = "İsim zorunlu")]
-        public string name { get; set; }
+        public string Name { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "1 den küçük değer giremezsin.")]
         public int Visibility { get; set; } = 1;
         [DataType(DataType.Date, ErrorMessage = "Geçerli bir tarih girin")]
