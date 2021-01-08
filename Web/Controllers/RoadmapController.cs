@@ -34,6 +34,7 @@ namespace Web.Controllers
         // GET: RoadmapController/Details/5
         public ActionResult Details(int id)
         {
+
             return View();
         }
 
@@ -55,7 +56,7 @@ namespace Web.Controllers
                     var roadmap = new Roadmap()
                     {
                         EndDate = model.EndDate,
-                        Name = model.name,
+                        Name = model.Name,
                         StartDate = model.StartDate,
                         Visibility = model.Visibility,
                         UserId = currentUserId
@@ -85,16 +86,32 @@ namespace Web.Controllers
         // POST: RoadmapController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(Models.Roadmap.Edit model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
+                {
+                    var roadmap = new Roadmap()
+                    {
+                        EndDate = model.EndDate,
+                        Name = model.Name,
+                        StartDate = model.StartDate,
+                        Visibility = model.Visibility,
+                       
+                    };
+                    _dbContext.Roadmap.Update(roadmap);
+                    _dbContext.SaveChanges();
+
+                    return RedirectToAction("Index", "Roadmap");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Düzenleme işlemi başarısız!");
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(model);
         }
 
         // GET: RoadmapController/Delete/5
