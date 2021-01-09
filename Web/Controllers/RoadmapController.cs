@@ -147,33 +147,59 @@ namespace Web.Controllers
 
         // GET: RoadmapController/Delete/5
         [HttpGet]
-        public ActionResult Delete(string id)
+        public ActionResult Delete(Guid id)
         {
-            if (id == null || id == default)
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
             {
-                return NotFound();
+                if (id == Guid.Empty)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                    
+                    if (roadmapToBeDeleted != null)
+                    {
+                        return View(roadmapToBeDeleted);
+                    }
+                    else 
+                    { 
+                        ModelState.AddModelError("", "Roadmap bulunamadı!"); 
+                    }
+                }                
+            }
+            else
+            {
+                ModelState.AddModelError("", "Silme işlemi başarısız!");
             }
 
-            var roadmap = _dbContext.Roadmap
-                .SingleOrDefault(m => m.Id == id);
-            
-            if (roadmap == null)
-            {
-                return NotFound();
-            }
-
-            return View(roadmap);
-         }
+            return RedirectToAction(nameof(Index));
+        }
 
         // POST: RoadmapController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(Guid id)
         {
-            var roadmap = _dbContext.Roadmap.SingleOrDefault(m => m.Id == id);
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
+            {
+                var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
 
-            _dbContext.Remove(roadmap);
-            _dbContext.SaveChanges();
+                if (roadmapToBeDeleted != null)
+                {
+                    _dbContext.Remove(roadmapToBeDeleted);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Roadmap bulunamadı!");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Silme işlemi başarısız!");
+            }
 
             return RedirectToAction(nameof(Index));
         }
