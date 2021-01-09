@@ -80,8 +80,7 @@ namespace Web.Controllers
         // GET: RoadmapController/Edit/5
         public ActionResult Edit(int id)
         {
-            //return View();
-            return null;
+            return View();
         }
 
         // POST: RoadmapController/Edit/5
@@ -95,8 +94,7 @@ namespace Web.Controllers
             }
             catch
             {
-                //return View();
-                return null;
+                return View();
             }
         }
 
