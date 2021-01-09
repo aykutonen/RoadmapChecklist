@@ -7,7 +7,7 @@ namespace Web.Db.Entity
 {
     public class Roadmap
     {
-        public string Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public int Visibility { get; set; } = 1;
         public int Status { get; set; } = 1;

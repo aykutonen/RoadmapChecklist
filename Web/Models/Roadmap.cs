@@ -20,6 +20,8 @@ namespace Web.Models.Roadmap
 
     public class Edit
     {
+        [Required(ErrorMessage = "ID zorunlu")]
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "İsim zorunlu")]
         public string Name { get; set; }
         [Range(1, int.MaxValue, ErrorMessage = "1 den küçük değer giremezsin.")]

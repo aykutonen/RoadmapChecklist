@@ -78,8 +78,36 @@ namespace Web.Controllers
         }
 
         // GET: RoadmapController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
+            {
+                if (Guid.Empty == id)
+                {
+                    ModelState.AddModelError("", "Geçersiz id!");
+                }
+                else
+                {
+                    var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                    if (fromdb != null)
+                    {
+                        var model = new Models.Roadmap.Edit()
+                        {
+                            Id = fromdb.Id,
+                            EndDate = fromdb.EndDate,
+                            Name = fromdb.Name,
+                            StartDate = fromdb.StartDate,
+                            Visibility = fromdb.Visibility
+                        };
+                        return View(model);
+                    }
+                    else { ModelState.AddModelError("", "Roadmap bulunamadı!"); }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Kullancı yok!");
+            }
             return View();
         }
 
@@ -92,18 +120,21 @@ namespace Web.Controllers
             {
                 if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
                 {
-                    var roadmap = new Roadmap()
+                    var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId);
+                    if (fromdb != null)
                     {
-                        EndDate = model.EndDate,
-                        Name = model.Name,
-                        StartDate = model.StartDate,
-                        Visibility = model.Visibility,
-                       
-                    };
-                    _dbContext.Roadmap.Update(roadmap);
-                    _dbContext.SaveChanges();
+                        fromdb.Name = model.Name;
+                        fromdb.StartDate = model.StartDate;
+                        fromdb.EndDate = model.EndDate;
+                        fromdb.Visibility = model.Visibility;
 
-                    return RedirectToAction("Index", "Roadmap");
+                        _dbContext.Roadmap.Update(fromdb);
+                        _dbContext.SaveChanges();
+
+                        return RedirectToAction("Index", "Roadmap");
+                    }
+                    else { ModelState.AddModelError("", "Roadmap bulunamadı!"); }
+
                 }
                 else
                 {
