@@ -35,8 +35,8 @@ namespace Web.Controllers
                 var hashedPassword = MD5Hash(model.password);
                 var user = _dbContext.User
                      .FirstOrDefault(x =>
-                     x.password == hashedPassword
-                     && x.email == model.email);
+                     x.Password == hashedPassword
+                     && x.Email == model.email);
 
                 if (user == null)
                 {
@@ -44,7 +44,7 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, user.id.ToString()) };
+                    var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
 
                     var cIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -77,10 +77,10 @@ namespace Web.Controllers
                 // db modeli oluştur
                 var user = new Db.Entity.User
                 {
-                    email = model.email,
-                    name = model.name,
-                    password = MD5Hash(model.password),
-                    username = model.username
+                    Email = model.email,
+                    Name = model.name,
+                    Password = MD5Hash(model.password),
+                    Username = model.username
                 };
 
                 // context'e modeli ekle

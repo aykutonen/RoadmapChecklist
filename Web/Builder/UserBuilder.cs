@@ -12,10 +12,10 @@ namespace Web.Builder
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(user => user.id);
-            builder.Property(user => user.id).ValueGeneratedOnAdd();
-            builder.Property(user => user.email).IsRequired().HasMaxLength(255);
-            builder.Property(user => user.password).IsRequired().HasMaxLength(150);
+            builder.HasKey(user => user.Id);
+            builder.Property(user => user.Id).ValueGeneratedOnAdd();
+            builder.Property(user => user.Email).IsRequired().HasMaxLength(255);
+            builder.Property(user => user.Password).IsRequired().HasMaxLength(150);
 
             builder.HasMany(user => user.Roadmaps)
                 .WithOne(roadmap => roadmap.User)
