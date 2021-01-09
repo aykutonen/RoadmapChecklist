@@ -34,7 +34,8 @@ namespace Web.Controllers
         // GET: RoadmapController/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            return null;
+            //return View();
         }
 
         // GET: RoadmapController/Create
@@ -79,7 +80,8 @@ namespace Web.Controllers
         // GET: RoadmapController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            //return View();
+            return null;
         }
 
         // POST: RoadmapController/Edit/5
@@ -93,13 +95,14 @@ namespace Web.Controllers
             }
             catch
             {
-                return View();
+                //return View();
+                return null;
             }
         }
 
         // GET: RoadmapController/Delete/5
         [HttpGet]
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
             if (id == null || id == default)
             {
@@ -107,7 +110,7 @@ namespace Web.Controllers
             }
 
             var roadmap = _dbContext.Roadmap
-                .SingleOrDefault(m => m.Id == id.ToString());
+                .SingleOrDefault(m => m.Id == id);
             
             if (roadmap == null)
             {
@@ -115,14 +118,14 @@ namespace Web.Controllers
             }
 
             return View(roadmap);
-        }
+         }
 
         // POST: RoadmapController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(string id)
         {
-            var roadmap = _dbContext.Roadmap.SingleOrDefault(m => m.Id == id.ToString());
+            var roadmap = _dbContext.Roadmap.SingleOrDefault(m => m.Id == id);
 
             _dbContext.Remove(roadmap);
             _dbContext.SaveChanges();
