@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,27 +10,43 @@ namespace Web.Models.User
 {
     public class Register
     {
-        [Required(ErrorMessage = "İsim zorunlu")]
-        public string name { get; set; }
-        [Required(ErrorMessage = "Kullanıcı adı zorunlu")]
-        public string username { get; set; }
-        [Required(ErrorMessage = "Email zorunlu"), DataType(DataType.EmailAddress)]
-        public string email { get; set; }
-        [Required(ErrorMessage = "Parola zorunlu"), DataType(DataType.Password)]
-        public string password { get; set; }
-        [Display(Name ="Beni hatırla")]
-        public bool rememberMe { get; set; } = true;
-
+        //[Required(ErrorMessage = "İsim zorunlu")]
+        public string Name { get; set; }
+        //[Required(ErrorMessage = "Kullanıcı adı zorunlu")]
+        public string Username { get; set; }
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+        //[Display(Name = "Beni hatırla")]
+        public bool RememberMe { get; set; } = true;
     }
-
+    public class RegisterValidator : AbstractValidator<Register>
+    {
+        public RegisterValidator()
+        {
+            RuleFor(x => x.Name).NotNull().WithMessage("İsim zorunlu!");
+            RuleFor(x => x.Username).NotNull().WithMessage("Kullanıcı adı zorunlu!");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunlu").EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz.");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Parola zorunlu");
+            RuleFor(x => x.RememberMe).NotEmpty().WithMessage("Beni Hatırla!");
+        }
+    }
     public class Login
     {
-        [Required(ErrorMessage = "Email zorunlu"), DataType(DataType.EmailAddress)]
-        public string email { get; set; }
-        [Required(ErrorMessage = "Parola zorunlu"), DataType(DataType.Password)]
-        public string password { get; set; }
-
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+    }
+    public class LoginValidator : AbstractValidator<Login>
+    {
+        public LoginValidator()
+        {
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunlu").EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz.");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Parola zorunlu");
+        }
     }
 
-    
+
 }
