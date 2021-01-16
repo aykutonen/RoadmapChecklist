@@ -98,6 +98,12 @@ namespace Web.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("index", "user");
+        }
 
         public string MD5Hash(string input)
         {

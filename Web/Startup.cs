@@ -34,6 +34,7 @@ namespace Web
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, c =>
            {
                c.LoginPath = "/User/Index";
+               c.LogoutPath = "/User/Logout";
                c.Cookie.Name = "RoadMapCheckList";
                c.SlidingExpiration = true;
                c.ExpireTimeSpan = TimeSpan.FromDays(1);
