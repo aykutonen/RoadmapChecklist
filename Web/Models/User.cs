@@ -18,7 +18,7 @@ namespace Web.Models.User
         public string Email { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        //[Display(Name = "Beni hatırla")]
+        [Display(Name = "Beni hatırla")]
         public bool RememberMe { get; set; } = true;
     }
     public class RegisterValidator : AbstractValidator<Register>
@@ -29,7 +29,6 @@ namespace Web.Models.User
             RuleFor(x => x.Username).NotNull().WithMessage("Kullanıcı adı zorunlu!");
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunlu").EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Parola zorunlu");
-            RuleFor(x => x.RememberMe).NotEmpty().WithMessage("Beni Hatırla!");
         }
     }
     public class Login
