@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Web.Db;
@@ -14,10 +16,12 @@ namespace Web.Controllers
     public class RoadmapController : Controller
     {
         protected AppDbContext _dbContext;
+        private readonly IStringLocalizer<RoadmapController> _localizer;
 
-        public RoadmapController(AppDbContext dbContext)
+        public RoadmapController(AppDbContext dbContext, IStringLocalizer<RoadmapController> localizer)
         {
             this._dbContext = dbContext;
+            this._localizer = localizer;
         }
 
         // GET: RoadmapController
@@ -98,7 +102,7 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("mesaj", "Birader sen kimsin?");
+                    ModelState.AddModelError("mesaj", _localizer["UserNotFoundError"].Value);
                 }
             }
 
@@ -108,11 +112,12 @@ namespace Web.Controllers
         // GET: RoadmapController/Edit/5
         public ActionResult Edit(Guid id)
         {
+
             if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
             {
                 if (Guid.Empty == id)
                 {
-                    ModelState.AddModelError("", "Geçersiz id!");
+                    ModelState.AddModelError("", _localizer["InvalidId"].Value);
                 }
                 else
                 {
@@ -129,12 +134,12 @@ namespace Web.Controllers
                         };
                         return View(model);
                     }
-                    else { ModelState.AddModelError("", "Roadmap bulunamadı!"); }
+                    else { ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value); }
                 }
             }
             else
             {
-                ModelState.AddModelError("", "Kullancı yok!");
+                ModelState.AddModelError("", _localizer["UserNotFoundError"].Value);
             }
             return View();
         }
@@ -162,12 +167,12 @@ namespace Web.Controllers
 
                         return RedirectToAction("Index", "Roadmap");
                     }
-                    else { ModelState.AddModelError("", "Roadmap bulunamadı!"); }
+                    else { ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value); }
 
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Düzenleme işlemi başarısız!");
+                    ModelState.AddModelError("", _localizer["EditError"].Value);
                 }
             }
 
