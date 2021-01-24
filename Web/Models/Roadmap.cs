@@ -44,6 +44,7 @@ namespace Web.Models.Roadmap
         //[DataType(DataType.Date, ErrorMessage = "Geçerli bir tarih girin")]
         public DateTime? EndDate { get; set; }
     }
+
     public class EditValidator : AbstractValidator<Edit>
     {
         public EditValidator()
@@ -56,5 +57,14 @@ namespace Web.Models.Roadmap
                 .NotNull().WithMessage("Geçerli bir tarih girin.")
                 .GreaterThan(x => x.StartDate.Value).WithMessage("Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!").When(x => x.StartDate.HasValue);
         }
+     }
+
+    public class Detail
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Visibility { get; set; } = 1;
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }
