@@ -15,6 +15,9 @@ using System.Globalization;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Razor;
+using FluentValidation.AspNetCore;
+using Web.Models.Roadmap;
+
 
 namespace Web
 {
@@ -31,6 +34,8 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddMvc()
+        .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateValidator>());
 
             services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 

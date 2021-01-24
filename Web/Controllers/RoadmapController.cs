@@ -36,9 +36,37 @@ namespace Web.Controllers
         }
 
         // GET: RoadmapController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
 
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
+            {
+                if (Guid.Empty == id)
+                {
+                    ModelState.AddModelError("", "Geçersiz id!");
+                }
+                else
+                {
+                    var roadmapDetail = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                    if (roadmapDetail != null)
+                    {
+                        var model = new Models.Roadmap.Detail()
+                        {
+                            Id = roadmapDetail.Id,
+                            Name = roadmapDetail.Name,
+                            Visibility = roadmapDetail.Visibility,
+                            StartDate = roadmapDetail.StartDate,
+                            EndDate = roadmapDetail.EndDate
+                        };
+                        return View(model);
+                    }
+                    else { ModelState.AddModelError("", "Roadmap bulunamadı!"); }
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("", "Kullancı yok!");
+            }
             return View();
         }
 
@@ -128,6 +156,7 @@ namespace Web.Controllers
                     var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId);
                     if (fromdb != null)
                     {
+
                         fromdb.Name = model.Name;
                         fromdb.StartDate = model.StartDate;
                         fromdb.EndDate = model.EndDate;
@@ -151,24 +180,62 @@ namespace Web.Controllers
         }
 
         // GET: RoadmapController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public ActionResult Delete(Guid id)
         {
-            return View();
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
+            {
+                if (id == Guid.Empty)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                    
+                    if (roadmapToBeDeleted != null)
+                    {
+                        return View(roadmapToBeDeleted);
+                    }
+                    else 
+                    { 
+                        ModelState.AddModelError("", "Roadmap bulunamadı!"); 
+                    }
+                }                
+            }
+            else
+            {
+                ModelState.AddModelError("", "Silme işlemi başarısız!");
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: RoadmapController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult DeleteConfirmed(Guid id)
         {
-            try
+            if (int.TryParse(HttpContext.User.Claims.FirstOrDefault()?.Value, out int currentUserId))
             {
-                return RedirectToAction(nameof(Index));
+                var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+
+                if (roadmapToBeDeleted != null)
+                {
+                    _dbContext.Remove(roadmapToBeDeleted);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Roadmap bulunamadı!");
+                }
             }
-            catch
+            else
             {
-                return View();
+                ModelState.AddModelError("", "Silme işlemi başarısız!");
             }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
