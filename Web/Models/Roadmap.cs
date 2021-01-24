@@ -31,4 +31,13 @@ namespace Web.Models.Roadmap
         [DataType(DataType.Date, ErrorMessage = "Geçerli bir tarih girin")]
         public DateTime? EndDate { get; set; }
     }
+
+    public class Detail
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+        public int Visibility { get; set; } = 1;
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+    }
 }
