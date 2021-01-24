@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,12 @@ namespace Web.Controllers
     public class UserController : Controller
     {
         protected AppDbContext _dbContext;
+        private readonly IStringLocalizer<UserController> _localizer;
 
-        public UserController(AppDbContext dbContext)
+        public UserController(AppDbContext dbContext, IStringLocalizer<UserController> localizer)
         {
             _dbContext = dbContext;
+            _localizer = localizer;
         }
 
         [HttpGet]
@@ -40,7 +43,7 @@ namespace Web.Controllers
 
                 if (user == null)
                 {
-                    ModelState.AddModelError("mesaj", "Geçersiz kullanıcı bilgileri.");
+                    ModelState.AddModelError("mesaj", _localizer["InvalidInformationError"].Value);
                 }
                 else
                 {
