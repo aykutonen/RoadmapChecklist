@@ -26,9 +26,10 @@ namespace Web.Models.Roadmap
 
             RuleFor(x => x.Name).NotNull().WithMessage("İsim Zorunlu");
             RuleFor(x => x.Visibility).GreaterThanOrEqualTo(1);
-            RuleFor(x => x.StartDate).NotNull().WithMessage("Geçerli bir tarih girin.");
-            RuleFor(x => x.EndDate).NotNull().WithMessage("Geçerli bir tarih girin.");
-            RuleFor(x => x.StartDate.Value).GreaterThan(x => x.StartDate.Value).WithMessage("Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!").When(x => x.StartDate.HasValue);
+            RuleFor(x => x.EndDate)
+                .GreaterThan(x => x.StartDate.Value)
+                .WithMessage("Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!")
+                .When(x => x.StartDate.HasValue);
         }
     }
     public class Edit
@@ -52,12 +53,13 @@ namespace Web.Models.Roadmap
             RuleFor(x => x.Id).NotEmpty().WithMessage("Id zorunlu");
             RuleFor(x => x.Name).NotNull().WithMessage("İsim Zorunlu");
             RuleFor(x => x.Visibility).GreaterThanOrEqualTo(1);
-            RuleFor(x => x.StartDate).NotNull().WithMessage("Geçerli bir tarih girin.");
+            //RuleFor(x => x.StartDate).NotNull().WithMessage("Geçerli bir tarih girin.");
             RuleFor(x => x.EndDate)
-                .NotNull().WithMessage("Geçerli bir tarih girin.")
-                .GreaterThan(x => x.StartDate.Value).WithMessage("Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!").When(x => x.StartDate.HasValue);
+                .GreaterThan(x => x.StartDate.Value)
+                .WithMessage("Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!")
+                .When(x => x.StartDate.HasValue);
         }
-     }
+    }
 
     public class Detail
     {
