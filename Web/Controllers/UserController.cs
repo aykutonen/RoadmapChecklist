@@ -77,26 +77,37 @@ namespace Web.Controllers
             // model doğrulaması
             if (ModelState.IsValid)
             {
-                // db modeli oluştur
-                var user = new Db.Entity.User
-                {
-                    Email = model.Email,
-                    Name = model.Name,
-                    Password = MD5Hash(model.Password),
-                    Username = model.Username
-                };
+                var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email) == null ? true : false;
 
-                // context'e modeli ekle
-                _dbContext.User.Add(user);
-                
-                // db'ye kaydet
-                _dbContext.SaveChanges();
-                
-                // index'e yolla
-                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
+                if (isValidMail)
+                {
+                    // db modeli oluştur
+                    var user = new Db.Entity.User
+                    {
+                        Email = model.Email,
+                        Name = model.Name,
+                        Password = MD5Hash(model.Password),
+                        Username = model.Username
+                    };
+
+
+
+                    // context'e modeli ekle
+                    _dbContext.User.Add(user);
+
+                    // db'ye kaydet
+                    _dbContext.SaveChanges();
+
+                    // index'e yolla
+                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    else
+                        return RedirectToAction("Index", "Home");
+                }
                 else
-                    return RedirectToAction("Index", "Home");
+                {
+                    ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
+                }
             }
             return View(model);
         }
