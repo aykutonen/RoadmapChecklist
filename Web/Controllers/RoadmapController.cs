@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Web.Db;
 using Web.Db.Entity;
+using Web.Infrastructure;
 
 namespace Web.Controllers
 {
@@ -68,27 +69,23 @@ namespace Web.Controllers
         // POST: RoadmapController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateValidationFilter]
         public ActionResult Create(Models.Roadmap.Create model)
         {
-            if (ModelState.IsValid)
+            var roadmap = new Roadmap()
             {
-                var roadmap = new Roadmap()
-                {
-                    EndDate = model.EndDate,
-                    Name = model.Name,
-                    StartDate = model.StartDate,
-                    Visibility = model.Visibility,
-                    UserId = currentUserId
-                };
+                EndDate = model.EndDate,
+                Name = model.Name,
+                StartDate = model.StartDate,
+                Visibility = model.Visibility,
+                UserId = currentUserId
+            };
 
-                _dbContext.Roadmap.Add(roadmap);
+            _dbContext.Roadmap.Add(roadmap);
 
-                _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
 
-                return RedirectToAction("Index");
-            }
-
-            return View(model);
+            return RedirectToAction("Index");
         }
 
         // GET: RoadmapController/Edit/5
@@ -123,26 +120,24 @@ namespace Web.Controllers
         // POST: RoadmapController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ModelStateValidationFilter]
         public ActionResult Edit(Models.Roadmap.Edit model)
         {
-            if (ModelState.IsValid)
+            var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId);
+            if (fromdb != null)
             {
-                var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId);
-                if (fromdb != null)
-                {
 
-                    fromdb.Name = model.Name;
-                    fromdb.StartDate = model.StartDate;
-                    fromdb.EndDate = model.EndDate;
-                    fromdb.Visibility = model.Visibility;
+                fromdb.Name = model.Name;
+                fromdb.StartDate = model.StartDate;
+                fromdb.EndDate = model.EndDate;
+                fromdb.Visibility = model.Visibility;
 
-                    _dbContext.Roadmap.Update(fromdb);
-                    _dbContext.SaveChanges();
+                _dbContext.Roadmap.Update(fromdb);
+                _dbContext.SaveChanges();
 
-                    return RedirectToAction("Index", "Roadmap");
-                }
-                else { ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value); }
+                return RedirectToAction("Index", "Roadmap");
             }
+            else { ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value); }
 
             return View(model);
         }
@@ -152,7 +147,6 @@ namespace Web.Controllers
         public ActionResult Delete(Guid id)
         {
             if (id == Guid.Empty) return NotFound();
-
 
             var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
             if (roadmapToBeDeleted != null) return View(roadmapToBeDeleted);
