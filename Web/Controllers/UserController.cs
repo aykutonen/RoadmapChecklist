@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Web.Db;
+using Web.Infrastructure;
 
 namespace Web.Controllers
 {
@@ -31,37 +32,36 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ModelStateValidationFilter]
         public async Task<IActionResult> Index(Models.User.Login model, string returnUrl = "")
         {
-            if (ModelState.IsValid)
+            var hashedPassword = MD5Hash(model.Password);
+            var user = _dbContext.User
+                 .FirstOrDefault(x =>
+                 x.Password == hashedPassword
+                 && x.Email == model.Email);
+
+            if (user == null)
             {
-                var hashedPassword = MD5Hash(model.Password);
-                var user = _dbContext.User
-                     .FirstOrDefault(x =>
-                     x.Password == hashedPassword
-                     && x.Email == model.Email);
-
-                if (user == null)
-                {
-                    ModelState.AddModelError("mesaj", _localizer["InvalidInformationError"].Value);
-                }
-                else
-                {
-                    var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
-
-                    var cIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    await HttpContext
-                           .SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(cIdentity));
-
-                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                    else
-                        return RedirectToAction("Index", "Home");
-                }
+                ModelState.AddModelError("mesaj", _localizer["InvalidInformationError"].Value);
             }
+            else
+            {
+                var claims = new List<Claim>() { new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) };
+
+                var cIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext
+                       .SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(cIdentity));
+
+                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
+                else
+                    return RedirectToAction("Index", "Home");
+            }
+
             return View(model);
         }
 
@@ -72,33 +72,29 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            // model doğrulaması
-            if (ModelState.IsValid)
+            // db modeli oluştur
+            var user = new Db.Entity.User
             {
-                // db modeli oluştur
-                var user = new Db.Entity.User
-                {
-                    Email = model.Email,
-                    Name = model.Name,
-                    Password = MD5Hash(model.Password),
-                    Username = model.Username
-                };
+                Email = model.Email,
+                Name = model.Name,
+                Password = MD5Hash(model.Password),
+                Username = model.Username
+            };
 
-                // context'e modeli ekle
-                _dbContext.User.Add(user);
-                
-                // db'ye kaydet
-                _dbContext.SaveChanges();
-                
-                // index'e yolla
-                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                    return Redirect(returnUrl);
-                else
-                    return RedirectToAction("Index", "Home");
-            }
-            return View(model);
+            // context'e modeli ekle
+            _dbContext.User.Add(user);
+
+            // db'ye kaydet
+            _dbContext.SaveChanges();
+
+            // index'e yolla
+            if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                return Redirect(returnUrl);
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
