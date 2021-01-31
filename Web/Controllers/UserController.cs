@@ -75,26 +75,40 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            // db modeli oluştur
-            var user = new Db.Entity.User
-            {
-                Email = model.Email,
-                Name = model.Name,
-                Password = MD5Hash(model.Password),
-                Username = model.Username
-            };
+            
+                var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email) == null ? true : false;
 
-            // context'e modeli ekle
-            _dbContext.User.Add(user);
+                if (isValidMail)
+                {
+                    // db modeli oluştur
+                    var user = new Db.Entity.User
+                    {
+                        Email = model.Email,
+                        Name = model.Name,
+                        Password = MD5Hash(model.Password),
+                        Username = model.Username
+                    };
 
-            // db'ye kaydet
-            _dbContext.SaveChanges();
 
-            // index'e yolla
-            if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                return Redirect(returnUrl);
-            else
-                return RedirectToAction("Index", "Home");
+
+                    // context'e modeli ekle
+                    _dbContext.User.Add(user);
+
+                    // db'ye kaydet
+                    _dbContext.SaveChanges();
+
+                    // index'e yolla
+                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        return Redirect(returnUrl);
+                    else
+                        return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
+                }
+            }
+            return View(model);
         }
 
         [HttpPost]
