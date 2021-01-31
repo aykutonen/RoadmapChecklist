@@ -75,39 +75,36 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            
-                var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email) == null ? true : false;
+            var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email) == null ? true : false;
 
-                if (isValidMail)
+            if (isValidMail)
+            {
+                // db modeli oluştur
+                var user = new Db.Entity.User
                 {
-                    // db modeli oluştur
-                    var user = new Db.Entity.User
-                    {
-                        Email = model.Email,
-                        Name = model.Name,
-                        Password = MD5Hash(model.Password),
-                        Username = model.Username
-                    };
+                    Email = model.Email,
+                    Name = model.Name,
+                    Password = MD5Hash(model.Password),
+                    Username = model.Username
+                };
 
+                // context'e modeli ekle
+                _dbContext.User.Add(user);
 
+                // db'ye kaydet
+                _dbContext.SaveChanges();
 
-                    // context'e modeli ekle
-                    _dbContext.User.Add(user);
-
-                    // db'ye kaydet
-                    _dbContext.SaveChanges();
-
-                    // index'e yolla
-                    if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
-                        return Redirect(returnUrl);
-                    else
-                        return RedirectToAction("Index", "Home");
-                }
+                // index'e yolla
+                if (!String.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    return Redirect(returnUrl);
                 else
-                {
-                    ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
-                }
+                    return RedirectToAction("Index", "Home");
             }
+            else
+            {
+                ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
+            }
+
             return View(model);
         }
 
