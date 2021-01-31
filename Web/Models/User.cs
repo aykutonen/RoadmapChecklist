@@ -18,8 +18,6 @@ namespace Web.Models.User
         public string Email { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        [Display(Name = "Beni hatırla")]
-        public bool RememberMe { get; set; } = true;
     }
     public class RegisterValidator : AbstractValidator<Register>
     {
@@ -37,6 +35,8 @@ namespace Web.Models.User
         public string Email { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        [Display(Name = "Beni hatırla")]
+        public bool RememberMe { get; set; } = true;
     }
     public class LoginValidator : AbstractValidator<Login>
     {
