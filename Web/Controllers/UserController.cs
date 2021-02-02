@@ -75,9 +75,17 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email) == null ? true : false;
+            var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email || x.Username == model.Username);
 
-            if (isValidMail)
+            if (isValidMail != null)
+            {
+                if (isValidMail.Email == model.Email)
+                    ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
+
+                if (isValidMail.Username == model.Username)
+                    ModelState.AddModelError("", _localizer["UsernameAlreadyExists"].Value);
+            }
+            else
             {
                 // db modeli oluştur
                 var user = new Db.Entity.User
@@ -99,10 +107,6 @@ namespace Web.Controllers
                     return Redirect(returnUrl);
                 else
                     return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
             }
 
             return View(model);
