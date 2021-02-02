@@ -123,4 +123,7 @@
   <data name="InvalidInformationError" xml:space="preserve">
     <value>Invalid user information!</value>
   </data>
+  <data name="UsernameAlreadyExists" xml:space="preserve">
+    <value>This username already exists.</value>
+  </data>
 </root>
