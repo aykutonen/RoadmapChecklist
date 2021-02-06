@@ -26,7 +26,7 @@ namespace Web.Controllers
         // GET: RoadmapController
         public ActionResult Index()
         {
-            List<Roadmap> roadmaps = _dbContext.Roadmap.Where(x => x.UserId == currentUserId).ToList();
+            List<Roadmap> roadmaps = _dbContext.Roadmap.Where(x => x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap).ToList();
             return View(roadmaps);
 
         }
@@ -41,7 +41,7 @@ namespace Web.Controllers
             }
             else
             {
-                var roadmapDetail = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                var roadmapDetail = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
                 if (roadmapDetail != null)
                 {
                     var model = new Models.Roadmap.Detail()
@@ -98,7 +98,7 @@ namespace Web.Controllers
             }
             else
             {
-                var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+                var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
                 if (fromdb != null)
                 {
                     var model = new Models.Roadmap.Edit()
@@ -123,7 +123,7 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public ActionResult Edit(Models.Roadmap.Edit model)
         {
-            var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId);
+            var fromdb = _dbContext.Roadmap.FirstOrDefault(x => x.Id == model.Id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
             if (fromdb != null)
             {
 
@@ -148,7 +148,7 @@ namespace Web.Controllers
         {
             if (id == Guid.Empty) return NotFound();
 
-            var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+            var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
             if (roadmapToBeDeleted != null) return View(roadmapToBeDeleted);
 
             ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value);
@@ -161,11 +161,12 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId);
+            var roadmapToBeDeleted = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
 
             if (roadmapToBeDeleted != null)
             {
-                _dbContext.Remove(roadmapToBeDeleted);
+                roadmapToBeDeleted.Status = (int)StatusEnum.DeletedRoadmap;
+                _dbContext.Roadmap.Update(roadmapToBeDeleted);
                 _dbContext.SaveChanges();
             }
             else { ModelState.AddModelError("", _localizer["RoadmapNotFoundError"].Value); }
