@@ -10,9 +10,7 @@ namespace Web.Models.User
 {
     public class Register
     {
-        //[Required(ErrorMessage = "İsim zorunlu")]
         public string Name { get; set; }
-        //[Required(ErrorMessage = "Kullanıcı adı zorunlu")]
         public string Username { get; set; }
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
