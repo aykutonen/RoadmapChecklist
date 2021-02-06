@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Web.Db;
 using Web.Infrastructure;
@@ -75,11 +76,17 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email || x.Username == model.Username);
+            if (!MailIsValid(model.Email))
+            {
+                ModelState.AddModelError("", _localizer["InvalidMailFormat"].Value);
+                return View(model);
+            }
+
+            var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email.ToLower() || x.Username == model.Username);
 
             if (isValidMail != null)
             {
-                if (isValidMail.Email == model.Email)
+                if (isValidMail.Email == model.Email.ToLower())
                     ModelState.AddModelError("", _localizer["ExistingMailAddressError"].Value);
 
                 if (isValidMail.Username == model.Username)
@@ -90,7 +97,7 @@ namespace Web.Controllers
                 // db modeli oluştur
                 var user = new Db.Entity.User
                 {
-                    Email = model.Email,
+                    Email = model.Email.ToLower(),
                     Name = model.Name,
                     Password = MD5Hash(model.Password),
                     Username = model.Username
@@ -126,6 +133,18 @@ namespace Web.Controllers
                 var result = md5.ComputeHash(Encoding.ASCII.GetBytes(input));
                 return Encoding.ASCII.GetString(result);
             }
+        }
+
+        private static bool MailIsValid(string email)
+        {
+            string expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+
+            if (Regex.IsMatch(email, expression))
+            {
+                if (Regex.Replace(email, expression, string.Empty).Length == 0)
+                    return true;
+            }
+            return false;
         }
     }
 }
