@@ -120,6 +120,9 @@
   <data name="EditError" xml:space="preserve">
     <value>Başarısız düzenleme işlemi!</value>
   </data>
+  <data name="Invalid user information!" xml:space="preserve">
+    <value>Geçersiz kullanıcı bilgisi!</value>
+  </data>
   <data name="InvalidId" xml:space="preserve">
     <value>Geçersiz Id</value>
   </data>

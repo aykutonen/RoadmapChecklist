@@ -117,25 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&quot;Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!" xml:space="preserve">
+    <value>Due Date must be greater than the start date!</value>
+  </data>
   <data name="Back to list" xml:space="preserve">
-    <value>Listeye geri dön</value>
+    <value>Back to list</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Ekle</value>
+    <value>Create</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>Create New!</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditError" xml:space="preserve">
+    <value>Edit failed!</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
   </data>
   <data name="EndDate" xml:space="preserve">
-    <value>Bitiş Tarihi</value>
+    <value>End Date</value>
+  </data>
+  <data name="ExistingMailAddressError" xml:space="preserve">
+    <value>This email address already exists.</value>
+  </data>
+  <data name="Id is required!" xml:space="preserve">
+    <value>Id is required!</value>
+  </data>
+  <data name="InvalidId" xml:space="preserve">
+    <value>Invalid Id</value>
+  </data>
+  <data name="InvalidInformationError" xml:space="preserve">
+    <value>Invalid user information!</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Adı</value>
+    <value>Name</value>
   </data>
-  <data name="Roadmap Create" xml:space="preserve">
-    <value>Yeni Roadmap</value>
+  <data name="Name is required!" xml:space="preserve">
+    <value>Name is required!</value>
   </data>
-  <data name="StartDate" xml:space="preserve">
-    <value>Başlangıç Tarihi</value>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="RoadmapNotFoundError" xml:space="preserve">
+    <value>Roadmap not found!</value>
+  </data>
+  <data name="StarDate" xml:space="preserve">
+    <value>Start Date</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="UserNotFoundError" xml:space="preserve">
+    <value>User not found!</value>
   </data>
   <data name="Visibility" xml:space="preserve">
-    <value>Görünürlük</value>
+    <value>Visibility</value>
   </data>
 </root>
