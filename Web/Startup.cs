@@ -41,7 +41,6 @@ namespace Web
 
             services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.Configure<RequestLocalizationOptions>(
             options =>

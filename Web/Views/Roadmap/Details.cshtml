@@ -13,26 +13,26 @@
         <dt class="col-sm-2">
             @SharedLocalizer.GetLocalizedHtmlString("Name")
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt class="col-sm-2">
             @SharedLocalizer.GetLocalizedHtmlString("Visibility")
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Visibility)
         </dd>
         </dd>
         <dt class="col-sm-2">
             @SharedLocalizer.GetLocalizedHtmlString("StartDate")
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
         <dt class="col-sm-2">
             @SharedLocalizer.GetLocalizedHtmlString("EndDate")
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
         </dd>
     </dl>
@@ -41,3 +41,19 @@
     <a asp-action="Edit" asp-route-id="@Model.Id">@SharedLocalizer.GetLocalizedHtmlString("Edit")</a> |
     <a asp-action="Index">@SharedLocalizer.GetLocalizedHtmlString("Back to list")</a>
 </div>
+
+@Html.ActionLink("Item Ekle", "Create", "RoadmapItem", new { RoadmapId = Model.Id })
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    foreach (var item in Model.Items)
+    {
+        <p>Title: @item.Title</p>
+        <p>Order: @item.Order</p>
+        <p>ParentId: @item.ParentId</p>
+        @Html.ActionLink("Araya Item Ekle", "Create", "RoadmapItem", new { RoadmapId = Model.Id, Order = item.Order + 1 })
+
+        <p>&nbsp;</p>
+    }
+}
+
+

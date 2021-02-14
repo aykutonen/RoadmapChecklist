@@ -59,5 +59,7 @@ namespace Web.Models.Roadmap
         public int Visibility { get; set; } = 1;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        public List<RoadmapItem.DetailItem> Items { get; set; }
     }
 }
