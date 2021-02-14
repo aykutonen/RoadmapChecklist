@@ -32,11 +32,6 @@ namespace Web.Builder
                 .WithOne(ri => ri.Parent)
                 .HasForeignKey(ri => ri.ParentId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            //builder.HasOne(ri => ri.Parent)
-            //    .WithMany(ric => ric.Childiren)
-            //    .HasForeignKey(ri => ri.ParentId)
-            //    .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
