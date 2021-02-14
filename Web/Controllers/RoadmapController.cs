@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
@@ -41,7 +42,9 @@ namespace Web.Controllers
             }
             else
             {
-                var roadmapDetail = _dbContext.Roadmap.FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
+                var roadmapDetail = _dbContext.Roadmap
+                    .Include("Items")
+                    .FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
                 if (roadmapDetail != null)
                 {
                     var model = new Models.Roadmap.Detail()
@@ -50,7 +53,16 @@ namespace Web.Controllers
                         Name = roadmapDetail.Name,
                         Visibility = roadmapDetail.Visibility,
                         StartDate = roadmapDetail.StartDate,
-                        EndDate = roadmapDetail.EndDate
+                        EndDate = roadmapDetail.EndDate,
+                        Items = roadmapDetail.Items?
+                        .OrderBy(x=> x.ParentId).ThenBy(x=> x.Order)
+                        .Select(x => new Models.RoadmapItem.DetailItem
+                        {
+                            Id = x.Id,
+                            Title = x.Title,
+                            Order = x.Order,
+                            ParentId = x.ParentId
+                        }).ToList()
                     };
                     return View(model);
                 }
