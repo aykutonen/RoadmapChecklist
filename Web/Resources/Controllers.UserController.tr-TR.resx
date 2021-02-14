@@ -126,7 +126,4 @@
   <data name="UsernameAlreadyExists" xml:space="preserve">
     <value>Bu kullanıcı adı mevcut.</value>
   </data>
-  <data name="InvalidMailFormat" xml:space="preserve">
-    <value>Bu mail formatı geçersiz.</value>
-  </data>
 </root>

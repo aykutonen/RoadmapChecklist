@@ -76,12 +76,6 @@ namespace Web.Controllers
         [ModelStateValidationFilter]
         public IActionResult Register(Models.User.Register model, string returnUrl = "")
         {
-            if (!MailIsValid(model.Email))
-            {
-                ModelState.AddModelError("", _localizer["InvalidMailFormat"].Value);
-                return View(model);
-            }
-
             var isValidMail = _dbContext.User.FirstOrDefault(x => x.Email == model.Email.ToLower() || x.Username == model.Username);
 
             if (isValidMail != null)
@@ -135,16 +129,5 @@ namespace Web.Controllers
             }
         }
 
-        private static bool MailIsValid(string email)
-        {
-            string expression = "\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
-
-            if (Regex.IsMatch(email, expression))
-            {
-                if (Regex.Replace(email, expression, string.Empty).Length == 0)
-                    return true;
-            }
-            return false;
-        }
     }
 }
