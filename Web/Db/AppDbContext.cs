@@ -15,6 +15,7 @@ namespace Web.Db
 
         public DbSet<User> User { get; set; }
         public DbSet<Roadmap> Roadmap { get; set; }
+        public DbSet<RoadmapItem> RoadmapItem { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,7 @@ namespace Web.Db
 
             modelBuilder.ApplyConfiguration(new UserBuilder());
             modelBuilder.ApplyConfiguration(new RoadmapBuilder());
+            modelBuilder.ApplyConfiguration(new RoadmapItemBuilder());
         }
     }
 }

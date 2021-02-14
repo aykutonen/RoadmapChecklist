@@ -14,6 +14,7 @@ namespace Web.Db.Entity
             CreateAt = dt;
             UpdateAt = dt;
             Status = 1;
+            Order = 1;
         }
 
         public Guid Id { get; set; }

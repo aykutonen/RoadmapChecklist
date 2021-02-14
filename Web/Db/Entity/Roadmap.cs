@@ -27,5 +27,6 @@ namespace Web.Db.Entity
 
 
         public virtual User User { get; set; }
+        public virtual ICollection<RoadmapItem> Items { get; set; }
     }
 }
