@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization
+@using Microsoft.Extensions.Options
+@inject IOptions<RequestLocalizationOptions> LocOptions
+@{
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures // all the supported cultures.
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();
+}
+
+<div title="@SharedLocalizer.GetLocalizedHtmlString("Request culture provider:") @requestCulture?.Provider?.GetType().Name">
+    <form id="selectLanguage" asp-controller="Base" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+          method="post" class="form-horizontal" role="form">
+        <a style="color:white"> @SharedLocalizer.GetLocalizedHtmlString("Language")</a>
+        <a asp-controller="Localization" asp-action="SetLanguage" asp-route-culture="tr-TR"><img src="https://img.icons8.com/emoji/48/000000/turkey-flag-emoji.png" /></a>
+        <a asp-controller="Localization" asp-action="SetLanguage" asp-route-culture="en-US"><img src="https://img.icons8.com/emoji/48/000000/united-kingdom-emoji.png" /></a>
+    </form>
+</div>
+@*<script>
+    $(document).on("change", "select[name='culture']", function () {
+        $("form#selectLanguage").submit();
+    });
+</script>*@

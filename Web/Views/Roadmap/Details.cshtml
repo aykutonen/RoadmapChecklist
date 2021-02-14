@@ -1,36 +1,36 @@
 ﻿@model Web.Models.Roadmap.Detail
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = @SharedLocalizer.GetLocalizedHtmlString("Details");
 }
 
-<h1>@Localizer["Details"]</h1>
+<h1>@SharedLocalizer.GetLocalizedHtmlString("Details")</h1>
 
 <div>
-    <h4>@Localizer["Roadmap"]</h4>
+    <h4>@SharedLocalizer.GetLocalizedHtmlString("Roadmap")</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+        <dt class="col-sm-2">
+            @SharedLocalizer.GetLocalizedHtmlString("Name")
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Visibility)
+        <dt class="col-sm-2">
+            @SharedLocalizer.GetLocalizedHtmlString("Visibility")
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Visibility)
         </dd>
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
+        <dt class="col-sm-2">
+            @SharedLocalizer.GetLocalizedHtmlString("StartDate")
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.StartDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+        <dt class="col-sm-2">
+            @SharedLocalizer.GetLocalizedHtmlString("EndDate")
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EndDate)
@@ -38,6 +38,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">@Localizer["Edit"]</a> |
-    <a asp-action="Index">@Localizer["Back to List"]</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id">@SharedLocalizer.GetLocalizedHtmlString("Edit")</a> |
+    <a asp-action="Index">@SharedLocalizer.GetLocalizedHtmlString("Back to list")</a>
 </div>

@@ -117,19 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="&quot;Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!" xml:space="preserve">
+    <value>"Bitiş Tarihi başlangıç tarihinden büyük olmalıdır!"</value>
+  </data>
+  <data name="Are you sure you want to delete this?" xml:space="preserve">
+    <value>Silmek istediğinizden emin misiniz?</value>
+  </data>
+  <data name="Back to list" xml:space="preserve">
+    <value>Listeye geri dön</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Ekle</value>
+  </data>
+  <data name="Create New" xml:space="preserve">
+    <value>Yeni Oluştur</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Sil</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Detay</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Düzenle</value>
+  </data>
+  <data name="EditError" xml:space="preserve">
+    <value>Başarısız düzenleme işlemi!</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Bitiş Tarihi</value>
+  </data>
+  <data name="ExistingMailAddressError" xml:space="preserve">
+    <value>Bu mail adresi mevcut.</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Anasayfa</value>
+  </data>
+  <data name="Id is required!" xml:space="preserve">
+    <value>Id Zorunlu</value>
+  </data>
+  <data name="InvalidId" xml:space="preserve">
+    <value>Geçersiz Id</value>
+  </data>
+  <data name="InvalidInformationError" xml:space="preserve">
+    <value>Geçersiz kullanıcı bilgileri!</value>
+  </data>
   <data name="Login" xml:space="preserve">
     <value>Giriş</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="My Roadmaps" xml:space="preserve">
+    <value>Roadmaplerim</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Roadmap Adı</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Şifre</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Kayıt</value>
+  </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Beni Hatırla</value>
+  </data>
+  <data name="Roadmap" xml:space="preserve">
+    <value>Roadmap</value>
+  </data>
+  <data name="Roadmap Create" xml:space="preserve">
+    <value>Yeni Roadmap</value>
+  </data>
+  <data name="RoadmapNotFoundError" xml:space="preserve">
+    <value>Roadmap bulunamadı!</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Başlangıç Tarihi</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
+  </data>
+  <data name="UserNotFoundError" xml:space="preserve">
+    <value>Kullanıcı bulunamadı!</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Görünürlük</value>
+  </data>
+  <data name="Web" xml:space="preserve">
+    <value>Web!</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Hoşgeldiniz!</value>
+  </data>
+  <data name="İsim Zorunlu" xml:space="preserve">
+    <value>İsim Zorunlu</value>
   </data>
 </root>

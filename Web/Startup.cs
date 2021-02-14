@@ -17,7 +17,9 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Mvc.Razor;
 using FluentValidation.AspNetCore;
 using Web.Models.Roadmap;
-
+using Web.Resources;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Web
 {
@@ -37,20 +39,35 @@ namespace Web
             services.AddMvc()
         .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateValidator>());
 
-            services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+            services.AddSingleton<LocService>();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
-                    .AddDataAnnotationsLocalization();
+            services.Configure<RequestLocalizationOptions>(
+            options =>
+            {
+                var supportedCultures = new List<CultureInfo>
+                    {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("tr-TR")
+                    };
 
-            services.Configure<RequestLocalizationOptions>(options => {
-                List<CultureInfo> supportedCultures = new List<CultureInfo>
-                {
-                    new CultureInfo("tr-TR"),
-                    new CultureInfo("en-US")
-                };
-                options.DefaultRequestCulture = new RequestCulture("tr-TR");
+                options.DefaultRequestCulture = new RequestCulture(culture: "tr-TR", uiCulture: "tr-TR");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
+
+                options.RequestCultureProviders = new List<IRequestCultureProvider>
+                 {
+                    new QueryStringRequestCultureProvider(),
+                    new CookieRequestCultureProvider()
+                 };
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => false;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.AddDbContext<AppDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("Default")));
@@ -86,15 +103,16 @@ namespace Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseRequestLocalization();
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(options.Value);
-
+            //var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            //app.UseRequestLocalization(options.Value);
+            var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(locOptions.Value);
 
             app.UseEndpoints(endpoints =>
             {
@@ -102,6 +120,7 @@ namespace Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
