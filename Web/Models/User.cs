@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 
@@ -23,7 +25,7 @@ namespace Web.Models.User
         {
             RuleFor(x => x.Name).NotNull().WithMessage("İsim zorunlu!");
             RuleFor(x => x.Username).NotNull().WithMessage("Kullanıcı adı zorunlu!");
-            RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunlu").EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz.");
+            RuleFor(x => x.Email).NotEmpty().WithMessage("Email zorunlu").EmailAddress().WithMessage("Lütfen geçerli bir mail adresi giriniz.").Matches(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$").WithMessage("Bu mail formatı geçersiz.");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Parola zorunlu");
         }
     }
