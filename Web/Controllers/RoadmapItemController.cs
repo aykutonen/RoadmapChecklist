@@ -98,12 +98,26 @@ namespace Web.Controllers
                 toDelete.Status = (int)StatusEnum.DeletedRoadmapItem;
                 _dbContext.RoadmapItem.Update(toDelete);
 
+                // silinecek kayda ait alt kayıtlar varsa onları da sil.
+                var children = _dbContext.RoadmapItem
+                    .Where(x => x.RoadmapId == RoadmapId
+                    && x.Status != (int)StatusEnum.DeletedRoadmapItem
+                    && x.ParentId == toDelete.Id
+                    ).ToList();
+
+                if (children != null && children.Count > 0)
+                {
+                    foreach (var child in children) { child.Status = (int)StatusEnum.DeletedRoadmapItem; }
+                    _dbContext.RoadmapItem.UpdateRange(children);
+                }
+
                 // Kendinden sonraki kayıtların sırasını azalt.
                 var afterItems = _dbContext.RoadmapItem
                    .Where(x => x.RoadmapId == RoadmapId
                    && x.ParentId == toDelete.ParentId
                    && x.Status != (int)StatusEnum.DeletedRoadmapItem
-                   && x.Order >= toDelete.Order)
+                   && x.Id != toDelete.Id
+                   && x.Order > toDelete.Order)
                    .OrderBy(x => x.Order)
                    .ToList();
 
