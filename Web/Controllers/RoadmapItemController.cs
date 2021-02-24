@@ -26,9 +26,9 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult Create(Guid RoadmapId, int? Order)
+        public IActionResult Create(Guid RoadmapId, int? Order, Guid? ParentId)
         {
-            var model = new Create { Order = Order, RoadmapId = RoadmapId };
+            var model = new Create { Order = Order, RoadmapId = RoadmapId, ParentId = ParentId };
             return View(model);
         }
 
@@ -40,7 +40,8 @@ namespace Web.Controllers
             var item = new RoadmapItem()
             {
                 Title = model.Title,
-                RoadmapId = model.RoadmapId
+                RoadmapId = model.RoadmapId,
+                ParentId = model.ParentId
             };
 
             // Belli sıraya ekler, eklenen sıradali ve sonraki kayıtları bir alt sıraya taşır.
@@ -50,7 +51,7 @@ namespace Web.Controllers
 
                 var afterItems = _dbContext.RoadmapItem
                     .Where(x => x.RoadmapId == model.RoadmapId
-                    && !x.ParentId.HasValue
+                    && x.ParentId == model.ParentId
                     && x.Status != (int)StatusEnum.DeletedRoadmapItem
                     && (x.Order == item.Order || x.Order > item.Order))
                     .OrderBy(x => x.Order)
@@ -72,7 +73,7 @@ namespace Web.Controllers
                 var parent = _dbContext.RoadmapItem
                 .Where(x => x.RoadmapId == model.RoadmapId
                 && x.Status != (int)StatusEnum.DeletedRoadmapItem
-                && !x.ParentId.HasValue)
+                && x.ParentId == model.ParentId)
                 .OrderByDescending(x => x.Order)
                 .FirstOrDefault();
 

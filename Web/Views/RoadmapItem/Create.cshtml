@@ -19,8 +19,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="RoadmapId" class="control-label"></label>
-                <input asp-for="RoadmapId" class="form-control" />
+                <input asp-for="RoadmapId" readonly class="form-control" />
                 <span asp-validation-for="RoadmapId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ParentId" class="control-label"></label>
+                <input asp-for="ParentId" readonly class="form-control" />
+                <span asp-validation-for="ParentId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Order" class="control-label"></label>

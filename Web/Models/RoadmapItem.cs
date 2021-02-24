@@ -10,6 +10,7 @@ namespace Web.Models.RoadmapItem
     {
         public string Title { get; set; }
         public Guid RoadmapId { get; set; }
+        public Guid? ParentId { get; set; }
         public int? Order  { get; set; }
 
     }
