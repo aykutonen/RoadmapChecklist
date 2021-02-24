@@ -36,8 +36,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
-            services.AddMvc()
-        .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateValidator>());
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateValidator>());
 
             services.AddSingleton<LocService>();
             services.AddLocalization(options => options.ResourcesPath = "Resources");

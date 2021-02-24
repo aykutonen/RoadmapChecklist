@@ -44,8 +44,8 @@
 @Html.ActionLink("Item Ekle", "Create", "RoadmapItem", new { RoadmapId = Model.Id })
 @if (Model.Items != null && Model.Items.Count > 0)
 {
-    <table class="table table-striped table-hover table-borderless table-sm">
-        <caption>Toplam @Model.Items.Count Kayıt</caption>
+    <table class="table table-striped table-hover table-borderless">
+        <caption>Toplam @Model.Items.Count(x => !x.ParentId.HasValue) Kayıt</caption>
         <thead>
             <tr>
                 <th scope="col">Order</th>
@@ -72,7 +72,7 @@
                 {
                     <tr>
                         <td colspan="4">
-                            <table class="table">
+                            <table class="table table-sm">
                                 <caption>Toplam @childCount Kayıt</caption>
                                 <tbody>
                                     @foreach (var child in Model.Items.Where(x => x.ParentId == item.Id))
