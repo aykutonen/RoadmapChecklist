@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace Web.Controllers
     public class RoadmapItemController : BaseController
     {
         protected AppDbContext _dbContext;
-        public RoadmapItemController(AppDbContext dbContext, ILogger<HomeController> logger) : base(logger)
+        private readonly IStringLocalizer<RoadmapItemController> _localizer;
+
+        public RoadmapItemController(AppDbContext dbContext, ILogger<HomeController> logger, IStringLocalizer<RoadmapItemController> localizer) : base(logger)
         {
             _dbContext = dbContext;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -22,9 +26,9 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult Create(Guid RoadmapId, int? Order)
+        public IActionResult Create(Guid RoadmapId, int? Order, Guid? ParentId)
         {
-            var model = new Create { Order = Order, RoadmapId = RoadmapId };
+            var model = new Create { Order = Order, RoadmapId = RoadmapId, ParentId = ParentId };
             return View(model);
         }
 
@@ -36,7 +40,8 @@ namespace Web.Controllers
             var item = new RoadmapItem()
             {
                 Title = model.Title,
-                RoadmapId = model.RoadmapId
+                RoadmapId = model.RoadmapId,
+                ParentId = model.ParentId
             };
 
             // Belli sıraya ekler, eklenen sıradali ve sonraki kayıtları bir alt sıraya taşır.
@@ -45,7 +50,9 @@ namespace Web.Controllers
                 item.Order = model.Order.Value;
 
                 var afterItems = _dbContext.RoadmapItem
-                    .Where(x => x.RoadmapId == model.RoadmapId && !x.ParentId.HasValue
+                    .Where(x => x.RoadmapId == model.RoadmapId
+                    && x.ParentId == model.ParentId
+                    && x.Status != (int)StatusEnum.DeletedRoadmapItem
                     && (x.Order == item.Order || x.Order > item.Order))
                     .OrderBy(x => x.Order)
                     .ToList();
@@ -64,7 +71,9 @@ namespace Web.Controllers
             else
             {
                 var parent = _dbContext.RoadmapItem
-                .Where(x => x.RoadmapId == model.RoadmapId && !x.ParentId.HasValue)
+                .Where(x => x.RoadmapId == model.RoadmapId
+                && x.Status != (int)StatusEnum.DeletedRoadmapItem
+                && x.ParentId == model.ParentId)
                 .OrderByDescending(x => x.Order)
                 .FirstOrDefault();
 
@@ -74,6 +83,56 @@ namespace Web.Controllers
             _dbContext.RoadmapItem.Add(item);
             _dbContext.SaveChanges();
             return RedirectToAction("Details", "Roadmap", new { id = model.RoadmapId });
+        }
+
+        public IActionResult Delete(Guid RoadmapId, Guid ItemId)
+        {
+            var toDelete = _dbContext.RoadmapItem
+                .FirstOrDefault(x => x.RoadmapId == RoadmapId
+                && x.Id == ItemId
+                && x.Status != (int)StatusEnum.DeletedRoadmapItem);
+
+            if (toDelete != null)
+            {
+                // kaydı silinecek olarak işaretle.
+                toDelete.Status = (int)StatusEnum.DeletedRoadmapItem;
+                _dbContext.RoadmapItem.Update(toDelete);
+
+                // silinecek kayda ait alt kayıtlar varsa onları da sil.
+                var children = _dbContext.RoadmapItem
+                    .Where(x => x.RoadmapId == RoadmapId
+                    && x.Status != (int)StatusEnum.DeletedRoadmapItem
+                    && x.ParentId == toDelete.Id
+                    ).ToList();
+
+                if (children != null && children.Count > 0)
+                {
+                    foreach (var child in children) { child.Status = (int)StatusEnum.DeletedRoadmapItem; }
+                    _dbContext.RoadmapItem.UpdateRange(children);
+                }
+
+                // Kendinden sonraki kayıtların sırasını azalt.
+                var afterItems = _dbContext.RoadmapItem
+                   .Where(x => x.RoadmapId == RoadmapId
+                   && x.ParentId == toDelete.ParentId
+                   && x.Status != (int)StatusEnum.DeletedRoadmapItem
+                   && x.Id != toDelete.Id
+                   && x.Order > toDelete.Order)
+                   .OrderBy(x => x.Order)
+                   .ToList();
+
+                if (afterItems != null && afterItems.Count > 0)
+                {
+                    foreach (var after in afterItems) { after.Order--; }
+                    _dbContext.RoadmapItem.UpdateRange(afterItems);
+                }
+
+                // db'yi güncelle
+                _dbContext.SaveChanges();
+            }
+            else { ModelState.AddModelError("", _localizer["RoadmapItemNotFoundError"]); }
+
+            return RedirectToAction(nameof(RoadmapController.Details), "Roadmap", new { id = RoadmapId });
         }
     }
 }

@@ -44,7 +44,9 @@ namespace Web.Controllers
             {
                 var roadmapDetail = _dbContext.Roadmap
                     .Include("Items")
-                    .FirstOrDefault(x => x.Id == id && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
+                    .FirstOrDefault(x => x.Id == id
+                    && x.UserId == currentUserId && x.Status == (int)StatusEnum.ActiveRoadmap);
+
                 if (roadmapDetail != null)
                 {
                     var model = new Models.Roadmap.Detail()
@@ -55,7 +57,8 @@ namespace Web.Controllers
                         StartDate = roadmapDetail.StartDate,
                         EndDate = roadmapDetail.EndDate,
                         Items = roadmapDetail.Items?
-                        .OrderBy(x=> x.ParentId).ThenBy(x=> x.Order)
+                        .Where(x => x.Status != (int)StatusEnum.DeletedRoadmapItem)
+                        .OrderBy(x => x.ParentId).ThenBy(x => x.Order)
                         .Select(x => new Models.RoadmapItem.DetailItem
                         {
                             Id = x.Id,
